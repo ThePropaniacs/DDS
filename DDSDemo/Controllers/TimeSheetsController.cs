@@ -26,7 +26,7 @@ namespace DDSDemo.Controllers
             return View(tblTimeSheetMasters.ToList());
         }
 
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Admin, Employee")]
         public ActionResult EmployeeIndex()
         {
             var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee);
