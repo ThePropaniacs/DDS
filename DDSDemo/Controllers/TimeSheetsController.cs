@@ -17,7 +17,7 @@ namespace DDSDemo.Controllers
 
         //http://localhost:8888/Timesheets/EmployeeIndex
 
-        // GET: TimeSheet
+        // GET: TimeSheets
         //Admin index
         [AllowAnonymous]
         public ActionResult Index()
