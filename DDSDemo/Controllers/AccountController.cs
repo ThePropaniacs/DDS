@@ -59,7 +59,7 @@ namespace DDSDemo.Controllers
         {
             if((System.Web.HttpContext.Current.User != null) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "TimeSheets");
+                return RedirectToLocal(returnUrl);
             }
 
             ViewBag.ReturnUrl = returnUrl;

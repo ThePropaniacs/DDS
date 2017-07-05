@@ -19,14 +19,29 @@ namespace DDSDemo.Controllers
 
         // GET: TimeSheets
         //Admin index
-        [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            var tblTimeSheetMasters = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee);
-            return View(tblTimeSheetMasters.ToList());
+            if (User.IsInRole("Admin"))
+            {
+                var tblTimeSheetMasters = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee);
+                return View(tblTimeSheetMasters.ToList());
+            }
+            else if(User.IsInRole("Employee"))
+            {
+                return RedirectToAction("EmployeeIndex", "TimeSheets");
+            }
+            else if(User.IsInRole("Client"))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("LogIn", "Account");
+            }
         }
 
-        [Authorize(Roles = "Admin, Employee")]
+        [Authorize(Roles = "Employee")]
         public ActionResult EmployeeIndex()
         {
             var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee);
