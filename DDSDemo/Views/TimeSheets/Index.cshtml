@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DDSDemoDAL.TimeSheet>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Timers</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Client
+        </th>
+        <th>
+            Employee
+        </th>
+        <th>
+            Start Time
+        </th>
+        <th>
+            Stop Time
+        </th>
+        <th>
+            Elapsed Time
+        </th>
+        <th>
+            Note
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Client.CompanyName
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.FullName)
+            </td>
+            <td>
+                @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
+            </td>
+            <td>
+                @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
+            </td>
+            <td>
+                @item.ElapsedTime.ToString(@"hh\:mm\:ss")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.ActionLink("Manage", "Manage", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+
+    }
+</table>
+
+
+
+

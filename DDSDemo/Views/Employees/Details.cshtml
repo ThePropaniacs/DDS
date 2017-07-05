@@ -1,0 +1,222 @@
+﻿@model DDSDemoDAL.Employee
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Employee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmpID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmpID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sun)
+        </dt>
+
+        <dd>
+                @if (Model.Sun == true)
+                {
+                    <p>True</p>
+                }
+                @if (Model.Sun == false)
+                {
+                    <p>False</p>
+                }
+                @if (Model.Sun == null)
+                {
+                    <p>Not Selected</p>
+                }
+            @*@Html.DisplayFor(model => model.Sun)*@
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mon)
+        </dt>
+
+        <dd>
+            @if (Model.Mon == true)
+            {
+                <p>True</p>
+            }
+            @if (Model.Mon == false)
+            {
+                <p>False</p>
+            }
+            @if (Model.Mon == null)
+            {
+                <p>Not Selected</p>
+            }
+            @*@Html.DisplayFor(model => model.Mon)*@
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tue)
+        </dt>
+
+        <dd>
+            @if (Model.Tue == true)
+            {
+                <p>True</p>
+            }
+            @if (Model.Tue == false)
+            {
+                <p>False</p>
+            }
+            @if (Model.Tue == null)
+            {
+                <p>Not Selected</p>
+            }
+            @*@Html.DisplayFor(model => model.Tue)*@
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Wed)
+        </dt>
+
+        <dd>
+            @if (Model.Wed == true)
+            {
+                <p>True</p>
+            }
+            @if (Model.Wed == false)
+            {
+                <p>False</p>
+            }
+            @if (Model.Wed == null)
+            {
+                <p>Not Selected</p>
+            }
+            @*@Html.DisplayFor(model => model.Wed)*@
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Thu)
+        </dt>
+
+        <dd>
+            @if (Model.Thu == true)
+            {
+                <p>True</p>
+            }
+            @if (Model.Thu == false)
+            {
+                <p>False</p>
+            }
+            @if (Model.Thu == null)
+            {
+                <p>Not Selected</p>
+            }
+            @*@Html.DisplayFor(model => model.Thu)*@
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fri)
+        </dt>
+
+        <dd>
+            @if (Model.Fri == true)
+            {
+                <p>True</p>
+            }
+            @if (Model.Fri == false)
+            {
+                <p>False</p>
+            }
+            @if (Model.Fri == null)
+            {
+                <p>Not Selected</p>
+            }
+            @*@Html.DisplayFor(model => model.Fri)*@
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sat)
+        </dt>
+
+        <dd>
+            @if (Model.Sat == true)
+            {
+                <p>True</p>
+            }
+            @if (Model.Sat == false)
+            {
+                <p>False</p>
+            }
+            @if (Model.Sat == null)
+            {
+                <p>Not Selected</p>
+            }
+            @*@Html.DisplayFor(model => model.Sat)*@
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AvailNotes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AvailNotes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AvailStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AvailStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AvailExpires)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AvailExpires)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AvailDuration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AvailDuration)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

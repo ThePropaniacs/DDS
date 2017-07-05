@@ -1,0 +1,196 @@
+﻿@model IEnumerable<DDSDemoDAL.Employee>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sun)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mon)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Wed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Thu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fri)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvailNotes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvailStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvailExpires)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvailDuration) (Days)
+           
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @{
+                    if (item.Sun == true)
+                    {
+                        <p>True</p>
+                    }
+                    else
+                    {
+                        <p>False</p>
+                    }
+                }
+               
+                @*@Html.DisplayFor(modelItem => item.Sun)*@
+            </td>
+            <td>
+
+                @{
+                    if (item.Mon == true)
+                    {
+                        <p>True</p>
+                    }
+                    else
+                    {
+                        <p>False</p>
+                    }
+                }
+                @*@Html.DisplayFor(modelItem => item.Mon)*@
+            </td>
+            <td>
+
+                @{
+                    if (item.Tue == true)
+                    {
+                        <p>True</p>
+                    }
+                    else
+                    {
+                        <p>False</p>
+                    }
+                }
+                @*@Html.DisplayFor(modelItem => item.Tue)*@
+            </td>
+            <td>
+
+                @{
+                    if (item.Wed == true)
+                    {
+                        <p>True</p>
+                    }
+                    else
+                    {
+                        <p>False</p>
+                    }
+                }
+                @*@Html.DisplayFor(modelItem => item.Wed)*@
+            </td>
+            <td>
+
+                @{
+                    if (item.Thu == true)
+                    {
+                        <p>True</p>
+                    }
+                    else
+                    {
+                        <p>False</p>
+                    }
+                }
+                @*@Html.DisplayFor(modelItem => item.Thu)*@
+            </td>
+            <td>
+
+                @{
+                    if (item.Fri == true)
+                    {
+                        <p>True</p>
+                    }
+                    else
+                    {
+                        <p>False</p>
+                    }
+                }
+                @*@Html.DisplayFor(modelItem => item.Fri)*@
+            </td>
+            <td>
+
+                @{
+                    if (item.Sat == true)
+                    {
+                        <p>True</p>
+                    }
+                    else
+                    {
+                        <p>False</p>
+                    }
+                }
+                @*@Html.DisplayFor(modelItem => item.Sat)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailNotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailExpires)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailDuration)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
