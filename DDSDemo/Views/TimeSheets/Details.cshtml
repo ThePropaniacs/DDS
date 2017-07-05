@@ -11,27 +11,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Client.CompanyName)
+            Client
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Client.CompanyName)
+            @Model.Client.CompanyName
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Employee.CompanyName)
+            Employee Name
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Employee.CompanyName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyName)
+            @Model.Employee.FullName
         </dd>
 
         <dt>

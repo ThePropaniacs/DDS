@@ -34,8 +34,23 @@ namespace DDSDemo.Controllers
         }
 
         // GET: TimeSheets/Details/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(decimal id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TimeSheet timeSheet = db.TimeSheets.Find(id);
+            if (timeSheet == null)
+            {
+                return HttpNotFound();
+            }
+            return View(timeSheet);
+        }
+        [Authorize(Roles = "Admin, Employee")]
+        public ActionResult EmployeeDetails(decimal id)
         {
 
             if (id == null)

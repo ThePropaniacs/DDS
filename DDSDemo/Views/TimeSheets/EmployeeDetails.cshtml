@@ -1,0 +1,49 @@
+﻿@model DDSDemoDAL.TimeSheet
+
+@{
+    ViewBag.Title = "EmployeeDetails";
+}
+
+<h2>Employee Details</h2>
+
+<div>
+    <h4>TimeSheet</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Client
+        </dt>
+
+        <dd>
+            @Model.Client.CompanyName
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StopTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StopTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "EmployeeIndex")
+</p>

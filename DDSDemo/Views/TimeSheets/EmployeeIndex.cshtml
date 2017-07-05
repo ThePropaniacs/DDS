@@ -12,34 +12,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Client.CompanyName)
+            Client
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Employee.CompanyName)
+           Start Time
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyName)
+            Stop Time
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StartTime)
+            Elapsed Time
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StopTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Note)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Approved)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApprovedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApprovedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Processed)
+            Note
         </th>
         <th></th>
     </tr>
@@ -50,36 +35,19 @@
             @Html.DisplayFor(modelItem => item.Client.CompanyName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Employee.CompanyName)
+            @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CompanyName)
+            @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StopTime)
+            @item.ElapsedTime.ToString(@"hh\:mm\:ss")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Note)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Approved)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApprovedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApprovedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Processed)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Details", "EmployeeDetails", new { id=item.ID }) 
         </td>
     </tr>
 }
