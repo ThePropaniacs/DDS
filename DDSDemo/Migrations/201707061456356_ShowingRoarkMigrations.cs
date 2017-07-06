@@ -3,16 +3,14 @@ namespace DDSDemo.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class BoolMigration1 : DbMigration
+    public partial class ShowingRoarkMigrations : DbMigration
     {
         public override void Up()
         {
-            AlterColumn("[dbo].[tblEmployeeMaster]", "Sun", c => c.Int(nullable: false));
         }
         
         public override void Down()
         {
-
         }
     }
 }

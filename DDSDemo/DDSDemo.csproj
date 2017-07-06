@@ -194,9 +194,9 @@
     <Compile Include="Migrations\201706211930005_BoolMigration.Designer.cs">
       <DependentUpon>201706211930005_BoolMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201706211947067_BoolMigration1.cs" />
-    <Compile Include="Migrations\201706211947067_BoolMigration1.Designer.cs">
-      <DependentUpon>201706211947067_BoolMigration1.cs</DependentUpon>
+    <Compile Include="Migrations\201707061456356_ShowingRoarkMigrations.cs" />
+    <Compile Include="Migrations\201707061456356_ShowingRoarkMigrations.Designer.cs">
+      <DependentUpon>201707061456356_ShowingRoarkMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -307,8 +307,8 @@
     <EmbeddedResource Include="Migrations\201706211930005_BoolMigration.resx">
       <DependentUpon>201706211930005_BoolMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706211947067_BoolMigration1.resx">
-      <DependentUpon>201706211947067_BoolMigration1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707061456356_ShowingRoarkMigrations.resx">
+      <DependentUpon>201707061456356_ShowingRoarkMigrations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

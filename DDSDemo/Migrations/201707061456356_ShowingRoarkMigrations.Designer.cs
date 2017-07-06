@@ -7,13 +7,13 @@ namespace DDSDemo.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class BoolMigration1 : IMigrationMetadata
+    public sealed partial class ShowingRoarkMigrations : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(BoolMigration1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ShowingRoarkMigrations));
         
         string IMigrationMetadata.Id
         {
-            get { return "201706211947067_BoolMigration1"; }
+            get { return "201707061456356_ShowingRoarkMigrations"; }
         }
         
         string IMigrationMetadata.Source
