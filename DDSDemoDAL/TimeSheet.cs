@@ -41,5 +41,6 @@ namespace DDSDemoDAL
         public virtual Client Client { get; set; }
 
         public virtual Employee Employee { get; set; }
+        
     }
 }

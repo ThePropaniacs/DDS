@@ -204,6 +204,14 @@
     <Compile Include="Migrations\201707061456356_ShowingRoarkMigrations.Designer.cs">
       <DependentUpon>201707061456356_ShowingRoarkMigrations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707061859400_InitialCreate.cs" />
+    <Compile Include="Migrations\201707061859400_InitialCreate.Designer.cs">
+      <DependentUpon>201707061859400_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707061921315_tblTimeSheetMaster_Email.cs" />
+    <Compile Include="Migrations\201707061921315_tblTimeSheetMaster_Email.Designer.cs">
+      <DependentUpon>201707061921315_tblTimeSheetMaster_Email.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -317,6 +325,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707061456356_ShowingRoarkMigrations.resx">
       <DependentUpon>201707061456356_ShowingRoarkMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707061859400_InitialCreate.resx">
+      <DependentUpon>201707061859400_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707061921315_tblTimeSheetMaster_Email.resx">
+      <DependentUpon>201707061921315_tblTimeSheetMaster_Email.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
