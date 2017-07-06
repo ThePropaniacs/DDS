@@ -1,0 +1,56 @@
+﻿odel DDSDemoDAL.TimeSheet
+
+@{
+    ViewBag.Title = " Employee Create";
+}
+
+
+<h2> Create New TimeSheet</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>TimeSheet</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row text-center">
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.EmpID, "Employee", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.DropDownList("EmpID", null, htmlAttributes: new { @class = "form-control", @style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.AssocClientID, "Client", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.DropDownList("AssocClientID", null, htmlAttributes: new { @class = "form-control", @style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.AssocClientID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row" style="padding: 2rem;">
+            <div class="col-xs-3"></div>
+            <div class="col-xs-6">
+                <input type="submit" class="btn btn-block btn-info" style="padding: 2rem; font-size: 2rem; max-width: 100%;" value="Start" />
+            </div>
+            <div class="col-xs-3"></div>
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

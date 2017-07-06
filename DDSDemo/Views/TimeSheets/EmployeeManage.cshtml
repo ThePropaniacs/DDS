@@ -1,0 +1,115 @@
+﻿@model DDSDemoDAL.TimeSheet
+
+@{
+    ViewBag.Title = "Employee Manage";
+}
+
+<h2>TimeSheet #@Model.ID.ToString() </h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div class="col-xs-12">
+        <h4 class="pull-left">Start Time: @Model.StartTime.Value.ToShortTimeString()</h4>
+        <h4 class="pull-right"> Stop Time: @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortTimeString() : "--")</h4>
+    </div>
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row text-center">
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.EmpID, "Employee", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    <input type="text" class="form-control" style="display:inline;" disabled value="@Model.Employee.FullName" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.AssocClientID, "Client", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    <input type="text" class="form-control" style="display:inline;" disabled value="@Model.Client.CompanyName" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding: 2rem;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 text-center">
+            <h3 style="margin-bottom: 2rem;" id="elapsedTime">@Model.ElapsedTime.ToString(@"hh\:mm\:ss")</h3>
+            @{
+            if (!Model.StopTime.HasValue)
+            {
+            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Stop" />
+            }
+            else
+            {
+
+            <input type="submit" class="btn btn-block btn-success" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Save" />
+            }
+            }
+
+            @Html.LabelFor(model => model.Note, "Note", htmlAttributes: new { @class = "control-label" })
+            @Html.TextAreaFor(model => Model.Note, htmlAttributes: new { @class="form-control", @style="width:100%; max-width: 100%; height:10rem;"})
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "EmployeeIndex")
+</div>
+
+@{
+    if (!Model.StopTime.HasValue)
+    {
+<script>
+            var incrementTimer = function () {
+                var time = document.getElementById("elapsedTime").innerText;
+                var timeArray = time.split(":");
+
+                //Add 1 second, increment things if necessary
+                if (((parseInt(timeArray[2])) + 1) % 60 == 0) {
+                    if (((parseInt(timeArray[1])) + 1) % 60 == 0) {
+                        timeArray[0] = ((parseInt(timeArray[0])) + 1).toString();
+                        timeArray[1] = "0";
+                    }
+                    else {
+                        timeArray[1] = ((parseInt(timeArray[1])) + 1).toString();
+                    }
+                    timeArray[2] = "0";
+                }
+                else {
+                    timeArray[2] = ((parseInt(timeArray[2])) + 1).toString();
+                }
+
+                //format numbers like 1 to be 01 when printed.
+                if (parseInt(timeArray[2]) < 10) {
+                    timeArray[2] = "0" + parseInt(timeArray[2]);
+                }
+                if (parseInt(timeArray[1]) < 10) {
+                    timeArray[1] = "0" + parseInt(timeArray[1]);
+                }
+                if (parseInt(timeArray[0])  < 10) {
+                    timeArray[0] = "0" + parseInt(timeArray[0]);
+                }
+
+                //reset the text with the new time
+                document.getElementById("elapsedTime").innerText = timeArray[0] + ':' + timeArray[1] + ':' + timeArray[2];
+            };
+            setInterval(incrementTimer, 1000);
+</script>
+    }
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

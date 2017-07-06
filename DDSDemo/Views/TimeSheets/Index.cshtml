@@ -1,10 +1,24 @@
-﻿@model IEnumerable<DDSDemoDAL.TimeSheet>
+﻿@model IPagedList<DDSDemoDAL.TimeSheet>
 
 @{
     ViewBag.Title = "Index";
 }
 
+@using PagedList;
+@using PagedList.Mvc;
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
+
 <h2>All Timers</h2>
+
+@using (@Html.BeginForm("Index", "TimeSheets", FormMethod.Get))
+{       <b> Search By:</b>
+        @Html.RadioButton("searchBy", "Client", true) <text> Client </text> 
+        @Html.RadioButton("searchBy", "Employee") <text> Employee </text><br /> 
+        @Html.TextBox("search") <input type="submit" value="search" id="ser"/><button type="button" id="button1" style="height:27px"><img style="height:20px" src="https://image.flaticon.com/icons/png/128/61/61225.png" /></button>
+}
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -55,6 +69,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Manage", "Manage", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
@@ -62,7 +77,15 @@
 
     }
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new {page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] }))
 
-
+<script>
+    $( document ).ready(function() {
+        $("#button1").click(function () {
+            $("#search").val("");
+            $("#ser").click();
+        });
+    });
+</script>
 
 
