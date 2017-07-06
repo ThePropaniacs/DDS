@@ -54,10 +54,10 @@ namespace DDSDemo.Controllers
         }
 
         [Authorize(Roles = "Admin, Employee")]
-        public ActionResult EmployeeIndex()
+        public ActionResult EmployeeIndex(int? page)
         {
             var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee);
-            return View(timesheets.OrderByDescending(x => x.ID).ToList());
+            return View(timesheets.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
         }
 
         // GET: TimeSheets/Details/5

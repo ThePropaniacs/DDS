@@ -1,4 +1,8 @@
-﻿@model IEnumerable<DDSDemoDAL.TimeSheet>
+﻿@model IPagedList<DDSDemoDAL.TimeSheet>
+
+@using PagedList;
+@using PagedList.Mvc;
+
 
 @{
     ViewBag.Title = "EmployeeIndex";
@@ -53,3 +57,4 @@
 }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("EmployeeIndex", new { page }))
