@@ -4,7 +4,27 @@
     ViewBag.Title = "Client Edit";
 }
 
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
+
 <h2>TimeSheet #@Model.ID.ToString() </h2>
+
+@{ 
+    if(Model.Approved == true)
+    {
+        <h2><b>This TimeSheet has been Approved</b></h2>
+    }
+    else if (Model.Approved == false)
+    {
+        <h2><b>This TimeSheet has been Denyed</b></h2>
+    }
+    else
+    {
+        <h2><b>This TimeSheet is Pending</b></h2>
+    }
+}
+
 
 @using (Html.BeginForm())
 {
@@ -42,17 +62,26 @@
             <div class="col-sm-3"></div>
             <div class="col-sm-6 text-center">
                 <h3 style="margin-bottom: 2rem;" id="elapsedTime">@Model.ElapsedTime.ToString(@"hh\:mm\:ss")</h3>
-                @{
-                    if (Model.Approved == true)
-                    {
-                        <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" name="false" />
+                    @{
+                        if (Model.Approved == false)
+                        {
+                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" />
+                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" disabled="disabled"/>
+                        }
+                        else if (Model.Approved == true)
+                        {
+                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" disabled="disabled"/>
+                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" />
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" />
+                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" />
+                        }
                     }
-                    else
-                    {
-
-                        <input type="submit" class="btn btn-block btn-success" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Save" />
-                    }
-                }
+                        
+                        @Html.TextBoxFor(x => x.Approved, new { id = "stuff", style = "display: none;" })
+                
                 @Html.LabelFor(model => model.Note, "Note", htmlAttributes: new { @class = "control-label" })
                 @Html.TextAreaFor(model => Model.Note, htmlAttributes: new { @class = "form-control", @style = "width:100%; max-width: 100%; height:10rem;", @readonly = true })
             </div>
@@ -111,4 +140,13 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
+<script>
+            $(document).ready(function () {
+                $("#false").click(function () {
+                    $('#stuff').val('false');
+                });
+                $("#true").click(function () {
+                    $('#stuff').val('true');
+                });
+            });
+</script>

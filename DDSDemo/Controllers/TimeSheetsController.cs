@@ -287,7 +287,7 @@ namespace DDSDemo.Controllers
                 {
                     _timeSheet.StopTime = DateTime.Now;
                 }
-
+                _timeSheet.Approved = timeSheet.Approved;
                 _timeSheet.Note = timeSheet.Note;
                 db.SaveChanges();
                 return RedirectToAction("ClientIndex");
