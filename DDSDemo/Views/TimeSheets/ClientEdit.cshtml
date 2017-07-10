@@ -1,7 +1,7 @@
 ﻿@model DDSDemoDAL.TimeSheet
 
 @{
-    ViewBag.Title = "Manage";
+    ViewBag.Title = "Client Edit";
 }
 
 <h2>TimeSheet #@Model.ID.ToString() </h2>
@@ -15,7 +15,7 @@
             <h4 class="pull-left">Start Time: @Model.StartTime.Value.ToShortTimeString()</h4>
             <h4 class="pull-right"> Stop Time: @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortTimeString() : "--")</h4>
         </div>
-        
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row text-center">
@@ -43,9 +43,9 @@
             <div class="col-sm-6 text-center">
                 <h3 style="margin-bottom: 2rem;" id="elapsedTime">@Model.ElapsedTime.ToString(@"hh\:mm\:ss")</h3>
                 @{
-                    if (!Model.StopTime.HasValue)
+                    if (Model.Approved == true)
                     {
-                        <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Stop" />
+                        <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" name="false" />
                     }
                     else
                     {
@@ -53,17 +53,16 @@
                         <input type="submit" class="btn btn-block btn-success" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Save" />
                     }
                 }
-                    
                 @Html.LabelFor(model => model.Note, "Note", htmlAttributes: new { @class = "control-label" })
-                @Html.TextAreaFor(model => Model.Note, htmlAttributes: new { @class="form-control", @style="width:100%; max-width: 100%; height:10rem;"})
+                @Html.TextAreaFor(model => Model.Note, htmlAttributes: new { @class = "form-control", @style = "width:100%; max-width: 100%; height:10rem;", @readonly = true })
             </div>
             <div class="col-sm-3"></div>
         </div>
     </div>
-}
+                    }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "ClientIndex")
 </div>
 
 @{
@@ -73,7 +72,7 @@
             var incrementTimer = function () {
                 var time = document.getElementById("elapsedTime").innerText;
                 var timeArray = time.split(":");
-                
+
                 //Add 1 second, increment things if necessary
                 if (((parseInt(timeArray[2])) + 1) % 60 == 0) {
                     if (((parseInt(timeArray[1])) + 1) % 60 == 0) {
@@ -89,14 +88,14 @@
                     timeArray[2] = ((parseInt(timeArray[2])) + 1).toString();
                 }
 
-                //format numbers like 1 to be 01 when printed. 
+                //format numbers like 1 to be 01 when printed.
                 if (parseInt(timeArray[2]) < 10) {
                     timeArray[2] = "0" + parseInt(timeArray[2]);
                 }
                 if (parseInt(timeArray[1]) < 10) {
                     timeArray[1] = "0" + parseInt(timeArray[1]);
                 }
-                if (parseInt(timeArray[0])  < 10) {
+                if (parseInt(timeArray[0]) < 10) {
                     timeArray[0] = "0" + parseInt(timeArray[0]);
                 }
 

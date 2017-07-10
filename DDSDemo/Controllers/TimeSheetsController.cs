@@ -60,6 +60,13 @@ namespace DDSDemo.Controllers
             return View(timesheets.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
         }
 
+        [Authorize(Roles = "Admin, Client")]
+        public ActionResult ClientIndex(int? page)
+        {
+            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee);
+            return View(timesheets.OrderBy(x => x.Approved).ThenByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
+        }
+
         // GET: TimeSheets/Details/5
         [Authorize(Roles = "Admin")]
         public ActionResult Details(decimal id)
@@ -171,7 +178,7 @@ namespace DDSDemo.Controllers
             return View(timeSheet);
         }
         // GET: TimeSheets/Manage/5
-        [Authorize(Roles = "Admin, Employee, Client")]
+        [Authorize(Roles = "Admin, Employee")]
         public ActionResult EmployeeManage(decimal id)
         {
             if (id == null)
@@ -190,7 +197,7 @@ namespace DDSDemo.Controllers
         // POST: TimeSheets/Manage
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin, Employee, Client")]
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EmployeeManage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
@@ -245,6 +252,46 @@ namespace DDSDemo.Controllers
             }
             ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
             ViewBag.EmpID = new SelectList(db.Employees, "ID", "CompanyName", timeSheet.EmpID);
+            return View(timeSheet);
+        }
+        // GET: TimeSheets/Manage/5
+        [Authorize(Roles = "Admin, Client")]
+        public ActionResult ClientEdit(decimal id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TimeSheet timeSheet = db.TimeSheets.Find(id);
+            if (timeSheet == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(timeSheet);
+        }
+
+        // POST: TimeSheets/Manage
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin, Client")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ClientEdit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        {
+            if (ModelState.IsValid)
+            {
+                TimeSheet _timeSheet = db.TimeSheets.Find(timeSheet.ID);
+
+                if (!_timeSheet.StopTime.HasValue)
+                {
+                    _timeSheet.StopTime = DateTime.Now;
+                }
+
+                _timeSheet.Note = timeSheet.Note;
+                db.SaveChanges();
+                return RedirectToAction("ClientIndex");
+            }
             return View(timeSheet);
         }
 
