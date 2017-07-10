@@ -45,7 +45,7 @@ namespace DDSDemo.Controllers
             }
             else if(User.IsInRole("Client"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("ClientIndex", "TimeSheets");
             }
             else
             {
