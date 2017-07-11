@@ -95,7 +95,7 @@ namespace DDSDemo.Controllers
                 ident.AddClaims(LocationClaimsProvider.GetClaims(ident));
                 AuthenticationManager.SignOut();
                 AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
-                return Redirect(returnUrl);
+                return RedirectToLocal(returnUrl);
             }
 
             ViewBag.returnUrl = returnUrl;
