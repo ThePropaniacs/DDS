@@ -56,14 +56,14 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         public ActionResult EmployeeIndex(int? page)
         {
-            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee);
+            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(x => x.Employee.FirstName == "Jeff" && x.Employee.LastName == "Daniel");
             return View(timesheets.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
         }
 
         [Authorize(Roles = "Admin, Client")]
         public ActionResult ClientIndex(int? page)
         {
-            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee);
+            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(c => c.Client.CompanyName == "Pebble");
             return View(timesheets.OrderBy(x => x.Approved).ThenByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
         }
 

@@ -36,86 +36,85 @@
 
     @foreach (var item in Model)
     {
-        if (item.Approved == true)
-        {
-            <tr style="background-color: #43ac6a; color:navajowhite">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Employee.FullName)
-                </td>
-                <td >
-                    @Html.DisplayFor(modelItem => item.Client.CompanyName)
-                </td>
-                <td>
-                    @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
-                </td>
-                <td>
-                    @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
-                </td>
-                <td>
-                    @item.ElapsedTime.ToString(@"hh\:mm\:ss")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Note)
-                </td>
-                <td>
-                    @Html.ActionLink("Review", "ClientEdit", new { id = item.ID })
-                </td>
-            </tr>
-        }
-        else if (item.Approved == false)
-        {
-            <tr style="background-color: #f04124; color:navajowhite">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Employee.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Client.CompanyName)
-                </td>
-                <td>
-                    @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
-                </td>
-                <td>
-                    @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
-                </td>
-                <td>
-                    @item.ElapsedTime.ToString(@"hh\:mm\:ss")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Note)
-                </td>
-                <td>
-                    @Html.ActionLink("Review", "ClientEdit", new { id = item.ID })
-                </td>
-            </tr>
-        }
-        else if (item.Approved == null)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Employee.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Client.CompanyName)
-                </td>
-                <td>
-                    @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
-                </td>
-                <td>
-                    @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
-                </td>
-                <td>
-                    @item.ElapsedTime.ToString(@"hh\:mm\:ss")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Note)
-                </td>
-                <td>
-                    @Html.ActionLink("Review", "ClientEdit", new { id = item.ID })
-                </td>
-            </tr>
-        }
-
-       
+            if (item.Approved == true)
+            {
+                <tr style="background-color: #43ac6a; color:navajowhite">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Employee.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client.CompanyName)
+                    </td>
+                    <td>
+                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
+                    </td>
+                    <td>
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
+                    </td>
+                    <td>
+                        @item.ElapsedTime.ToString(@"hh\:mm\:ss")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Review", "ClientEdit", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+            else if (item.Approved == false)
+            {
+                <tr style="background-color: #f04124; color:navajowhite">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Employee.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client.CompanyName)
+                    </td>
+                    <td>
+                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
+                    </td>
+                    <td>
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
+                    </td>
+                    <td>
+                        @item.ElapsedTime.ToString(@"hh\:mm\:ss")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Review", "ClientEdit", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+            else if (item.Approved == null)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Employee.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client.CompanyName)
+                    </td>
+                    <td>
+                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
+                    </td>
+                    <td>
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
+                    </td>
+                    <td>
+                        @item.ElapsedTime.ToString(@"hh\:mm\:ss")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Review", "ClientEdit", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+        
     }
 
 </table>
