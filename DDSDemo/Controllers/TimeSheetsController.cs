@@ -56,7 +56,6 @@ namespace DDSDemo.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin, Employee")]
         [ClaimsAccess(ClaimType = "EmployeeID")]
         public ActionResult EmployeeIndex(int? page)
         {

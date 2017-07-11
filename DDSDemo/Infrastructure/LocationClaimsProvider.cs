@@ -11,9 +11,9 @@ namespace DDSDemo.Infrastructure
         public static IEnumerable<Claim> GetClaims(ClaimsIdentity user)
         {
             List<Claim> claims = new List<Claim>();
-            foreach(var claim in user.Claims)
+            foreach (var claim in user.Claims)
             {
-                if(claim.Type == "EmployerID" || claim.Type == "ClientID")
+                if (claim.Type == "EmployerID" || claim.Type == "ClientID" || claim.Type == "Admin")
                 {
                     claims.Add(new Claim(claim.Type, claim.Value, ClaimValueTypes.String, "Test"));
                 }
