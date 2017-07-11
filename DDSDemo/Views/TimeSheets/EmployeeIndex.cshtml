@@ -16,6 +16,9 @@
 <table class="table">
     <tr>
         <th>
+            Employee
+        </th>
+        <th>
             Client
         </th>
         <th>
@@ -36,6 +39,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Employee.FullName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Client.CompanyName)
         </td>
         <td>
@@ -51,10 +57,11 @@
             @Html.DisplayFor(modelItem => item.Note)
         </td>
         <td>
-            @Html.ActionLink("Details", "EmployeeDetails", new { id=item.ID }) 
+            @Html.ActionLink("Manage", "EmployeeManage", new { id = item.ID }) |
+            @Html.ActionLink("Details", "EmployeeDetails", new { id = item.ID }) 
         </td>
     </tr>
 }
 
 </table>
-@Html.PagedListPager(Model, page => Url.Action("EmployeeIndex", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("EmployeeIndex", new { page, id = Request.QueryString["id"] }))

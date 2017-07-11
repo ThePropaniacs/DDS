@@ -357,6 +357,9 @@
     <Content Include="Views\TimeSheets\EmployeeDetails.cshtml" />
     <Content Include="Views\TimeSheets\EmployeeCreate.cshtml" />
     <Content Include="Views\TimeSheets\EmployeeManage.cshtml" />
+    <Content Include="Views\TimeSheets\ClientIndex.cshtml" />
+    <Content Include="Views\TimeSheets\ClientManage.cshtml" />
+    <Content Include="Views\TimeSheets\ClientEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
