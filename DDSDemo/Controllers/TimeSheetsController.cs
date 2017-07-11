@@ -65,10 +65,11 @@ namespace DDSDemo.Controllers
             return View(timesheets.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
         }
 
-        [Authorize(Roles = "Admin, Client")]
+        [ClaimsAccess(ClaimType = "ClientID")]
         public ActionResult ClientIndex(int? page)
         {
-            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(c => c.Client.CompanyName == "Pebble");
+            var clientID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "ClientID").Value);
+            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(c => c.Client.ID == clientID);
             return View(timesheets.OrderBy(x => x.Approved).ThenByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
         }
 
