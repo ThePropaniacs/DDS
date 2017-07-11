@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DDSDemoDAL;
+using DDSDemo.Infrastructure.Authorization;
+using System.Security.Claims;
 
 namespace DDSDemo.Controllers
 {

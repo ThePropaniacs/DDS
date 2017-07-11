@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using DDSDemoDAL;
 using PagedList;
 using PagedList.Mvc;
+using DDSDemo.Infrastructure.Authorization;
+using System.Security.Claims;
 
 namespace DDSDemo.Controllers
 {
@@ -49,14 +51,17 @@ namespace DDSDemo.Controllers
             }
             else
             {
-                return RedirectToAction("LogIn", "Account");
+                return RedirectToAction("EmployeeIndex", "TimeSheets");
+                //return RedirectToAction("LogIn", "Account");
             }
         }
 
-        [Authorize(Roles = "Admin, Employee")]
+        //[Authorize(Roles = "Admin, Employee")]
+        [ClaimsAccess(ClaimType = "EmployeeID")]
         public ActionResult EmployeeIndex(int? page)
         {
-            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee);
+            var employeeID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "EmployeeID").Value);
+            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(t => t.Employee.ID == employeeID);
             return View(timesheets.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
         }
 

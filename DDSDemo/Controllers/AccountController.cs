@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DDSDemo.Models;
+using DDSDemo.Infrastructure;
 
 namespace DDSDemo.Controllers
 {
@@ -80,20 +81,41 @@ namespace DDSDemo.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            //var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
+            ApplicationUser user = await UserManager.FindAsync(model.Email, model.Password);
+
+            if(user == null)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                ModelState.AddModelError("", "The email or password is incorrect");
             }
+            else
+            {
+                ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                ident.AddClaims(LocationClaimsProvider.GetClaims(ident));
+                AuthenticationManager.SignOut();
+                AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
+                return Redirect(returnUrl);
+            }
+
+            ViewBag.returnUrl = returnUrl;
+            return View(model);
+
+            //var result = 
+
+            //switch (result)
+            //{
+            //    case SignInStatus.Success:
+            //        return RedirectToLocal(returnUrl);
+            //    case SignInStatus.LockedOut:
+            //        return View("Lockout");
+            //    case SignInStatus.RequiresVerification:
+            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+            //    case SignInStatus.Failure:
+            //    default:
+            //        ModelState.AddModelError("", "Invalid login attempt.");
+            //        return View(model);
+            //}
         }
 
         //
@@ -141,7 +163,7 @@ namespace DDSDemo.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles ="Admin")]
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
@@ -150,7 +172,7 @@ namespace DDSDemo.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [Authorize(Roles ="Admin")]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -161,7 +183,10 @@ namespace DDSDemo.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+                    await UserManager.AddToRoleAsync(user.Id, "Employee");
+                    await UserManager.AddClaimAsync(user.Id, new Claim("EmployeeID", "1"));
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
