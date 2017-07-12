@@ -242,6 +242,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -370,6 +371,8 @@
     <Content Include="Views\TimeSheets\ClientIndex.cshtml" />
     <Content Include="Views\TimeSheets\ClientManage.cshtml" />
     <Content Include="Views\TimeSheets\ClientEdit.cshtml" />
+    <Content Include="Views\Account\RegisterEmployee.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
