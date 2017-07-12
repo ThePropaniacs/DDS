@@ -56,14 +56,14 @@ namespace DDSDemo.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl1)
         {
             if((System.Web.HttpContext.Current.User != null) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                return RedirectToLocal(returnUrl);
+                return RedirectToLocal(returnUrl1);
             }
 
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = returnUrl1;
             return View();
         }
 
@@ -452,6 +452,7 @@ namespace DDSDemo.Controllers
 
             base.Dispose(disposing);
         }
+       
 
         #region Helpers
         // Used for XSRF protection when adding external logins

@@ -46,10 +46,12 @@
                         @Html.DisplayFor(modelItem => item.Client.CompanyName)
                     </td>
                     <td>
-                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
+                        @(item.StopTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br />
+                        @(item.StopTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--")
                     </td>
                     <td>
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br />
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
                     </td>
                     <td>
                         @item.ElapsedTime.ToString(@"hh\:mm\:ss")
@@ -72,10 +74,12 @@
                         @Html.DisplayFor(modelItem => item.Client.CompanyName)
                     </td>
                     <td>
-                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
+                        @(item.StopTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br />
+                        @(item.StopTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--")
                     </td>
                     <td>
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br />
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
                     </td>
                     <td>
                         @item.ElapsedTime.ToString(@"hh\:mm\:ss")
@@ -98,10 +102,12 @@
                         @Html.DisplayFor(modelItem => item.Client.CompanyName)
                     </td>
                     <td>
-                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
+                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br/>
+                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--")
                     </td>
                     <td>
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br/>
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
                     </td>
                     <td>
                         @item.ElapsedTime.ToString(@"hh\:mm\:ss")

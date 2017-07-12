@@ -9,22 +9,24 @@
 
 
 <h2>TimeSheet #@Model.ID.ToString() </h2>
-
-@{ 
-    if(Model.Approved == true)
-    {
-        <h2><b>This TimeSheet has been Approved</b></h2>
-    }
-    else if (Model.Approved == false)
-    {
-        <h2><b>This TimeSheet has been Denyed</b></h2>
-    }
-    else
-    {
-        <h2><b>This TimeSheet is Pending</b></h2>
-    }
-}
-
+<div class="row">
+    <div class="col-md-offset-2 col-md-8 text-center">
+        @{
+            if (Model.Approved == true)
+            {
+                <h2 style="background-color:#43ac6a; color:navajowhite; padding: 10px"><b>This TimeSheet has been Approved</b></h2>
+            }
+            else if (Model.Approved == false)
+            {
+                <h2 style="background-color:#f04124; color:navajowhite; padding: 10px"><b>This TimeSheet has been Denyed</b></h2>
+            }
+            else
+            {
+                <h2><b>This TimeSheet is Pending</b></h2>
+            }
+        }
+    </div>
+</div>
 
 @using (Html.BeginForm())
 {
@@ -32,8 +34,18 @@
 
     <div class="form-horizontal">
         <div class="col-xs-12">
-            <h4 class="pull-left">Start Time: @Model.StartTime.Value.ToShortTimeString()</h4>
-            <h4 class="pull-right"> Stop Time: @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortTimeString() : "--")</h4>
+            <h4 class="pull-left">Start Time:</h4>
+            <h4 class="pull-left" style="padding-left:10px">
+                @Model.StartTime.Value.ToShortTimeString() <br />
+                @Model.StartTime.Value.ToShortDateString()
+            </h4>
+            <h4 class="pull-right" style="padding-left:10px">
+                @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortTimeString() : "--") <br />
+                @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortDateString() : "--")
+            </h4>
+            <h4 class="pull-right">
+                Stop Time:
+            </h4>
         </div>
 
         <hr />
@@ -63,20 +75,25 @@
             <div class="col-sm-6 text-center">
                 <h3 style="margin-bottom: 2rem;" id="elapsedTime">@Model.ElapsedTime.ToString(@"hh\:mm\:ss")</h3>
                     @{
-                        if (Model.Approved == false)
+                        if (Model.StopTime == null)
                         {
-                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" />
-                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" disabled="disabled"/>
+                            <input type="submit" class="btn btn-block btn-success" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" disabled ="disabled" />
+                            <input type="submit" class="btn btn-block btn-danger" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" disabled="disabled" />
+                           }
+                        else if (Model.Approved == false)
+                        {
+                            <input type="submit" class="btn btn-block btn-success" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" />
+                            <input type="submit" class="btn btn-block btn-danger" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" disabled="disabled"/>
                         }
                         else if (Model.Approved == true)
                         {
-                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" disabled="disabled"/>
-                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" />
+                            <input type="submit" class="btn btn-block btn-success" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" disabled="disabled"/>
+                            <input type="submit" class="btn btn-block btn-danger" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" />
                         }
                         else
                         {
-                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" />
-                            <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" />
+                            <input type="submit" class="btn btn-block btn-success" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Approve" id="true" />
+                            <input type="submit" class="btn btn-block btn-danger" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" />
                         }
                     }
                         
