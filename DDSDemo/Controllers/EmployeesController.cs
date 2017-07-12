@@ -56,21 +56,24 @@ namespace DDSDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var new_employee = db.Employees.Add(employee);
-                db.SaveChanges();
-
-                var employeeRegisterService = new EmployeeRegisterService();
-
-                var result = await employeeRegisterService.RegisterEmployee(new_employee, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
-
-                if (result.Succeeded)
+                ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                ApplicationUser exists = await UserManager.FindByEmailAsync(employee.Email);
+                if (exists == null)
                 {
-                    return RedirectToAction("Index");
-                }
-                
-                //return RedirectToAction("RegisterEmployee/"+employee.ID);
-            }
+                    var new_employee = db.Employees.Add(employee);
+                    db.SaveChanges();
 
+                    var employeeRegisterService = new EmployeeRegisterService();
+
+                    var result = await employeeRegisterService.RegisterEmployee(new_employee, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                return View(employee);                
+            }
             return View(employee);
         }
 
