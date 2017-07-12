@@ -10,12 +10,50 @@ using System.Net;
 using DDSDemoDAL;
 using DDSDemo.Infrastructure.Authorization;
 using System.Security.Claims;
-
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace DDSDemo.Controllers
-{
+{ 
     public class AdminController : Controller
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public AdminController()
+        {
+        }
+
+        public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         private ApplicationDbContext db = ApplicationDbContext.Create();
 
         // GET: Admin
@@ -91,10 +129,29 @@ namespace DDSDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var _user = UserManager.FindByEmail(user.Email);
+
+                if(_user == null)
+                {
+                    ModelState.AddModelError("I dont even know how there could have been an error here", "You suck");
+                    return View(user);
+                }
+
+                _user.FirstName = user.FirstName;
+                _user.LastName = user.LastName;
+                _user.Email = user.Email;
+                _user.PhoneNumber = user.PhoneNumber;
+                _user.UserName = user.UserName;
+
+                IdentityResult result = UserManager.Update(_user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
             }
+
+            ModelState.AddModelError("Something went wrong", "It wasnt me");
             return View(user);
         }
 
