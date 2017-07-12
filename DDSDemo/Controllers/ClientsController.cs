@@ -9,6 +9,10 @@ using System.Web.Mvc;
 using DDSDemoDAL;
 using DDSDemo.Infrastructure.Authorization;
 using System.Security.Claims;
+using DDSDemo.Services;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
+using DDSDemo.Models;
 
 namespace DDSDemo.Controllers
 {
@@ -49,17 +53,31 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client)
+        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client)
         {
             if (ModelState.IsValid)
             {
-                db.Clients.Add(client);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                ApplicationUser exists = await UserManager.FindByEmailAsync(client.Email);
+                if (exists == null)
+                {
+                    var new_client = db.Clients.Add(client);
+                    db.SaveChanges();
 
+                    var clientRegisterService = new ClientRegisterService();
+
+                    var result = await clientRegisterService.RegisterClient(new_client, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                return View(client);
+            }
             return View(client);
         }
+
         // GET: Clients/Create
         public ActionResult AddUser()
         {
