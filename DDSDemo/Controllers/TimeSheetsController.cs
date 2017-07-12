@@ -36,16 +36,16 @@ namespace DDSDemo.Controllers
                 }
                 else
                 {
-                   data = tblTimeSheetMasters.OrderBy(x => x.ID).Where(x => x.Employee.FirstName.StartsWith(search) || x.Employee.LastName.StartsWith(search) || search == null);
+                    data = tblTimeSheetMasters.OrderBy(x => x.ID).Where(x => x.Employee.FirstName.StartsWith(search) || x.Employee.LastName.StartsWith(search) || search == null);
                 }
                 data = data.OrderByDescending(x => x.ID);
                 return View(data.ToPagedList(page ?? 1, 10));
             }
-            else if(User.IsInRole("Employee"))
+            else if (User.IsInRole("Employee"))
             {
                 return RedirectToAction("EmployeeIndex", "TimeSheets");
             }
-            else if(User.IsInRole("Client"))
+            else if (User.IsInRole("Client"))
             {
                 return RedirectToAction("ClientIndex", "TimeSheets");
             }
@@ -107,9 +107,20 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         public ActionResult Create()
         {
-            ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName");
-            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName");
-            return View();
+            if (User.IsInRole("Admin"))
+            {
+                ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName");
+                ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName");
+                return View();
+            }
+            else if (User.IsInRole("Employee"))
+            {
+                return RedirectToAction("EmployeeCreate", "TimeSheets");
+            }
+            else
+            {
+                return RedirectToAction("Index", "TimeSheets");
+            }
         }
 
         // POST: TimeSheets/Create
@@ -119,6 +130,55 @@ namespace DDSDemo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        {
+            if (ModelState.IsValid)
+            {
+                timeSheet.StartTime = DateTime.Now;
+                timeSheet = db.TimeSheets.Add(timeSheet);
+                db.SaveChanges();
+                if (User.IsInRole("Employee"))
+                {
+                    return RedirectToAction("EmployeeManage", new { id = timeSheet.ID });
+                }
+                else
+                {
+                    return RedirectToAction("Manage", new { id = timeSheet.ID });
+                }
+            }
+
+            ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
+            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmpID);
+            return View(timeSheet);
+        }
+
+        // GET: TimeSheets/EmployeeCreate
+        [Authorize(Roles = "Admin, Employee")]
+        public ActionResult EmployeeCreate()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Create", "TimeSheets");
+            }
+            else if (User.IsInRole("Employee"))
+            {
+                var employeeID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "EmployeeID").Value);
+                ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName");
+                ViewBag.EmpID = new SelectList(db.Employees.Where(i => i.ID == employeeID), "ID", "FullName");
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "TimeSheets");
+            }
+        }
+
+        // POST: TimeSheets/EmployeeCreate
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin, Employee")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EmployeeCreate([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
