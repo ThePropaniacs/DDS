@@ -60,6 +60,11 @@ namespace DDSDemo.Controllers
 
             return View(client);
         }
+        // GET: Clients/Create
+        public ActionResult AddUser()
+        {
+            return View("Register", "Account");
+        }
 
         // GET: Clients/Edit/5
         public ActionResult Edit(decimal id)
