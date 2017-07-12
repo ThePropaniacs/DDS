@@ -7,6 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DDSDemoDAL;
+using DDSDemo.Models;
+using Microsoft.AspNet.Identity;
+using DDSDemo.Services;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace DDSDemo.Controllers
 {
@@ -39,19 +44,7 @@ namespace DDSDemo.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
-            Employee newEmployee = new Employee
-            {
-                FirstName = "Johnny",
-                LastName = "Appleseed",
-                Sun = false,
-                Mon = true,
-                Tue = true,
-                Wed = true,
-                Thu = true,
-                Fri = true,
-                Sat = false
-            };
-            return View(newEmployee);
+            return View();
         }
 
         // POST: Employees/Create
@@ -59,13 +52,23 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration")] Employee employee)
+        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration, Email")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                db.Employees.Add(employee);
+                var new_employee = db.Employees.Add(employee);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                var employeeRegisterService = new EmployeeRegisterService();
+
+                var result = await employeeRegisterService.RegisterEmployee(new_employee, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                
+                //return RedirectToAction("RegisterEmployee/"+employee.ID);
             }
 
             return View(employee);

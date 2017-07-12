@@ -86,6 +86,9 @@ namespace DDSDemoDAL
                 .IsUnicode(false);
 
             modelBuilder.Entity<Employee>()
+                .Ignore(e => e.Email);
+
+            modelBuilder.Entity<Employee>()
                 .HasMany(e => e.TimeSheets)
                 .WithRequired(e => e.Employee)
                 .HasForeignKey(e => e.EmpID)
