@@ -83,39 +83,46 @@ namespace DDSDemo.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             //var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
 
-            ApplicationUser user = await UserManager.FindAsync(model.Email, model.Password);
-
-            if(user == null)
+            try
             {
-                ModelState.AddModelError("", "The email or password is incorrect");
+                ApplicationUser user = UserManager.Find(model.Email, model.Password);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "The email or password is incorrect");
+                }
+                else
+                {
+                    ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    ident.AddClaims(LocationClaimsProvider.GetClaims(ident));
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
+                    return RedirectToLocal(returnUrl);
+                }
+
+                ViewBag.returnUrl = returnUrl;
+                return View(model);
+
+                //var result = 
+
+                //switch (result)
+                //{
+                //    case SignInStatus.Success:
+                //        return RedirectToLocal(returnUrl);
+                //    case SignInStatus.LockedOut:
+                //        return View("Lockout");
+                //    case SignInStatus.RequiresVerification:
+                //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                //    case SignInStatus.Failure:
+                //    default:
+                //        ModelState.AddModelError("", "Invalid login attempt.");
+                //        return View(model);
+                //}
             }
-            else
+            catch (Exception ex)
             {
-                ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-                ident.AddClaims(LocationClaimsProvider.GetClaims(ident));
-                AuthenticationManager.SignOut();
-                AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
-                return RedirectToLocal(returnUrl);
+                return View();
             }
-
-            ViewBag.returnUrl = returnUrl;
-            return View(model);
-
-            //var result = 
-
-            //switch (result)
-            //{
-            //    case SignInStatus.Success:
-            //        return RedirectToLocal(returnUrl);
-            //    case SignInStatus.LockedOut:
-            //        return View("Lockout");
-            //    case SignInStatus.RequiresVerification:
-            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-            //    case SignInStatus.Failure:
-            //    default:
-            //        ModelState.AddModelError("", "Invalid login attempt.");
-            //        return View(model);
-            //}
         }
 
         //

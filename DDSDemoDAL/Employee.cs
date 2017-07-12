@@ -47,11 +47,9 @@ namespace DDSDemoDAL
 
         [StringLength(50)]
         public string AvailNotes { get; set; }
-
-        [DataType(DataType.Date)]
+        
         public DateTime? AvailStart { get; set; }
 
-        [DataType(DataType.Date)]
         public DateTime? AvailExpires { get; set; }
 
         public int? AvailDuration { get; set; }

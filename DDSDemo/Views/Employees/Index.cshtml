@@ -177,10 +177,12 @@
                 @Html.DisplayFor(modelItem => item.AvailNotes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AvailStart)
+                @(item.AvailStart.HasValue ? item.AvailStart.Value.ToShortTimeString() : "--")
+                @*@Html.DisplayFor(modelItem => item.AvailStart.Value.ToShortTimeString())*@
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AvailExpires)
+                @(item.AvailExpires.HasValue ? item.AvailExpires.Value.ToShortTimeString() : "--")
+                @*@Html.DisplayFor(modelItem => item.AvailExpires.Value.ToShortTimeString())*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AvailDuration)
