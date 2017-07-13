@@ -11,6 +11,8 @@ using PagedList;
 using PagedList.Mvc;
 using DDSDemo.Infrastructure.Authorization;
 using System.Security.Claims;
+using DDSDemo.Models;
+using DDSDemo.Infrastructure;
 
 namespace DDSDemo.Controllers
 {
@@ -68,7 +70,49 @@ namespace DDSDemo.Controllers
         {
             var clientID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "ClientID").Value);
             var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(c => c.Client.ID == clientID);
-            return View(timesheets.OrderBy(x => x.Approved).ThenByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
+
+            var timesheetsForList = new List<TimeSheetForList>();
+
+            foreach (var ts in timesheets)
+            {
+                var timesheetForList = new TimeSheetForList();
+
+                timesheetForList.TimesheetToTimesheetForList(ts);
+
+
+                timesheetsForList.Add(timesheetForList);
+            }
+
+            return View(timesheetsForList.OrderByDescending(x => x.StartTime).ToPagedList(page ?? 1, 10));
+        }
+
+        [ClaimsAccess(ClaimType = "ClientID")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ClientIndex(int? page, List<TimeSheetForList> timesheetsFromList, String Approve, String Deny)
+        {
+            bool ActionToTake = true;
+
+            if (String.IsNullOrEmpty(Approve))
+            {
+                ActionToTake = false;
+            }
+
+            foreach(var timesheet in timesheetsFromList)
+            {
+                var ts = db.TimeSheets.Find(timesheet.ID);
+
+                if (timesheet.IsChecked)
+                {
+                    ts.Approved = ActionToTake;
+                }
+
+                timesheet.TimesheetToTimesheetForList(ts);
+            }
+
+            db.SaveChanges();
+
+            return RedirectToAction("ClientIndex");
         }
 
         // GET: TimeSheets/Details/5

@@ -1,4 +1,4 @@
-﻿@model IPagedList<DDSDemoDAL.TimeSheet>
+﻿@model IPagedList<DDSDemo.Models.TimeSheetForList>
 
 @using PagedList;
 @using PagedList.Mvc;
@@ -7,10 +7,17 @@
 @{
     ViewBag.Title = "ClientIndex";
 }
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
 
 <h2>Client Index</h2>
 
 
+@using (Html.BeginForm())
+{
+  @Html.AntiForgeryToken()  
 <table class="table">
     <tr>
         <th>
@@ -32,96 +39,67 @@
             Note
         </th>
         <th></th>
+
+        <th>
+            <button type="submit" id="true" name="Approve" value="true">Approve</button>
+            <button type="submit" id="false" name="Deny" value="true">Deny</button>
+        </th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-            if (item.Approved == true)
-            {
-                <tr style="background-color: #43ac6a; color:navajowhite">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Employee.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Client.CompanyName)
-                    </td>
-                    <td>
-                        @(item.StopTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br />
-                        @(item.StopTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--")
-                    </td>
-                    <td>
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br />
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
-                    </td>
-                    <td>
-                        @item.ElapsedTime.ToString(@"hh\:mm\:ss")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Note)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Review", "ClientEdit", new { id = item.ID })
-                    </td>
-                </tr>
-            }
-            else if (item.Approved == false)
-            {
-                <tr style="background-color: #f04124; color:navajowhite">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Employee.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Client.CompanyName)
-                    </td>
-                    <td>
-                        @(item.StopTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br />
-                        @(item.StopTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--")
-                    </td>
-                    <td>
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br />
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
-                    </td>
-                    <td>
-                        @item.ElapsedTime.ToString(@"hh\:mm\:ss")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Note)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Review", "ClientEdit", new { id = item.ID })
-                    </td>
-                </tr>
-            }
-            else if (item.Approved == null)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Employee.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Client.CompanyName)
-                    </td>
-                    <td>
-                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br/>
-                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--")
-                    </td>
-                    <td>
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br/>
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
-                    </td>
-                    <td>
-                        @item.ElapsedTime.ToString(@"hh\:mm\:ss")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Note)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Review", "ClientEdit", new { id = item.ID })
-                    </td>
-                </tr>
-            }
-        
-    }
+        @for (var i = 0; i < Model.Count; i++)
+        {
+                    <tr @{
+                        if (Model[i].Approved == true) {<text> style="background-color: #43ac6a; color:navajowhite" </text> }
+                        else if (Model[i].Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
+                        else if (Model[i].Approved == null) {<text> style="background-color: #fafafa;"</text> }
+                       }>
 
-</table>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].Employee.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].Client.CompanyName)
+                        </td>
+                        <td>
+                            @(Model[i].StartTime.HasValue ? Model[i].StartTime.Value.ToShortTimeString() : "--") <br />
+                            @(Model[i].StartTime.HasValue ? Model[i].StartTime.Value.ToShortDateString() : "--")
+                        </td>
+                        <td>
+                            @(Model[i].StopTime.HasValue ? Model[i].StopTime.Value.ToShortTimeString() : "--") <br />
+                            @(Model[i].StopTime.HasValue ? Model[i].StopTime.Value.ToShortDateString() : "--")
+                        </td>
+                        <td>
+                            @Model[i].ElapsedTime.ToString(@"hh\:mm\:ss")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model[i].Note)
+                        </td>
+                        <td style="color:black">
+                            @Html.ActionLink("Review", "ClientEdit", new { id = Model[i].ID, @class = "my-class" })
+                        </td>
+                        <td>
+                            @Html.HiddenFor(modelItem => Model[i].ID)
+                            @Html.HiddenFor(modelItem => Model[i].Approved)
+                            @if (Model[i].StopTime.HasValue)
+                            {
+                                @Html.EditorFor(modelItem => Model[i].IsChecked, new { @class = "form-control" })
+                            }
+                            
+                        </td>
+                    </tr>
+                
+        }
+    </table>
+}
 @Html.PagedListPager(Model, page => Url.Action("ClientIndex", new { page }))
+<script>
+    $(document).ready(function () {
+        $("#false").click(function () {
+            
+           });
+        $("#true").click(function () {
+           
+        });
+    });
+        
+</script>

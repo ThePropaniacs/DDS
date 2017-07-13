@@ -255,6 +255,7 @@
     </Compile>
     <Compile Include="Infrastructure\Authorization\ClaimsAccessAttribute.cs" />
     <Compile Include="Infrastructure\LocationClaimsProvider.cs" />
+    <Compile Include="Infrastructure\TimesheetExtensions.cs" />
     <Compile Include="Migrations\201702091659496_FirstMigration.cs" />
     <Compile Include="Migrations\201702091659496_FirstMigration.Designer.cs">
       <DependentUpon>201702091659496_FirstMigration.cs</DependentUpon>
@@ -287,6 +288,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\TimeSheetForList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClientRegisterService.cs" />
     <Compile Include="Services\EmployeeRegisterService.cs" />
