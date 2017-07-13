@@ -55,11 +55,13 @@ namespace DDSDemo.Controllers
         }
 
         private ApplicationDbContext db = ApplicationDbContext.Create();
+        private DDSContext dbb = new DDSContext();
 
         // GET: Admin
         public ActionResult Index()
         {
-            var users = db.Users.ToList();
+            var users = UserManager.Users.ToList().Where(u => u.Claims.Any(t => t.ClaimType == "Admin"));
+
             return View(users);
         }
         // GET: Clients/Details/5
