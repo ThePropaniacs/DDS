@@ -40,7 +40,7 @@
                 @Model.StartTime.Value.ToShortDateString()
             </h4>
             <h4 class="pull-right" style="padding-left:10px">
-                @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortTimeString() : "--")  <br />
+                @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortTimeString() : "--") <br />
                 @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortDateString() : "--")
             </h4>
             <h4 class="pull-right">
@@ -79,6 +79,7 @@
                         <input type="submit" class="btn btn-block btn-danger" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Deny" id="false" @if (Model.Approved == false || Model.StopTime == null) {<text>disabled="disabled" </text> }/>
 
                         @Html.TextBoxFor(x => x.Approved, new { id = "stuff", style = "display: none;" })
+
                 
                 @Html.LabelFor(model => model.Note, "Note", htmlAttributes: new { @class = "control-label" })
                 @Html.TextAreaFor(model => Model.Note, htmlAttributes: new { @class = "form-control", @style = "width:100%; max-width: 100%; height:10rem;", @readonly = true })
@@ -150,7 +151,6 @@
 
             $(document).ready(function () {
                 $("#false").click(function () {
-                    alert(today);
                     $('#date').val(today);
                     $('#stuff').val('false');
                 });

@@ -397,6 +397,7 @@ namespace DDSDemo.Controllers
                 }
                 _timeSheet.Approved = timeSheet.Approved;
                 _timeSheet.Note = timeSheet.Note;
+                _timeSheet.ApprovedDate = DateTime.Now;
                 db.SaveChanges();
                 return RedirectToAction("ClientIndex");
             }

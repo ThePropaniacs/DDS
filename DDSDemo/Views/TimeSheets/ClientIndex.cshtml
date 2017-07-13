@@ -12,7 +12,7 @@
 <script src="~/Scripts/jquery-ui.js"></script>
 
 
-<h2>Client Index</h2>
+<h2>Client Timesheets</h2>
 
 
 @using (Html.BeginForm())
@@ -21,10 +21,10 @@
 <table class="table">
     <tr>
         <th>
-            Employee
+            Client
         </th>
         <th>
-            Client
+            Employee
         </th>
         <th>
             Start Time
@@ -40,9 +40,9 @@
         </th>
         <th></th>
 
-        <th>
-            <button type="submit" id="true" name="Approve" value="true">Approve</button>
-            <button type="submit" id="false" name="Deny" value="true">Deny</button>
+        <th style="text-align:center">
+            <button class="btn-success" type="submit" id="true" name="Approve" value="true">Approve</button>
+            <button class="btn-danger" type="submit" id="false" name="Deny" value="true" style="width:66.27px">Deny</button>
         </th>
     </tr>
 
@@ -55,10 +55,10 @@
                        }>
 
                         <td>
-                            @Html.DisplayFor(modelItem => Model[i].Employee.FullName)
+                            @Html.DisplayFor(modelItem => Model[i].Client.CompanyName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => Model[i].Client.CompanyName)
+                            @Html.DisplayFor(modelItem => Model[i].Employee.FullName)
                         </td>
                         <td>
                             @(Model[i].StartTime.HasValue ? Model[i].StartTime.Value.ToShortTimeString() : "--") <br />
@@ -75,14 +75,14 @@
                             @Html.DisplayFor(modelItem => Model[i].Note)
                         </td>
                         <td style="color:black">
-                            @Html.ActionLink("Review", "ClientEdit", new { id = Model[i].ID, @class = "my-class" })
+                            @Html.ActionLink("Review", "ClientEdit", new { id = Model[i].ID})
                         </td>
-                        <td>
+                        <td style="text-align:center">
                             @Html.HiddenFor(modelItem => Model[i].ID)
                             @Html.HiddenFor(modelItem => Model[i].Approved)
                             @if (Model[i].StopTime.HasValue)
                             {
-                                @Html.EditorFor(modelItem => Model[i].IsChecked, new { @class = "form-control" })
+                                @Html.EditorFor(modelItem => Model[i].IsChecked, new { @class = "form-control"  })
                             }
                             
                         </td>
@@ -92,14 +92,3 @@
     </table>
 }
 @Html.PagedListPager(Model, page => Url.Action("ClientIndex", new { page }))
-<script>
-    $(document).ready(function () {
-        $("#false").click(function () {
-            
-           });
-        $("#true").click(function () {
-           
-        });
-    });
-        
-</script>
