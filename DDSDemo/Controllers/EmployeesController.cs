@@ -18,6 +18,7 @@ namespace DDSDemo.Controllers
     [Authorize(Roles = "Admin")]
     public class EmployeesController : Controller
     {
+        private ApplicationDbContext dbb = ApplicationDbContext.Create();
         private DDSContext db = new DDSContext();
 
         // GET: Employees
@@ -129,8 +130,13 @@ namespace DDSDemo.Controllers
         public ActionResult DeleteConfirmed(decimal id)
         {
             Employee employee = db.Employees.Find(id);
+            ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString()));
+            ApplicationUser empuser = user.First();
             db.Employees.Remove(employee);
+            dbb.Users.Remove(empuser);
             db.SaveChanges();
+            dbb.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -139,6 +145,7 @@ namespace DDSDemo.Controllers
             if (disposing)
             {
                 db.Dispose();
+                dbb.Dispose();
             }
             base.Dispose(disposing);
         }

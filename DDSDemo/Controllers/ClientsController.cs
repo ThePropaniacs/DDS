@@ -78,10 +78,46 @@ namespace DDSDemo.Controllers
             return View(client);
         }
 
-        // GET: Clients/Create
-        public ActionResult AddUser()
+        // GET: Clients/AddUser/5
+        public ActionResult AddUser(decimal id)
         {
-            return View("Register", "Account");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Client client = db.Clients.Find(id);
+            if (client == null)
+            {
+                return HttpNotFound();
+            }
+            return View(client);
+        }
+
+        // POST: Clients/AddUser/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddUser([Bind(Include = "ID, Email")]NewClientUserInputModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                ApplicationUser exists = await UserManager.FindByEmailAsync(user.Email);
+                if (exists == null)
+                {
+                    var clientAddUserService = new ClientAddUserService();
+
+                    var result = await clientAddUserService.AddUserClient(user, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                return View();
+            }
+            return View();
         }
 
         // GET: Clients/Edit/5

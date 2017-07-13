@@ -171,7 +171,7 @@ namespace DDSDemo.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="No")]
         public ActionResult Register()
         {
             return View();
@@ -180,7 +180,7 @@ namespace DDSDemo.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "No")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {

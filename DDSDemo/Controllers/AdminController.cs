@@ -12,9 +12,12 @@ using DDSDemo.Infrastructure.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using DDSDemo.Services;
+using System.Threading.Tasks;
 
 namespace DDSDemo.Controllers
-{ 
+{
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -64,7 +67,7 @@ namespace DDSDemo.Controllers
 
             return View(users);
         }
-        // GET: Clients/Details/5
+        // GET: Admin/Details/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -79,35 +82,40 @@ namespace DDSDemo.Controllers
             return View(user);
         }
 
-        // GET: Clients/Create
+        // GET: Admin/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Clients/Create
+        // POST: Admin/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser user)
+        public async Task<ActionResult> Create([Bind(Include = "FirstName,LastName,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser user)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                ApplicationUser exists = await UserManager.FindByEmailAsync(user.Email);
+                if (exists == null)
+                {
+                    var adminRegisterService = new AdminRegisterService();
 
+                    var result = await adminRegisterService.RegisterAdmin(user, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                return View(user);
+            }
             return View(user);
         }
-        // GET: Clients/Create
-        public ActionResult AddUser()
-        {
-            return View("Register", "Account");
-        }
 
-        // GET: Clients/Edit/5
+        // GET: Admin/Edit/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -122,7 +130,7 @@ namespace DDSDemo.Controllers
             return View(user);
         }
 
-        // POST: Clients/Edit/5
+        // POST: Admin/Edit/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -157,7 +165,7 @@ namespace DDSDemo.Controllers
             return View(user);
         }
 
-        // GET: Clients/Delete/5
+        // GET: Admin/Delete/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         public ActionResult Delete(String id)
         {
             if (id == null)
@@ -172,7 +180,7 @@ namespace DDSDemo.Controllers
             return View(user);
         }
 
-        // POST: Clients/Delete/5
+        // POST: Admin/Delete/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
