@@ -20,6 +20,7 @@ namespace DDSDemo.Controllers
     public class ClientsController : Controller
     {
         private DDSContext db = new DDSContext();
+        private ApplicationDbContext dbb = ApplicationDbContext.Create();
 
         // GET: Clients
         public ActionResult Index()
@@ -171,9 +172,17 @@ namespace DDSDemo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(decimal id)
         {
-            Client client = db.Clients.Find(id);
-            db.Clients.Remove(client);
-            db.SaveChanges();
+            //Client client = db.Clients.Find(id);
+            ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser cliusers = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "ClientID" && t.ClaimValue == id.ToString())).FirstOrDefault();
+            while (cliusers != null)
+            {
+                dbb.Users.Remove(cliusers);
+                dbb.SaveChanges();
+                cliusers = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "ClientID" && t.ClaimValue == id.ToString())).FirstOrDefault();
+            }
+            //db.Clients.Remove(client);
+            //db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -182,6 +191,7 @@ namespace DDSDemo.Controllers
             if (disposing)
             {
                 db.Dispose();
+                dbb.Dispose();
             }
             base.Dispose(disposing);
         }

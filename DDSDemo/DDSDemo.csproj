@@ -288,12 +288,14 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewEmployeeUserInputModel.cs" />
     <Compile Include="Models\TimeSheetForList.cs" />
     <Compile Include="Models\NewClientUserInputModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminRegisterService.cs" />
     <Compile Include="Services\ClientAddUserService.cs" />
     <Compile Include="Services\ClientRegisterService.cs" />
+    <Compile Include="Services\EmployeeAddUserService.cs" />
     <Compile Include="Services\EmployeeRegisterService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -385,6 +387,8 @@
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Delete.cshtml" />
     <Content Include="Views\Clients\AddUser.cshtml" />
+    <Content Include="Views\Employees\AddUser.cshtml" />
+    <Content Include="Views\Employees\Users.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

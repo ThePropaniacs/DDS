@@ -42,6 +42,14 @@ namespace DDSDemo.Controllers
             return View(employee);
         }
 
+        // GET: Employee/Users
+        public ActionResult Users(decimal id)
+        {
+            var users = dbb.Users.ToList().Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString()));
+
+            return View(users);
+        }
+
         // GET: Employees/Create
         public ActionResult Create()
         {
@@ -76,6 +84,48 @@ namespace DDSDemo.Controllers
                 return View(employee);                
             }
             return View(employee);
+        }
+
+        // GET: Employee/AddUser/5
+        public ActionResult AddUser(decimal id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(employee);
+        }
+
+        // POST: Employee/AddUser/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddUser([Bind(Include = "ID, Email")]NewEmployeeUserInputModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                ApplicationUser exists = await UserManager.FindByEmailAsync(user.Email);
+                if (exists == null)
+                {
+                    var employeeAddUserService = new EmployeeAddUserService();
+
+                    var result = await employeeAddUserService.AddUserEmployee(user, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                return View();
+            }
+            return View();
         }
 
         // GET: Employees/Edit/5
@@ -129,14 +179,16 @@ namespace DDSDemo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(decimal id)
         {
-            Employee employee = db.Employees.Find(id);
+            //Employee employee = db.Employees.Find(id);
             ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var user = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString()));
-            ApplicationUser empuser = user.First();
-            db.Employees.Remove(employee);
-            dbb.Users.Remove(empuser);
-            db.SaveChanges();
-            dbb.SaveChanges();
+            ApplicationUser empuser = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString())).FirstOrDefault();
+            if (empuser != null)
+            {
+                dbb.Users.Remove(empuser);
+                dbb.SaveChanges();
+            }
+            //db.Employees.Remove(employee);
+            //db.SaveChanges();
             return RedirectToAction("Index");
         }
 
