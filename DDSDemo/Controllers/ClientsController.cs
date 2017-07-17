@@ -113,7 +113,7 @@ namespace DDSDemo.Controllers
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Users/" + user.ID);
                     }
                 }
                 return View();
@@ -185,6 +185,68 @@ namespace DDSDemo.Controllers
             //db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        // GET: CLient/Users
+        public ActionResult Users(decimal id)
+        {
+            var users = dbb.Users.ToList().Where(u => u.Claims.Any(t => t.ClaimType == "ClientID" && t.ClaimValue == id.ToString()));
+
+            var currentClient = db.Clients.SingleOrDefault(e => e.ID == id);
+
+            if (currentClient == null)
+            {
+                //TODO : Figure out more graceful way to handle this error
+                throw new Exception("The client wasnt found");
+            }
+
+            var cliUsersViewModel = new ClientUsersViewModel
+            {
+                Client = currentClient,
+                Users = users
+            };
+
+            return View(cliUsersViewModel);
+        }
+
+        // GET: Clients/DeleteUser/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
+        public ActionResult DeleteUser(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = dbb.Users.Find(id);
+            var cliID = Convert.ToInt32(user.Claims.Where(u => u.ClaimType == "ClientID").Select(c => c.ClaimValue).SingleOrDefault());
+            Client client = db.Clients.Find(cliID);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            var userClientViewModel = new UserClientViewModel
+            {
+                Client = client,
+                User = user
+            };
+            return View(userClientViewModel);
+        }
+
+        // POST: Clients/DeleteUser/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
+        [HttpPost, ActionName("DeleteUser")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteUserConfirmed(string id)
+        {
+            ApplicationUser user = dbb.Users.Find(id);
+            var cliID = Convert.ToInt32(user.Claims.Where(u => u.ClaimType == "ClientID").Select(c => c.ClaimValue).SingleOrDefault());
+            if (user != null)
+            {
+                dbb.Users.Remove(user);
+                dbb.SaveChanges();
+            }
+            //db.Employees.Remove(employee);
+            //db.SaveChanges();
+            return RedirectToAction("Users/" + cliID);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

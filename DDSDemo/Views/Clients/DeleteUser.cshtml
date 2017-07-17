@@ -1,0 +1,37 @@
+﻿@model DDSDemo.Models.UserClientViewModel
+
+@{
+    ViewBag.Title = "DeleteUser";
+}
+
+<h2>Are you sure you want to delete this User?</h2>
+
+<div>
+    <h4>
+        Client:
+        @Html.DisplayFor(model => model.Client.CompanyName)
+    </h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Email
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" />
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to Users", "Users/" + Model.Client.ID)
+        </div>
+    }
+</div>

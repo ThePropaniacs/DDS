@@ -6,24 +6,17 @@
 
 <h2>Add User</h2>
 
+<h4>
+    Client:
+    @Html.DisplayFor(model => model.CompanyName)
+</h4>
+
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Client</h4>
-        <hr />
-
-        <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyName)
-        </dd>
-        </dl>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -42,7 +35,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Users", "Users/" + Model.ID)
 </div>
 
 @section Scripts {
