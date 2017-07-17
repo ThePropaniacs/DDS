@@ -59,10 +59,6 @@
             @*Html.DisplayNameFor(model => model.AvailExpires)*@
             Avail. Expires
         </th>
-        <th>
-            @*Html.DisplayNameFor(model => model.AvailDuration) (Days)*@
-            Avail. Duration
-        </th>
         <th></th>
     </tr>
 
@@ -191,12 +187,9 @@
                 @*@Html.DisplayFor(modelItem => item.AvailExpires.Value.ToShortTimeString())*@
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AvailDuration)
-            </td>
-            <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Users", "Users", new { id = item.ID}) |
+                @Html.ActionLink("Users", "Users", new { id = item.ID}) 
             </td>
         </tr>
     }

@@ -44,6 +44,7 @@ namespace DDSDemoDAL
         public string Zip { get; set; }
 
         [StringLength(50)]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
         [StringLength(20)]

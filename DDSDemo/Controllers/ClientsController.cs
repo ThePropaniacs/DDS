@@ -63,7 +63,7 @@ namespace DDSDemo.Controllers
                 if (exists == null)
                 {
                     var new_client = db.Clients.Add(client);
-                    db.SaveChanges();
+                    
 
                     var clientRegisterService = new ClientRegisterService();
 
@@ -71,6 +71,7 @@ namespace DDSDemo.Controllers
 
                     if (result.Succeeded)
                     {
+                        db.SaveChanges();
                         return RedirectToAction("Index");
                     }
                 }
@@ -181,6 +182,7 @@ namespace DDSDemo.Controllers
                 dbb.SaveChanges();
                 cliusers = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "ClientID" && t.ClaimValue == id.ToString())).FirstOrDefault();
             }
+            
             //db.Clients.Remove(client);
             //db.SaveChanges();
             return RedirectToAction("Index");
