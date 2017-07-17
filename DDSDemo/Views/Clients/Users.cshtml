@@ -1,20 +1,18 @@
-﻿@model DDSDemo.Models.EmployeeUsersViewModel
+﻿@model DDSDemo.Models.ClientUsersViewModel
 
 @{
     ViewBag.Title = "Users";
 }
 
 <h2>Users</h2>
-
 <h4>
-    Employee: 
-    @Html.DisplayFor(model => model.Employee.FirstName)
-    @Html.DisplayFor(model => model.Employee.LastName)
+    Client:
+    @Html.DisplayFor(model => model.Client.CompanyName)
 </h4>
 
 <p>
-    @Html.ActionLink("Add User", "AddUser", new { id = Model.Employee.ID }) |
-    @Html.ActionLink("Delete All Users", "Delete", new { id = Model.Employee.ID })
+    @Html.ActionLink("Add User", "AddUser", new { id = Model.Client.ID }) |
+    @Html.ActionLink("Delete All Users", "Delete", new { id = Model.Client.ID })
 </p>
 <table class="table">
     <tr>
@@ -27,7 +25,7 @@
             Last Name
         </th>
         <th>
-           Email
+            Email
         </th>
         <th>
             @*@Html.DisplayNameFor(model => model.PhoneNumber)*@
@@ -69,5 +67,5 @@
 </table>
 
 <div>
-    @Html.ActionLink("Back to Employees", "Index")
+    @Html.ActionLink("Back to Clients", "Index")
 </div>

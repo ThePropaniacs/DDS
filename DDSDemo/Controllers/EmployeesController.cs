@@ -134,7 +134,7 @@ namespace DDSDemo.Controllers
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Users/" + user.ID);
                     }
                 }
                 return View();
@@ -196,14 +196,55 @@ namespace DDSDemo.Controllers
             //Employee employee = db.Employees.Find(id);
             ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             ApplicationUser empuser = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString())).FirstOrDefault();
-            if (empuser != null)
+            while (empuser != null)
             {
                 dbb.Users.Remove(empuser);
                 dbb.SaveChanges();
+                empuser = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString())).FirstOrDefault();
+
             }
             //db.Employees.Remove(employee);
             //db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // GET: Employees/DeleteUser/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
+        public ActionResult DeleteUser(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = dbb.Users.Find(id);
+            var empID = Convert.ToInt32(user.Claims.Where(u => u.ClaimType == "EmployeeID").Select(c => c.ClaimValue).SingleOrDefault());
+            Employee employee = db.Employees.Find(empID);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            var userEmployeeViewModel = new UserEmployeeViewModel
+            {
+                Employee = employee,
+                User = user
+            };
+            return View(userEmployeeViewModel);
+        }
+
+        // POST: Employees/DeleteUser/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
+        [HttpPost, ActionName("DeleteUser")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteUserConfirmed(string id)
+        {
+            ApplicationUser user = dbb.Users.Find(id);
+            var empID = Convert.ToInt32(user.Claims.Where(u => u.ClaimType == "EmployeeID").Select(c => c.ClaimValue).SingleOrDefault());
+            if (user != null)
+            {
+                dbb.Users.Remove(user);
+                dbb.SaveChanges();
+            }
+            //db.Employees.Remove(employee);
+            //db.SaveChanges();
+            return RedirectToAction("Users/" + empID);
         }
 
         protected override void Dispose(bool disposing)

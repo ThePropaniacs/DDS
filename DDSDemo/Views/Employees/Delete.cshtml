@@ -6,139 +6,25 @@
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this Employee's Users?</h3>
+<h4>
+    Employee: 
+    @Html.DisplayFor(model => model.FirstName)
+    @Html.DisplayFor(model => model.LastName)
+</h4>
+
 <div>
-    <h4>Employee</h4>
+    <h4>Are you sure you want to delete this Employee's Users?</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmpID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmpID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Sun)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sun)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Mon)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Mon)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Tue)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tue)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Wed)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Wed)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Thu)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Thu)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fri)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Fri)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Sat)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sat)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AvailNotes)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AvailNotes)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AvailStart)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AvailStart)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AvailExpires)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AvailExpires)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AvailDuration)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AvailDuration)
-        </dd>
-
-    </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-default" />
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to Users", "Users/" + Model.ID)
         </div>
     }
 </div>
