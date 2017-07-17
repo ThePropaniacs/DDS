@@ -47,7 +47,21 @@ namespace DDSDemo.Controllers
         {
             var users = dbb.Users.ToList().Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString()));
 
-            return View(users);
+            var currentEmployee = db.Employees.SingleOrDefault(e => e.ID == id);
+
+            if(currentEmployee == null)
+            {
+                //TODO : Figure out more graceful way to handle this error
+                throw new Exception("The employee wasnt found");
+            }
+
+            var empUsersViewModel = new EmployeeUsersViewModel
+            {
+                Employee = currentEmployee,
+                Users = users
+            };
+
+            return View(empUsersViewModel);
         }
 
         // GET: Employees/Create
