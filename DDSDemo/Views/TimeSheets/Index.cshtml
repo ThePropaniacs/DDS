@@ -26,16 +26,20 @@
 <table class="table">
     <tr>
         <th>
-            Client
+            @Html.ActionLink("Client", "Index", new {sortBy = ViewBag.SortClientParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+             <span class="caret"></span>
         </th>
         <th>
-            Employee
+            @Html.ActionLink("Employee", "Index", new { sortBy = ViewBag.SortEmployeeParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+            <span class="caret"></span>
         </th>
         <th>
-            Start Time
+            @Html.ActionLink("Start Time", "Index", new { sortBy = ViewBag.SortStartTimeParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+            <span class="caret"></span>
         </th>
         <th>
-            Stop Time
+            @Html.ActionLink("Stop Time", "Index", new { sortBy = ViewBag.SortStopTimeParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+            <span class="caret"></span>
         </th>
         <th>
             Elapsed Time
@@ -56,10 +60,12 @@
                 @Html.DisplayFor(modelItem => item.Employee.FullName)
             </td>
             <td>
-                @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--")
+                @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br />
+                @(item.StartTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--")
             </td>
             <td>
-                @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--")
+                @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br />
+                @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
             </td>
             <td>
                 @item.ElapsedTime.ToString(@"hh\:mm\:ss")
@@ -77,7 +83,7 @@
 
     }
 </table>
-@Html.PagedListPager(Model, page => Url.Action("Index", new {page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new {page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))
 
 <script>
     $( document ).ready(function() {

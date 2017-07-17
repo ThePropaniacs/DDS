@@ -26,21 +26,56 @@ namespace DDSDemo.Controllers
         // GET: TimeSheets
         //Admin index
         [AllowAnonymous]
-        public ActionResult Index(string searchBy, string search, int? page)
+        public ActionResult Index(string searchBy, string search, int? page, string sortBy)
         {
             if (User.IsInRole("Admin"))
             {
                 var tblTimeSheetMasters = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).AsQueryable();
                 var data = tblTimeSheetMasters;
+
+                ViewBag.SortClientParameter = string.IsNullOrEmpty(sortBy) ? "Client Desc" : "";
+                ViewBag.SortEmployeeParameter = sortBy == "Employee" ? "Employee Desc" : "Employee";
+                ViewBag.SortStartTimeParameter = sortBy == "Start Time" ? "Start Time Desc" : "Start Time";
+                ViewBag.SortStopTimeParameter = sortBy == "Stop Time" ? "Stop Time Desc" : "Stop Time";
+                ViewBag.SortElapsedTimeParameter = sortBy == "Elapsed Time" ? "Elapsed Time Desc" : "Elapsed Time";
+
+
                 if (searchBy == "Client")
                 {
-                    data = tblTimeSheetMasters.OrderBy(x => x.ID).Where(x => x.Client.CompanyName.StartsWith(search) || search == null);
+                    data = data.Where(x => x.Client.CompanyName.StartsWith(search) || search == null);
                 }
                 else
                 {
-                    data = tblTimeSheetMasters.OrderBy(x => x.ID).Where(x => x.Employee.FirstName.StartsWith(search) || x.Employee.LastName.StartsWith(search) || search == null);
+                    data = data.Where(x => x.Employee.FirstName.StartsWith(search) || x.Employee.LastName.StartsWith(search) || search == null);
                 }
-                data = data.OrderByDescending(x => x.ID);
+                switch(sortBy)
+                {
+                    case "Client Desc":
+                        data = data.OrderByDescending(x => x.Client.CompanyName);
+                        break;
+                    case "Employee Desc":
+                        data = data.OrderByDescending(x => x.Employee.FirstName);
+                        break;
+                    case "Employee":
+                        data = data.OrderBy(x => x.Employee.FirstName);
+                        break;
+                    case "Start Time Desc":
+                        data = data.OrderByDescending(x => x.StartTime);
+                        break;
+                    case "Start Time":
+                        data = data.OrderBy(x => x.StartTime);
+                        break;
+                    case "Stop Time Desc":
+                        data = data.OrderByDescending(x => x.StopTime);
+                        break;
+                    case "Stop Time":
+                        data = data.OrderBy(x => x.StopTime);
+                        break;
+                    default:
+                        data = data.OrderBy(x => x.Client.CompanyName);
+                        break;
+                }
+
                 return View(data.ToPagedList(page ?? 1, 10));
             }
             else if (User.IsInRole("Employee"))
