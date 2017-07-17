@@ -17,7 +17,6 @@ namespace DDSDemoDAL
             }
         }
 
-        [Required]
-        public string Email { get; set; }
+        
     }
 }

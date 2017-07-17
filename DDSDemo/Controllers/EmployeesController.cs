@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using DDSDemo.Services;
 using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
+using DDSDemo.Infrastructure;
 
 namespace DDSDemo.Controllers
 {
@@ -75,20 +76,27 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration, Email")] Employee employee)
+        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration, Email")] EmployeeAccountViewModel employeeVm)
         {
             if (ModelState.IsValid)
             {
+                var employee = new Employee();
+
+                employee.EmployeeAccountVmToEmployee(employeeVm);
+
                 ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                ApplicationUser exists = await UserManager.FindByEmailAsync(employee.Email);
+                ApplicationUser exists = await UserManager.FindByEmailAsync(employeeVm.Email);
+
                 if (exists == null)
                 {
                     var new_employee = db.Employees.Add(employee);
                     db.SaveChanges();
 
+                    employeeVm.ID = new_employee.ID;
+
                     var employeeRegisterService = new EmployeeRegisterService();
 
-                    var result = await employeeRegisterService.RegisterEmployee(new_employee, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+                    var result = await employeeRegisterService.RegisterEmployee(employeeVm, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
 
                     if (result.Succeeded)
                     {
@@ -97,7 +105,7 @@ namespace DDSDemo.Controllers
                 }
                 return View(employee);                
             }
-            return View(employee);
+            return View();
         }
 
         // GET: Employee/AddUser/5

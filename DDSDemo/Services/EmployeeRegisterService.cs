@@ -14,7 +14,7 @@ namespace DDSDemo.Services
 {
     public class EmployeeRegisterService
     {
-        public async Task<IdentityResult> RegisterEmployee(Employee model, ApplicationUserManager UserManager)
+        public async Task<IdentityResult> RegisterEmployee(EmployeeAccountViewModel model, ApplicationUserManager UserManager)
         {
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             var result = await UserManager.CreateAsync(user, "StaffFinder2017");

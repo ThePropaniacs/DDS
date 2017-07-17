@@ -85,8 +85,8 @@ namespace DDSDemoDAL
                 .Property(e => e.AvailNotes)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Employee>()
-                .Ignore(e => e.Email);
+            //modelBuilder.Entity<Employee>()
+            //    .Ignore(e => e.Email);
 
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.TimeSheets)
