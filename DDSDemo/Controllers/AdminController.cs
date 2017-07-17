@@ -151,7 +151,7 @@ namespace DDSDemo.Controllers
                 _user.LastName = user.LastName;
                 _user.Email = user.Email;
                 _user.PhoneNumber = user.PhoneNumber;
-                _user.UserName = user.UserName;
+                _user.UserName = user.Email;
 
                 IdentityResult result = UserManager.Update(_user);
 

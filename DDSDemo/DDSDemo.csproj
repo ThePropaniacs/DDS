@@ -396,6 +396,7 @@
     <Content Include="Views\Employees\DeleteUser.cshtml" />
     <Content Include="Views\Clients\Users.cshtml" />
     <Content Include="Views\Clients\DeleteUser.cshtml" />
+    <Content Include="Views\Manage\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
