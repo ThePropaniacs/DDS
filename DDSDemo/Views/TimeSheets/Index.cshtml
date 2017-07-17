@@ -11,13 +11,13 @@
 <script src="~/Scripts/jquery-ui.js"></script>
 
 
-<h2>All Timers</h2>
+<h2>All TimeSheets</h2>
 
 @using (@Html.BeginForm("Index", "TimeSheets", FormMethod.Get))
 {       <b> Search By:</b>
         @Html.RadioButton("searchBy", "Client", true) <text> Client </text> 
         @Html.RadioButton("searchBy", "Employee") <text> Employee </text><br /> 
-        @Html.TextBox("search") <input class="roundbox boxshadow" type="submit" value="search" id="ser"/><button class="roundbox boxshadow" type="button" id="button1" style="height:27px"><img style="height:20px" src="https://maxcdn.icons8.com/Share/icon/Science//multiply1600.png" /></button>
+        @Html.TextBox("search")<button type="submit" value="search" id="ser"  style="height:27px; background-color:none;"><img style="height:20px" src="https://d30y9cdsu7xlg0.cloudfront.net/png/6983-200.png" /></button><button  type="button" id="button1" style="height:27px"><img style="height:20px" src="https://maxcdn.icons8.com/Share/icon/Science//multiply1600.png" /></button>
 }
 
 <p>

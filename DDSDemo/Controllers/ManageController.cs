@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DDSDemo.Models;
+using System.Net;
 
 namespace DDSDemo.Controllers
 {
@@ -72,7 +73,59 @@ namespace DDSDemo.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+            model.userID = userId;
             return View(model);
+        }
+
+        private ApplicationDbContext db = ApplicationDbContext.Create();
+
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: Admin/Edit/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "FirstName,LastName,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                var _user = UserManager.FindByEmail(user.Email);
+
+                if (_user == null)
+                {
+                    ModelState.AddModelError("I dont even know how there could have been an error here", "You suck");
+                    return View(user);
+                }
+
+                _user.FirstName = user.FirstName;
+                _user.LastName = user.LastName;
+                _user.Email = user.Email;
+                _user.PhoneNumber = user.PhoneNumber;
+                _user.UserName = user.Email;
+
+                IdentityResult result = UserManager.Update(_user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+
+            ModelState.AddModelError("Something went wrong", "It wasnt me");
+            return View(user);
         }
 
         //

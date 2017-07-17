@@ -390,6 +390,7 @@
     <Content Include="Views\Clients\AddUser.cshtml" />
     <Content Include="Views\Employees\AddUser.cshtml" />
     <Content Include="Views\Employees\Users.cshtml" />
+    <Content Include="Views\Manage\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
