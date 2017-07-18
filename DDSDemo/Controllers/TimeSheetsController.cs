@@ -80,11 +80,11 @@ namespace DDSDemo.Controllers
             }
             else if (User.IsInRole("Employee"))
             {
-                return RedirectToAction("EmployeeIndex", "TimeSheets");
+                return RedirectToAction("EmployeeIndex", "TimeSheets", new { page = page });
             }
             else if (User.IsInRole("Client"))
             {
-                return RedirectToAction("ClientIndex", "TimeSheets");
+                return RedirectToAction("ClientIndex", "TimeSheets", new { page = page });
             }
             else
             {
@@ -147,7 +147,7 @@ namespace DDSDemo.Controllers
 
             db.SaveChanges();
 
-            return RedirectToAction("ClientIndex");
+            return RedirectToAction("ClientIndex", new { page = page});
         }
 
         // GET: TimeSheets/Details/5
