@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using DDSDemo.Services;
 using System.Threading.Tasks;
+using static DDSDemo.Controllers.ManageController;
 
 namespace DDSDemo.Controllers
 {
@@ -114,6 +115,15 @@ namespace DDSDemo.Controllers
             }
             return View(admin);
         }
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+        
+
 
         // GET: Admin/Edit/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         public ActionResult Edit(string id)

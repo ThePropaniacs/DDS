@@ -59,6 +59,7 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
+                @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", new { email = item.Email }, null) |
                 @Html.ActionLink("Delete", "DeleteUser", new { id = item.Id })
             </td>
         </tr>
