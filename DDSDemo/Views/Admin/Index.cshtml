@@ -55,6 +55,7 @@
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", new { email = item.Email}, null) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
