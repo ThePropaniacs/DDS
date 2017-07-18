@@ -103,7 +103,7 @@ namespace DDSDemo.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-                return View(employee);                
+                return View(employeeVm);                
             }
             return View();
         }
@@ -116,11 +116,21 @@ namespace DDSDemo.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Employee employee = db.Employees.Find(id);
+
             if (employee == null)
             {
                 return HttpNotFound();
             }
-            return View(employee);
+
+            EmployeeAccountViewModel employeeVm = new EmployeeAccountViewModel();
+
+            employeeVm.ID = employee.ID;
+            employeeVm.FirstName = employee.FirstName;
+            employeeVm.LastName = employee.LastName;
+            
+
+            
+            return View(employeeVm);
         }
 
         // POST: Employee/AddUser/5
