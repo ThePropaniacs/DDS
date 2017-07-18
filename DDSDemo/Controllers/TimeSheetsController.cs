@@ -46,7 +46,7 @@ namespace DDSDemo.Controllers
                 }
                 else
                 {
-                    data = data.Where(x => x.Employee.FirstName.StartsWith(search) || x.Employee.LastName.StartsWith(search) || search == null);
+                    data = data.Where(x => x.Employee.FirstName.Contains(search) || x.Employee.LastName.Contains(search) || search.Contains(x.Employee.FirstName) || search.Contains(x.Employee.LastName) || search == null);
                 }
                 switch(sortBy)
                 {

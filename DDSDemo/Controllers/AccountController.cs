@@ -236,6 +236,7 @@ namespace DDSDemo.Controllers
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
