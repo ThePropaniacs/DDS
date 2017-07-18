@@ -93,26 +93,26 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "FirstName,LastName,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser user)
+        public async Task<ActionResult> Create([Bind(Include = "FirstName,LastName,Email,PhoneNumber")] NewAdminUserInputModel admin)
         {
             if (ModelState.IsValid)
             {
                 ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                ApplicationUser exists = await UserManager.FindByEmailAsync(user.Email);
+                ApplicationUser exists = await UserManager.FindByEmailAsync(admin.Email);
                 if (exists == null)
                 {
                     var adminRegisterService = new AdminRegisterService();
 
-                    var result = await adminRegisterService.RegisterAdmin(user, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+                    var result = await adminRegisterService.RegisterAdmin(admin, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
 
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Index");
                     }
                 }
-                return View(user);
+                return View(admin);
             }
-            return View(user);
+            return View(admin);
         }
 
         // GET: Admin/Edit/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000

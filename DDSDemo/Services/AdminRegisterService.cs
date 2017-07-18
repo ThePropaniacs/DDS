@@ -14,7 +14,7 @@ namespace DDSDemo.Services
 {
     public class AdminRegisterService
     {
-        public async Task<IdentityResult> RegisterAdmin(ApplicationUser model, ApplicationUserManager UserManager)
+        public async Task<IdentityResult> RegisterAdmin(NewAdminUserInputModel model, ApplicationUserManager UserManager)
         {
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber };
             var result = await UserManager.CreateAsync(user, "StaffFinder2017");

@@ -292,6 +292,7 @@
     <Compile Include="Models\EmployeeUsersViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewAdminUserInputModel.cs" />
     <Compile Include="Models\NewEmployeeUserInputModel.cs" />
     <Compile Include="Models\TimeSheetForList.cs" />
     <Compile Include="Models\NewClientUserInputModel.cs" />

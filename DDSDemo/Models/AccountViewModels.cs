@@ -65,7 +65,7 @@ namespace DDSDemo.Models
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

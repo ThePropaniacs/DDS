@@ -8,6 +8,8 @@ namespace DDSDemo.Models
 {
     public class EmployeeAccountViewModel
     {
+        [StringLength(50)]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         [Required]
         public string Email { get; set; }
 
