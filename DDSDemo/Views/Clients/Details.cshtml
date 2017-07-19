@@ -7,11 +7,14 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Client</h4>
+    <h4>
+    Client: 
+    @Html.DisplayFor(model => model.CompanyName)
+    </h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
+            @Html.DisplayName("Company Name:")
         </dt>
 
         <dd>
@@ -22,20 +25,8 @@
             @Html.DisplayNameFor(model => model.EmployerID)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EmployerID)
-        </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.EmployerName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmployerName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address1)
+            @Html.DisplayName("Address 1:")
         </dt>
 
         <dd>
@@ -43,7 +34,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Address2)
+            @Html.DisplayName("Address 2:")
         </dt>
 
         <dd>
@@ -51,7 +42,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayName("City:")
         </dt>
 
         <dd>
@@ -59,7 +50,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.State)
+            @Html.DisplayName("State:")
         </dt>
 
         <dd>
@@ -67,7 +58,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Zip)
+            @Html.DisplayName("Zip:")
         </dt>
 
         <dd>
@@ -75,7 +66,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayName("Email:")
         </dt>
 
         <dd>
@@ -83,7 +74,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Phone)
+            @Html.DisplayName("Phone:")
         </dt>
 
         <dd>
@@ -94,6 +85,5 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) |
     @Html.ActionLink("Back to Clients", "Index")
 </p>

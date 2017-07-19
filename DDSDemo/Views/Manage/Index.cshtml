@@ -1,16 +1,16 @@
 ﻿@model DDSDemo.Models.IndexViewModel
 @{
-    ViewBag.Title = "Manage";
+    ViewBag.Title = "Manage Account";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2>@ViewBag.Title</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Preferences:</dt>
+        <dt>Information:</dt>
         <dd>
             @Html.ActionLink("Edit", "Edit", new { id = Model.userID })
         </dd>

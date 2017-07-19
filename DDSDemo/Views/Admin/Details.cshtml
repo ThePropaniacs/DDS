@@ -7,11 +7,14 @@
 <h2>Details</h2>
 
 <div>
-    <h4>ApplicationUser</h4>
+    <h4>
+        Administrator:
+        @Html.DisplayFor(model => model.Email)
+    </h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayName("First Name:")
         </dt>
 
         <dd>
@@ -19,7 +22,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayName("Last Name:")
         </dt>
 
         <dd>
@@ -27,7 +30,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayName("Email:")
         </dt>
 
         <dd>
@@ -35,7 +38,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayName("Phone:")
         </dt>
 
         <dd>
@@ -43,7 +46,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayName("User Name:")
         </dt>
 
         <dd>

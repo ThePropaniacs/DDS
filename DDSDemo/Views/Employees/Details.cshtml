@@ -7,11 +7,16 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Employee</h4>
+    <h4>
+    Employee:
+    @Html.DisplayFor(model => model.FirstName)
+    @Html.DisplayFor(model => model.LastName)
+    </h4>
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
+            @Html.DisplayName("Company Name:")
         </dt>
 
         <dd>
@@ -19,15 +24,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EmpID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmpID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayName("First Name:")
         </dt>
 
         <dd>
@@ -35,7 +32,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayName("Last Name:")
         </dt>
 
         <dd>
@@ -43,7 +40,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Sun)
+            @Html.DisplayName("Sunday:")
         </dt>
 
         <dd>
@@ -59,11 +56,10 @@
                 {
                     <p>Not Selected</p>
                 }
-            @*@Html.DisplayFor(model => model.Sun)*@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Mon)
+            @Html.DisplayName("Monday:")
         </dt>
 
         <dd>
@@ -79,11 +75,10 @@
             {
                 <p>Not Selected</p>
             }
-            @*@Html.DisplayFor(model => model.Mon)*@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Tue)
+            @Html.DisplayName("Tuesday:")
         </dt>
 
         <dd>
@@ -99,11 +94,10 @@
             {
                 <p>Not Selected</p>
             }
-            @*@Html.DisplayFor(model => model.Tue)*@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Wed)
+            @Html.DisplayName("Wednesday:")
         </dt>
 
         <dd>
@@ -119,11 +113,10 @@
             {
                 <p>Not Selected</p>
             }
-            @*@Html.DisplayFor(model => model.Wed)*@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Thu)
+            @Html.DisplayName("Thursday:")
         </dt>
 
         <dd>
@@ -139,11 +132,10 @@
             {
                 <p>Not Selected</p>
             }
-            @*@Html.DisplayFor(model => model.Thu)*@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Fri)
+            @Html.DisplayName("Friday:")
         </dt>
 
         <dd>
@@ -159,11 +151,10 @@
             {
                 <p>Not Selected</p>
             }
-            @*@Html.DisplayFor(model => model.Fri)*@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Sat)
+            @Html.DisplayName("Saturday:")
         </dt>
 
         <dd>
@@ -179,11 +170,10 @@
             {
                 <p>Not Selected</p>
             }
-            @*@Html.DisplayFor(model => model.Sat)*@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AvailNotes)
+            @Html.DisplayName("Avail. Notes:")
         </dt>
 
         <dd>
@@ -191,7 +181,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AvailStart)
+            @Html.DisplayName("Avail. Start:")
         </dt>
 
         <dd>
@@ -199,7 +189,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AvailExpires)
+            @Html.DisplayName("Avail. Expires:")
         </dt>
 
         <dd>
@@ -207,7 +197,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AvailDuration)
+            @Html.DisplayName("Avail. Duration:")
         </dt>
 
         <dd>

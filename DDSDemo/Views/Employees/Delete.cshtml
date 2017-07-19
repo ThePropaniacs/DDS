@@ -4,7 +4,7 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Are you sure you want to delete this Employee's Users?</h2>
 
 <h4>
     Employee: 
@@ -13,7 +13,6 @@
 </h4>
 
 <div>
-    <h4>Are you sure you want to delete this Employee's Users?</h4>
     <hr />
 
     @using (Html.BeginForm()) {
@@ -22,6 +21,8 @@
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" />
         </div>
+
+        <p> </p>
 
         <div>
             @Html.ActionLink("Back to Users", "Users/" + Model.ID)
