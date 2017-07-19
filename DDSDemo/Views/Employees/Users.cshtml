@@ -19,23 +19,16 @@
 <table class="table">
     <tr>
         <th>
-            @*@Html.DisplayNameFor(model => model.FirstName)*@
-            First Name
+            @Html.DisplayName("First Name")
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.LastName)*@
-            Last Name
+            @Html.DisplayName("Last Name")
         </th>
         <th>
-           Email
+           @Html.DisplayName("Email")
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.PhoneNumber)*@
-            Phone Number
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.UserName)*@
-            Username
+            @Html.DisplayName("Phone")
         </th>
         <th></th>
     </tr>
@@ -56,9 +49,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
                 @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", new { email = item.Email }, null) |

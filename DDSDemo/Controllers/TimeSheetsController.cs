@@ -28,10 +28,8 @@ namespace DDSDemo.Controllers
         [AllowAnonymous]
         public ActionResult Index(string searchBy, string search, int? page, string sortBy)
         {
-
             if (User.IsInRole("Admin"))
             {
-                
                 var tblTimeSheetMasters = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).AsQueryable();
                 var data = tblTimeSheetMasters;
 
@@ -86,13 +84,20 @@ namespace DDSDemo.Controllers
             }
             else if (User.IsInRole("Client"))
             {
-
                 return RedirectToAction("ClientIndex", "TimeSheets", new { page = page });
             }
             else
             {
                 return RedirectToAction("LogIn", "Account");
             }
+        }
+
+        [ClaimsAccess(ClaimType = "EmployeeID")]
+        public ActionResult EmployeeIndex(int? page)
+        {
+            var employeeID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "EmployeeID").Value);
+            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(t => t.Employee.ID == employeeID);
+            return View(timesheets.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
         }
 
         [ClaimsAccess(ClaimType = "ClientID")]
@@ -157,7 +162,6 @@ namespace DDSDemo.Controllers
             {
                 return HttpNotFound();
             }
-
             return View(timeSheet);
         }
 
@@ -382,7 +386,8 @@ namespace DDSDemo.Controllers
             {
                 return HttpNotFound();
             }
-
+            ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
+            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmpID);
             return View(timeSheet);
         }
 

@@ -101,6 +101,7 @@ namespace DDSDemo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddUser([Bind(Include = "ID, Email")]NewClientUserInputModel user)
         {
+            Client client = db.Clients.Find(user.ID);
             if (ModelState.IsValid)
             {
                 ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -116,9 +117,9 @@ namespace DDSDemo.Controllers
                         return RedirectToAction("Users/" + user.ID);
                     }
                 }
-                return View();
+                return View(client);
             }
-            return View();
+            return View(client);
         }
 
         // GET: Clients/Edit/5

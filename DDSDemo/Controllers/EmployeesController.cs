@@ -140,6 +140,12 @@ namespace DDSDemo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddUser([Bind(Include = "ID, Email")]NewEmployeeUserInputModel user)
         {
+            Employee employee = db.Employees.Find(user.ID);
+            EmployeeAccountViewModel employeeVm = new EmployeeAccountViewModel();
+            employeeVm.ID = employee.ID;
+            employeeVm.FirstName = employee.FirstName;
+            employeeVm.LastName = employee.LastName;
+
             if (ModelState.IsValid)
             {
                 ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -155,9 +161,9 @@ namespace DDSDemo.Controllers
                         return RedirectToAction("Users/" + user.ID);
                     }
                 }
-                return View();
+                return View(employeeVm);
             }
-            return View();
+            return View(employeeVm);
         }
 
         // GET: Employees/Edit/5
