@@ -30,11 +30,8 @@ namespace DDSDemoDAL
         public string Note { get; set; }
 
         public bool? Approved { get; set; }
-
         
         public DateTime? ApprovedDate { get; set; }
-
-        public int ApprovedBy { get; set; }
 
         public bool? Processed { get; set; }
 

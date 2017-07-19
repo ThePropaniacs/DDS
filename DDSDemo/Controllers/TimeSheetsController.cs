@@ -234,7 +234,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeCreate([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult EmployeeCreate([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
