@@ -30,6 +30,7 @@ namespace DDSDemo.Controllers
         {
             if (User.IsInRole("Admin"))
             {
+
                 var tblTimeSheetMasters = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).AsQueryable();
                 var data = tblTimeSheetMasters;
 
@@ -189,14 +190,7 @@ namespace DDSDemo.Controllers
             }
             return View(timeSheet);
         }
-
-        [ClaimsAccess(ClaimType = "EmployeeID")]
-        public ActionResult EmployeeIndex(int? page)
-        {
-            var employeeID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "EmployeeID").Value);
-            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(t => t.Employee.ID == employeeID);
-            return View(timesheets.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
-        }
+        
 
         [Authorize(Roles = "Admin, Employee")]
         public ActionResult EmployeeDetails(decimal id, int? page)

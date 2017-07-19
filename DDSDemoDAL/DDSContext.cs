@@ -117,6 +117,7 @@ namespace DDSDemoDAL
             modelBuilder.Entity<TimeSheet>()
                 .Property(e => e.EmpID)
                 .HasPrecision(18, 0);
+               
 
             modelBuilder.Entity<TimeSheet>()
                 .Property(e => e.AssocClientID)

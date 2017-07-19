@@ -281,9 +281,33 @@
     <Compile Include="Migrations\201707121701199_JustSortingThingsOut.Designer.cs">
       <DependentUpon>201707121701199_JustSortingThingsOut.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707121816594_Poo.cs" />
-    <Compile Include="Migrations\201707121816594_Poo.Designer.cs">
-      <DependentUpon>201707121816594_Poo.cs</DependentUpon>
+    <Compile Include="Migrations\201707191522040_ChangedApprovedByToString.cs" />
+    <Compile Include="Migrations\201707191522040_ChangedApprovedByToString.Designer.cs">
+      <DependentUpon>201707191522040_ChangedApprovedByToString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707191526553_ChangedApprovedByToString1.cs" />
+    <Compile Include="Migrations\201707191526553_ChangedApprovedByToString1.Designer.cs">
+      <DependentUpon>201707191526553_ChangedApprovedByToString1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707191530460_ChangedApprovedByToApprovedName.cs" />
+    <Compile Include="Migrations\201707191530460_ChangedApprovedByToApprovedName.Designer.cs">
+      <DependentUpon>201707191530460_ChangedApprovedByToApprovedName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707191533209_ChangedApprovedByToApprovedName1.cs" />
+    <Compile Include="Migrations\201707191533209_ChangedApprovedByToApprovedName1.Designer.cs">
+      <DependentUpon>201707191533209_ChangedApprovedByToApprovedName1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707191535133_DroppingEmail.cs" />
+    <Compile Include="Migrations\201707191535133_DroppingEmail.Designer.cs">
+      <DependentUpon>201707191535133_DroppingEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707191538355_TestingUghhhh.cs" />
+    <Compile Include="Migrations\201707191538355_TestingUghhhh.Designer.cs">
+      <DependentUpon>201707191538355_TestingUghhhh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707191551062_TestingUghhhhhh.cs" />
+    <Compile Include="Migrations\201707191551062_TestingUghhhhhh.Designer.cs">
+      <DependentUpon>201707191551062_TestingUghhhhhh.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -438,8 +462,26 @@
     <EmbeddedResource Include="Migrations\201707121701199_JustSortingThingsOut.resx">
       <DependentUpon>201707121701199_JustSortingThingsOut.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707121816594_Poo.resx">
-      <DependentUpon>201707121816594_Poo.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707191522040_ChangedApprovedByToString.resx">
+      <DependentUpon>201707191522040_ChangedApprovedByToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191526553_ChangedApprovedByToString1.resx">
+      <DependentUpon>201707191526553_ChangedApprovedByToString1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191530460_ChangedApprovedByToApprovedName.resx">
+      <DependentUpon>201707191530460_ChangedApprovedByToApprovedName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191533209_ChangedApprovedByToApprovedName1.resx">
+      <DependentUpon>201707191533209_ChangedApprovedByToApprovedName1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191535133_DroppingEmail.resx">
+      <DependentUpon>201707191535133_DroppingEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191538355_TestingUghhhh.resx">
+      <DependentUpon>201707191538355_TestingUghhhh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707191551062_TestingUghhhhhh.resx">
+      <DependentUpon>201707191551062_TestingUghhhhhh.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
