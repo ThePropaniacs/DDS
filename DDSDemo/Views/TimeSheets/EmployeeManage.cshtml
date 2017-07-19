@@ -74,7 +74,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to TimeSheets", "EmployeeIndex" , new { page = ViewBag.CurrentPage })
+    @Html.ActionLink("Back to TimeSheets", "EmployeeIndex" , new { page = ViewBag.CurrentPage, sortBy = Request.QueryString["sortBy"] })
 </div>
 
 @{

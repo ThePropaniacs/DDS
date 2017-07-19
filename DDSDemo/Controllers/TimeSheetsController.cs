@@ -81,11 +81,11 @@ namespace DDSDemo.Controllers
             }
             else if (User.IsInRole("Employee"))
             {
-                return RedirectToAction("EmployeeIndex", "TimeSheets", new { page = page });
+                return RedirectToAction("EmployeeIndex", "TimeSheets", new { page = page, sortBy = sortBy });
             }
             else if (User.IsInRole("Client"))
             {
-                return RedirectToAction("ClientIndex", "TimeSheets", new { page = page });
+                return RedirectToAction("ClientIndex", "TimeSheets", new { page = page, sortBy = sortBy });
             }
             else
             {
@@ -94,20 +94,44 @@ namespace DDSDemo.Controllers
         }
 
         [ClaimsAccess(ClaimType = "EmployeeID")]
-        public ActionResult EmployeeIndex(int? page)
+        public ActionResult EmployeeIndex(int? page, string sortBy)
         {
+            ViewBag.SortStartTimeParameter = string.IsNullOrEmpty(sortBy) ? "Start Time Desc" : "";
+            ViewBag.SortStopTimeParameter = sortBy == "Stop Time" ? "Stop Time Desc" : "Stop Time";
             var employeeID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "EmployeeID").Value);
             var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(t => t.Employee.ID == employeeID);
-            return View(timesheets.OrderByDescending(x => x.ID).ToPagedList(page ?? 1, 10));
+
+            var data = timesheets.AsQueryable();
+
+            switch (sortBy)
+            {
+                case "Start Time Desc":
+                    data = data.OrderByDescending(x => x.StartTime);
+                    break;
+                case "Stop Time Desc":
+                    data = data.OrderByDescending(x => x.StopTime);
+                    break;
+                case "Stop Time":
+                    data = data.OrderBy(x => x.StopTime);
+                    break;
+                default:
+                    data = data.OrderBy(x => x.StartTime);
+                    break;
+            }
+            return View(data.ToPagedList(page ?? 1, 10));
         }
 
         [ClaimsAccess(ClaimType = "ClientID")]
-        public ActionResult ClientIndex(int? page)
+        public ActionResult ClientIndex(int? page, string sortBy)
         {
+            ViewBag.SortStartTimeParameter = string.IsNullOrEmpty(sortBy) ? "Start Time Desc" : "";
+            ViewBag.SortStopTimeParameter = sortBy == "Stop Time" ? "Stop Time Desc" : "Stop Time";
+
             var clientID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "ClientID").Value);
             var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(c => c.Client.ID == clientID);
 
             var timesheetsForList = new List<TimeSheetForList>();
+            var data = timesheetsForList.AsQueryable();
 
             foreach (var ts in timesheets)
             {
@@ -118,14 +142,29 @@ namespace DDSDemo.Controllers
 
                 timesheetsForList.Add(timesheetForList);
             }
-
-            return View(timesheetsForList.OrderByDescending(x => x.StartTime).ToPagedList(page ?? 1, 10));
+            switch (sortBy)
+            {
+                case "Start Time Desc":
+                    data = data.OrderByDescending(x => x.StartTime);
+                    break;
+                case "Stop Time Desc":
+                    data = data.OrderByDescending(x => x.StopTime);
+                    break;
+                case "Stop Time":
+                    data = data.OrderBy(x => x.StopTime);
+                    break;
+                default:
+                    data = data.OrderBy(x => x.StartTime);
+                    break;
+            }
+            return View(data.ToPagedList(page ?? 1, 10));
+            
         }
 
         [ClaimsAccess(ClaimType = "ClientID")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ClientIndex(int? page, List<TimeSheetForList> timesheetsFromList, String Approve, String Deny, [Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult ClientIndex(int? page, string sortBy , List<TimeSheetForList> timesheetsFromList, String Approve, String Deny, [Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             bool ActionToTake = true;
 
@@ -149,10 +188,10 @@ namespace DDSDemo.Controllers
             }
             db.SaveChanges();
 
-            return RedirectToAction("ClientIndex", new { page = page });
+            return RedirectToAction("ClientIndex", new { page = page, sortBy = sortBy });
         }
         [Authorize(Roles = "Admin, Client")]
-        public ActionResult ClientEdit(decimal id, int? page)
+        public ActionResult ClientEdit(decimal id, int? page, string sortBy)
         {
             ViewBag.CurrentPage = page;
             if (id == null)
@@ -173,7 +212,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ClientEdit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, int? page)
+        public ActionResult ClientEdit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
@@ -188,14 +227,14 @@ namespace DDSDemo.Controllers
                 _timeSheet.ApprovedDate = DateTime.Now;
                 _timeSheet.ApprovedBy = User.Identity.Name;
                 db.SaveChanges();
-                return RedirectToAction("ClientIndex", new { page = page });
+                return RedirectToAction("ClientIndex", new { page = page, sortBy = sortBy });
             }
             return View(timeSheet);
         }
         
 
         [Authorize(Roles = "Admin, Employee")]
-        public ActionResult EmployeeDetails(decimal id, int? page)
+        public ActionResult EmployeeDetails(decimal id, int? page, string sortBy)
         {
             ViewBag.CurrentPage = page;
             if (id == null)
@@ -259,7 +298,7 @@ namespace DDSDemo.Controllers
         }
         // GET: TimeSheets/Manage/5
         [Authorize(Roles = "Admin, Employee")]
-        public ActionResult EmployeeManage(decimal id, int? page)
+        public ActionResult EmployeeManage(decimal id, int? page, string sortBy)
         {
             ViewBag.CurrentPage = page;
             if (id == null)
@@ -281,7 +320,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeManage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, int? page)
+        public ActionResult EmployeeManage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
@@ -294,7 +333,7 @@ namespace DDSDemo.Controllers
 
                 _timeSheet.Note = timeSheet.Note;
                 db.SaveChanges();
-                return RedirectToAction("EmployeeIndex", new { page = page });
+                return RedirectToAction("EmployeeIndex", new { page = page, sortBy = sortBy });
             }
             return View(timeSheet);
         }

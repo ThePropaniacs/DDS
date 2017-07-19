@@ -22,10 +22,12 @@
             Client
         </th>
         <th>
-           Start Time
+           @Html.ActionLink("Start Time", "EmployeeIndex", new { sortBy = ViewBag.SortStartTimeParameter })
+        <span class="caret"></span>
         </th>
         <th>
-            Stop Time
+            @Html.ActionLink("Stop Time", "EmployeeIndex", new { sortBy = ViewBag.SortStopTimeParameter })
+            <span class="caret"></span>
         </th>
         <th>
             Elapsed Time
@@ -59,11 +61,11 @@
             @Html.DisplayFor(modelItem => item.Note)
         </td>
         <td>
-            @Html.ActionLink("Manage", "EmployeeManage", new { id = item.ID, page = Model.PageNumber }) |
-            @Html.ActionLink("Details", "EmployeeDetails", new { id = item.ID, page = Model.PageNumber }) 
+            @Html.ActionLink("Manage", "EmployeeManage", new { id = item.ID, page = Model.PageNumber, sortBy = Request.QueryString["sortBy"] }) |
+            @Html.ActionLink("Details", "EmployeeDetails", new { id = item.ID, page = Model.PageNumber, sortBy = Request.QueryString["sortBy"] }) 
         </td>
     </tr>
 }
 
 </table>
-@Html.PagedListPager(Model, page => Url.Action("EmployeeIndex", new { page, id = Request.QueryString["id"] }))
+@Html.PagedListPager(Model, page => Url.Action("EmployeeIndex", new { page, id = Request.QueryString["id"], sortBy = Request.QueryString["sortBy"] }))

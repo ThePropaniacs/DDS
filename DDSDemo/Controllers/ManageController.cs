@@ -120,20 +120,20 @@ namespace DDSDemo.Controllers
 
                     var exists = UserManager.FindByEmail(_user.Email);
 
-                    if (exists == null)
-                    {
+                    //if (exists == null)
+                    //{
                         IdentityResult result = UserManager.Update(_user);
 
                         if (result.Succeeded)
                         {
                             return RedirectToAction("Index");
                         }
-                    }
-                    else
-                    {
-                        ViewBag.EmailTaken = "Email already in use";
-                        return View(user);
-                    }
+                    //}
+                    //else
+                    //{
+                    //    ViewBag.EmailTaken = "Email already in use";
+                    //    return View(user);
+                    //}
                 }
             }
 
