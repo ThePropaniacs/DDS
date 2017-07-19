@@ -24,7 +24,9 @@ namespace DDSDemo.Models
 
         public bool? Approved { get; set; }
 
-       public DateTime? ApprovedDate { get; set; }
+        public string ApprovedBy { get; set; }
+
+        public DateTime? ApprovedDate { get; set; }
 
         public bool? Processed { get; set; }
 

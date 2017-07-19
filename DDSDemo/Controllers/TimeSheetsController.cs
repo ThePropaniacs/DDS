@@ -142,6 +142,7 @@ namespace DDSDemo.Controllers
                 {
                     ts.Approved = ActionToTake;
                     ts.ApprovedDate = DateTime.Now;
+                    ts.ApprovedBy = User.Identity.Name;
                 }
 
                 timesheet.TimesheetToTimesheetForList(ts);
@@ -185,6 +186,7 @@ namespace DDSDemo.Controllers
                 _timeSheet.Approved = timeSheet.Approved;
                 _timeSheet.Note = timeSheet.Note;
                 _timeSheet.ApprovedDate = DateTime.Now;
+                _timeSheet.ApprovedBy = User.Identity.Name;
                 db.SaveChanges();
                 return RedirectToAction("ClientIndex", new { page = page });
             }
@@ -299,9 +301,12 @@ namespace DDSDemo.Controllers
 
         // GET: TimeSheets/Details/5
         [Authorize(Roles = "Admin")]
-        public ActionResult Details(decimal id, int? page)
+        public ActionResult Details(decimal id,string searchBy, string search, int? page, string sortBy)
         {
-            ViewBag.CurrentPAge = page;
+            ViewBag.CurrentPage = page;
+            ViewBag.searchBy = searchBy;
+            ViewBag.search = search;
+            ViewBag.sortBy = sortBy;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -368,10 +373,13 @@ namespace DDSDemo.Controllers
 
         // GET: TimeSheets/Manage/5
         [Authorize(Roles = "Admin")]
-        public ActionResult Manage(decimal id, int? page)
+        public ActionResult Manage(decimal id, string searchBy, string search, int? page, string sortBy)
         {
             ViewBag.CurrentPage = page;
-            if(id == null)
+            ViewBag.searchBy = searchBy;
+            ViewBag.search = search;
+            ViewBag.sortBy = sortBy;
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -391,7 +399,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, int? page)
+        public ActionResult Manage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, string searchBy, string search, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
@@ -404,7 +412,7 @@ namespace DDSDemo.Controllers
                 
                 _timeSheet.Note = timeSheet.Note;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { page = page });
+                return RedirectToAction("Index", new { page = page, search = search, searchBy = searchBy, sortBy = sortBy });
             }
             return View(timeSheet);
         }
@@ -412,9 +420,12 @@ namespace DDSDemo.Controllers
 
         // GET: TimeSheets/Edit/5
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(decimal id, int? page)
+        public ActionResult Edit(decimal id, string searchBy, string search, int? page, string sortBy)
         {
             ViewBag.CurrentPage = page;
+            ViewBag.searchBy = searchBy;
+            ViewBag.search = search;
+            ViewBag.sortBy = sortBy;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -435,13 +446,37 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, int? page)
+        public ActionResult Edit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, string searchBy, string search, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(timeSheet).State = EntityState.Modified;
+                var _timeSheet = timeSheet;
+                var old = db.TimeSheets.Find(_timeSheet.ID);
+
+                if (old.Approved != timeSheet.Approved)
+                {
+                    old.ApprovedBy = "Admin";
+                }
+                else
+                {
+
+                    old.ApprovedBy = timeSheet.ApprovedBy;
+                }
+
+                old.ID = timeSheet.ID;
+                old.CompanyName = timeSheet.CompanyName;
+                old.EmpID = timeSheet.EmpID;
+                old.AssocClientID = timeSheet.AssocClientID;
+                old.StartTime = timeSheet.StartTime;
+                old.StopTime = timeSheet.StopTime;
+                old.Note = timeSheet.Note;
+                old.Approved = timeSheet.Approved;
+                old.ApprovedDate = timeSheet.ApprovedDate;
+                old.Processed = timeSheet.Processed;
+
+                
                 db.SaveChanges();
-                return RedirectToAction("Index", new {page = page });
+                return RedirectToAction("Index", new {page = page, search = search, searchBy = searchBy, sortBy = sortBy });
             }
             ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
             ViewBag.EmpID = new SelectList(db.Employees, "ID", "CompanyName", timeSheet.EmpID);
@@ -452,9 +487,12 @@ namespace DDSDemo.Controllers
 
         // GET: TimeSheets/Delete/5
         [Authorize]
-        public ActionResult Delete(decimal id, int? page)
+        public ActionResult Delete(decimal id, string searchBy, string search, int? page, string sortBy)
         {
             ViewBag.CurrentPage = page;
+            ViewBag.searchBy = searchBy;
+            ViewBag.search = search;
+            ViewBag.sortBy = sortBy;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -471,12 +509,12 @@ namespace DDSDemo.Controllers
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id, int? page)
+        public ActionResult DeleteConfirmed(decimal id, string searchBy, string search, int? page, string sortBy)
         {
             TimeSheet timeSheet = db.TimeSheets.Find(id);
             db.TimeSheets.Remove(timeSheet);
             db.SaveChanges();
-            return RedirectToAction("Index", new {page = page });
+            return RedirectToAction("Index", new {page = page, search = search, searchBy = searchBy, sortBy = sortBy });
         }
 
         protected override void Dispose(bool disposing)

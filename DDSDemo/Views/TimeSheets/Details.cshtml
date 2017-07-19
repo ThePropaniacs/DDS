@@ -77,6 +77,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID, page = ViewBag.CurrentPage }) |
-    @Html.ActionLink("Back to TimeSheets", "Index", new { page = ViewBag.CurrentPage})
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID, page = ViewBag.CurrentPage, searchBy = ViewBag.searchBy, search = ViewBag.search, sortBy = ViewBag.sortBy}) |
+    @Html.ActionLink("Back to TimeSheets", "Index", new { page = ViewBag.CurrentPage, searchBy = ViewBag.searchBy, search = ViewBag.search, sortBy = ViewBag.sortBy })
 </p>

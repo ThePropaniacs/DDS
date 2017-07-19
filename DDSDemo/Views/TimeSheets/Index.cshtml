@@ -78,10 +78,10 @@
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID, page = Model.PageNumber }) |
-                @Html.ActionLink("Manage", "Manage", new { id = item.ID, page = Model.PageNumber }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID, page = Model.PageNumber }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID, page = Model.PageNumber })
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+                @Html.ActionLink("Manage", "Manage", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
             </td>
         </tr>
 

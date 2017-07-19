@@ -20,6 +20,7 @@ namespace DDSDemo.Infrastructure
             tsForList.Note = ts.Note;
             tsForList.StartTime = ts.StartTime;
             tsForList.StopTime = ts.StopTime;
+            tsForList.ApprovedBy = ts.ApprovedBy;
         }
     }
 }
