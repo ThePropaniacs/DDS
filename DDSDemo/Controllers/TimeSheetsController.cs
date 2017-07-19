@@ -425,7 +425,7 @@ namespace DDSDemo.Controllers
                 return HttpNotFound();
             }
             ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
-            ViewBag.EmpID = new SelectList(db.Employees, "ID", "CompanyName", timeSheet.EmpID);
+            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmpID);
             return View(timeSheet);
         }
 
@@ -444,7 +444,7 @@ namespace DDSDemo.Controllers
                 return RedirectToAction("Index", new {page = page });
             }
             ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
-            ViewBag.EmpID = new SelectList(db.Employees, "ID", "CompanyName", timeSheet.EmpID);
+            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmpID);
             return View(timeSheet);
         }
         // GET: TimeSheets/Manage/5

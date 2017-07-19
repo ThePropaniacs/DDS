@@ -16,7 +16,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            First Name: 
+            @Html.DisplayName("First Name:")
         </dt>
 
         <dd>
@@ -24,7 +24,7 @@
         </dd>
 
         <dt>
-            Last Name: 
+            @Html.DisplayName("Last Name:") 
         </dt>
 
         <dd>
@@ -32,7 +32,7 @@
         </dd>
 
         <dt>
-            Email: 
+            @Html.DisplayName("Email:")
         </dt>
 
         <dd>
@@ -40,19 +40,11 @@
         </dd>
 
         <dt>
-            Phone Number: 
+            @Html.DisplayName("Phone:") 
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-
-        <dt>
-            User Name: 
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
         </dd>
 
     </dl>

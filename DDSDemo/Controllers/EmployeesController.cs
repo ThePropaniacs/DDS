@@ -103,9 +103,13 @@ namespace DDSDemo.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-                return View(employeeVm);                
+                else
+                {
+                    ViewBag.EmailTaken = "Email already in use";
+                    return View(employeeVm);
+                }              
             }
-            return View();
+            return View(employeeVm);
         }
 
         // GET: Employee/AddUser/5
@@ -161,7 +165,11 @@ namespace DDSDemo.Controllers
                         return RedirectToAction("Users/" + user.ID);
                     }
                 }
-                return View(employeeVm);
+                else
+                {
+                    ViewBag.EmailTaken = "Email already in use";
+                    return View(employeeVm);
+                }
             }
             return View(employeeVm);
         }

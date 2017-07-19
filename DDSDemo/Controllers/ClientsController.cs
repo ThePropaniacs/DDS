@@ -74,7 +74,11 @@ namespace DDSDemo.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-                return View(client);
+                else
+                {
+                    ViewBag.EmailTaken = "Email already in use";
+                    return View(client);
+                }
             }
             return View(client);
         }
@@ -117,7 +121,11 @@ namespace DDSDemo.Controllers
                         return RedirectToAction("Users/" + user.ID);
                     }
                 }
-                return View(client);
+                else
+                {
+                    ViewBag.EmailTaken = "Email already in use";
+                    return View(client);
+                }
             }
             return View(client);
         }
@@ -142,13 +150,23 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(client).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                ApplicationUser exists = await UserManager.FindByEmailAsync(client.Email);
+                if (exists == null)
+                {
+                    db.Entry(client).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.EmailTaken = "Email already in use";
+                    return View(client);
+                }
             }
             return View(client);
         }
