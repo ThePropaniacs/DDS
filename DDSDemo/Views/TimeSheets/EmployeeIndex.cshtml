@@ -59,8 +59,8 @@
             @Html.DisplayFor(modelItem => item.Note)
         </td>
         <td>
-            @Html.ActionLink("Manage", "EmployeeManage", new { id = item.ID }) |
-            @Html.ActionLink("Details", "EmployeeDetails", new { id = item.ID }) 
+            @Html.ActionLink("Manage", "EmployeeManage", new { id = item.ID, page = Model.PageNumber }) |
+            @Html.ActionLink("Details", "EmployeeDetails", new { id = item.ID, page = Model.PageNumber }) 
         </td>
     </tr>
 }

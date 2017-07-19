@@ -17,6 +17,7 @@
 
 @using (Html.BeginForm())
 {
+    
   @Html.AntiForgeryToken()  
 <table class="table">
     <tr>
@@ -76,30 +77,27 @@
                             @Html.DisplayFor(modelItem => Model[i].Note)
                         </td>
                         <td style="color:black">
-                            @Html.ActionLink("Review", "ClientEdit", new { id = Model[i].ID})
+                            @Html.ActionLink("Review", "ClientEdit", new { id = Model[i].ID, page = Model.PageNumber })
                         </td>
                         <td style="text-align:center">
                             @Html.HiddenFor(modelItem => Model[i].ID)
                             @Html.HiddenFor(modelItem => Model[i].Approved)
                             @if (Model[i].StopTime.HasValue)
                             {
-                                @Html.EditorFor(modelItem => Model[i].IsChecked, new { @class = "form-control" , id = "check" })
+                                @Html.EditorFor(modelItem => Model[i].IsChecked, new { @class = "form-control" , id = "check"})
                             }
                             
                         </td>
+                        
                     </tr>
                 
         }
     </table>
 }
-@Html.PagedListPager(Model, page => Url.Action("ClientIndex", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("ClientIndex", new { page = page }))
 <script >
     $(document).ready(function () {
-        $("#checkAll").click(function () {
-            for (int i = 0; i < 10; i++){
-            $("#check").val('false');
-        }
-        });
+        
     });
 
 </script>

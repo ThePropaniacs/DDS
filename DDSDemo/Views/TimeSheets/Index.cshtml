@@ -52,7 +52,11 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr @{
+                        if (item.Approved == true) {<text> style="background-color: #43ac6a; color:navajowhite" </text> }
+                        else if (item.Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
+                        else if (item.Approved == null) {<text> style="background-color: #fafafa;"</text> }
+                       }>
             <td>
                 @item.Client.CompanyName
             </td>
@@ -74,10 +78,10 @@
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Manage", "Manage", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID, page = Model.PageNumber }) |
+                @Html.ActionLink("Manage", "Manage", new { id = item.ID, page = Model.PageNumber }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID, page = Model.PageNumber }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID, page = Model.PageNumber })
             </td>
         </tr>
 

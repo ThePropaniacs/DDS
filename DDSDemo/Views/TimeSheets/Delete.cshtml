@@ -86,7 +86,7 @@
         <p> </p>
 
         <div>
-            @Html.ActionLink("Back to TimeSheets", "Index")
+            @Html.ActionLink("Back to TimeSheets", "Index", new { page = ViewBag.CurrentPage })
         </div>
     }
 </div>
