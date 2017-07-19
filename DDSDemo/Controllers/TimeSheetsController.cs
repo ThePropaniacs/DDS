@@ -208,7 +208,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult Create([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
@@ -257,7 +257,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeCreate([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult EmployeeCreate([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
@@ -303,7 +303,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult Manage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
@@ -343,7 +343,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeManage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult EmployeeManage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
@@ -385,7 +385,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult Edit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
@@ -420,7 +420,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ClientEdit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult ClientEdit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
