@@ -25,7 +25,7 @@ namespace DDSDemo.Controllers
 
         // GET: TimeSheets
         //Admin index
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult Index(string searchBy, string search, int? page, string sortBy)
         {
             if (User.IsInRole("Admin"))
@@ -525,7 +525,7 @@ namespace DDSDemo.Controllers
         
 
         // GET: TimeSheets/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(decimal id, string searchBy, string search, int? page, string sortBy)
         {
             ViewBag.CurrentPage = page;
@@ -545,7 +545,7 @@ namespace DDSDemo.Controllers
         }
 
         // POST: TimeSheets/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(decimal id, string searchBy, string search, int? page, string sortBy)

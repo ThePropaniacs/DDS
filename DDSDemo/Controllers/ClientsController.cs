@@ -154,19 +154,9 @@ namespace DDSDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                ApplicationUser exists = await UserManager.FindByEmailAsync(client.Email);
-                if (exists == null)
-                {
-                    db.Entry(client).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ViewBag.EmailTaken = "Email already in use";
-                    return View(client);
-                }
+                db.Entry(client).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
             return View(client);
         }

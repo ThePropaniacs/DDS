@@ -235,7 +235,6 @@ namespace DDSDemo.Controllers
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
-        [AllowAnonymous]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
@@ -264,7 +263,7 @@ namespace DDSDemo.Controllers
 
         //
         // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
@@ -272,7 +271,7 @@ namespace DDSDemo.Controllers
 
         //
         // GET: /Account/ResetPassword
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult ResetPassword(string code, string email)
         {
             return code == null ? View("Error") : View();
@@ -281,7 +280,7 @@ namespace DDSDemo.Controllers
         //
         // POST: /Account/ResetPassword
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
@@ -306,7 +305,7 @@ namespace DDSDemo.Controllers
 
         //
         // GET: /Account/ResetPasswordConfirmation
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
