@@ -225,7 +225,6 @@ namespace DDSDemo.Controllers
 
         //
         // GET: /Account/ForgotPassword
-        [AllowAnonymous]
         [Authorize(Roles = "Admin")]
         public ActionResult ForgotPassword(string email)
         {
