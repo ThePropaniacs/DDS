@@ -112,32 +112,43 @@ namespace DDSDemo.Controllers
                         return View(user);
                     }
 
-                    _user.FirstName = user.FirstName;
-                    _user.LastName = user.LastName;
-                    _user.Email = user.Email;
-                    _user.PhoneNumber = user.PhoneNumber;
-                    _user.UserName = user.Email;
+                    var exists = UserManager.FindByEmail(user.Email);
 
-                    var exists = UserManager.FindByEmail(_user.Email);
+                    if (_user.Email == user.Email)
+                    {
+                        exists = null;
+                    }
 
-                    //if (exists == null)
-                    //{
+                    if (exists == null)
+                    {
+                        _user.FirstName = user.FirstName;
+                        _user.LastName = user.LastName;
+                        _user.Email = user.Email;
+                        _user.PhoneNumber = user.PhoneNumber;
+                        _user.UserName = user.Email;
+
                         IdentityResult result = UserManager.Update(_user);
 
                         if (result.Succeeded)
                         {
                             return RedirectToAction("Index");
                         }
-                    //}
-                    //else
-                    //{
-                    //    ViewBag.EmailTaken = "Email already in use";
-                    //    return View(user);
-                    //}
+                    }
+                    else
+                    {
+                        ViewBag.EmailTaken = "Email already in use";
+                        return View(user);
+                    }
+                }
+                else
+                {
+                    ViewBag.EmailTaken = "This field is required";
+                    return View(user);
                 }
             }
 
             ModelState.AddModelError("Something went wrong", "It wasnt me");
+            ViewBag.EmailTaken = "Invalid Email Address";
             return View(user);
         }
 
