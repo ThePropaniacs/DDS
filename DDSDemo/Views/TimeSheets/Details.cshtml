@@ -59,12 +59,28 @@
         </dd>
 
         <dt>
+            @{if (Model.Approved == false)
+                {
+                    @Html.DisplayName("Denied By:")
+                }
+                else
+                {
+                    @Html.DisplayName("Approved By:")
+                }
+            }
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApprovedBy)
+       </dd>
+
+        @*<dt>
             @Html.DisplayName("Approved By:")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.ApprovedBy)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayName("Approved Date:")
