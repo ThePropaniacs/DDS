@@ -20,7 +20,10 @@
 input,
 select,
 textarea {
-    /*max-width: 280px;*/
+    max-width: 280px;
+}
+.form-control.special {
+    max-width: 1000px !important;
 }
 /* enable absolute positioning */
 .inner-addon {
