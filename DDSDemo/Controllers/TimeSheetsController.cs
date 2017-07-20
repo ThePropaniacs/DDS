@@ -494,11 +494,12 @@ namespace DDSDemo.Controllers
 
                 if (old.Approved != timeSheet.Approved)
                 {
+                    old.ApprovedDate = DateTime.Now;
                     old.ApprovedBy = "Admin";
                 }
                 else
                 {
-
+                    old.ApprovedDate = timeSheet.ApprovedDate;
                     old.ApprovedBy = timeSheet.ApprovedBy;
                 }
 
@@ -510,7 +511,7 @@ namespace DDSDemo.Controllers
                 old.StopTime = timeSheet.StopTime;
                 old.Note = timeSheet.Note;
                 old.Approved = timeSheet.Approved;
-                old.ApprovedDate = timeSheet.ApprovedDate;
+                
                 old.Processed = timeSheet.Processed;
 
                 

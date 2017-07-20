@@ -17,7 +17,6 @@
 {    
         @Html.RadioButton("searchBy", "Client", true, new { style="display:none" })
         @Html.RadioButton("searchBy", "Employee", new { style = "display:none" })
-        @*@Html.TextBox("search")*@
             <div class="">
                 <div class="input-group">
                     <div class="input-group-btn search-panel">
@@ -38,10 +37,6 @@
                     </span>
                 </div>
             </div>
-@*<button type="submit" value="search" id="ser"  style="height:27px; background-color:none;">
-    <img style="height:20px" src="https://d30y9cdsu7xlg0.cloudfront.net/png/6983-200.png" />
-    </button>*@
-
 }
 
 <p>
@@ -77,11 +72,10 @@
 
     @foreach (var item in Model)
     {
-        <tr @{
-                        if (item.Approved == true) {<text> style="background-color: #43ac6a; color:navajowhite" </text> }
-                        else if (item.Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
-                        else if (item.Approved == null) {<text> style="background-color: #fafafa;"</text> }
-                       }>
+        <tr @{if (item.Approved == true) {<text> style="background-color: #43ac6a; color:navajowhite" </text> }
+              else if (item.Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
+              else if (item.Approved == null) {<text> style="background-color: #fafafa;"</text> }
+             }>
             <td>
                 @item.Client.CompanyName
             </td>
@@ -109,7 +103,6 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
             </td>
         </tr>
-
     }
 </table>
 @Html.PagedListPager(Model, page => Url.Action("Index", new {page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))
@@ -131,14 +124,7 @@
             $("#search").val("");
             $("#ser").click();
             
-            $("#searchByC").click(function (e) {
-                e.preventDefault();
-                
-                var param = $(this).attr("href").replace("#", "");
-                var concept = $(this).text();
-                $('.search-panel span#search_concept').text(concept);
-                $('.input-group #search_param').val(param);
-            });
+            
         });
     });
 </script>
