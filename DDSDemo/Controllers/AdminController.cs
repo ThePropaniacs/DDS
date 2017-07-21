@@ -68,20 +68,20 @@ namespace DDSDemo.Controllers
 
             return View(users);
         }
-        // GET: Admin/Details/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
+        //// GET: Admin/Details/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
+        //public ActionResult Details(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    ApplicationUser user = db.Users.Find(id);
+        //    if (user == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(user);
+        //}
 
         // GET: Admin/Create
         public ActionResult Create()

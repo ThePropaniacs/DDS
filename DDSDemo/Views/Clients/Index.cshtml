@@ -43,7 +43,7 @@
 
 @foreach (var item in Model) {
     <tr
-        onclick="location.href = '@(Url.Action("Details", "Clients", new { id = item.ID }))'">
+        onclick="location.href = '@(Url.Action("Edit", "Clients", new { id = item.ID }))'">
         @*<td>
             @Html.DisplayFor(modelItem => item.EmployerName)
         </td>*@
