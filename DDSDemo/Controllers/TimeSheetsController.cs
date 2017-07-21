@@ -512,7 +512,7 @@ namespace DDSDemo.Controllers
                 old.Note = timeSheet.Note;
                 old.Approved = timeSheet.Approved;
                 
-                old.Processed = timeSheet.Processed;
+                //old.Processed = timeSheet.Processed;
 
                 
                 db.SaveChanges();
