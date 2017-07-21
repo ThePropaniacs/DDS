@@ -40,7 +40,7 @@
 
 @foreach (var item in Model) {
     <tr
-       onclick="location.href = '@(Url.Action("EmployeeDetails", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
+       onclick="location.href = '@(Url.Action("EmployeeManage", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
 
         <td>
             @Html.DisplayFor(modelItem => item.Employee.FullName)

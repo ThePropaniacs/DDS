@@ -53,12 +53,15 @@
         @for (var i = 0; i < Model.Count; i++)
         {
 
-                    <tr @{
+                    <tr
+                       @{
                         if (Model[i].Approved == true) {<text> style="background-color: #43ac6a; color:navajowhite" </text> }
                         else if (Model[i].Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
                         else if (Model[i].Approved == null) {<text> style="background-color: #fafafa;"</text> }
-                       }>
-
+                       }
+                       onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
+>
+                    
                         <td>
                             @Html.DisplayFor(modelItem => Model[i].Client.CompanyName)
                         </td>
@@ -91,6 +94,7 @@
                             }
                             
                         </td>
+
                         
                     </tr>
                 
