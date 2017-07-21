@@ -14,14 +14,26 @@
 <h2>All TimeSheets</h2>
 
 @using (@Html.BeginForm("Index", "TimeSheets", FormMethod.Get))
-{    
-        @Html.RadioButton("searchBy", "Client", true, new { style="display:none" })
-        @Html.RadioButton("searchBy", "Employee", new { style = "display:none" })
+{
+    var searchby = Request.QueryString["searchBy"];
+    var Search = Request.QueryString["search"];
+    @Html.RadioButton("searchBy", "Client", true, new { style = "display:none" })
+    @Html.RadioButton("searchBy", "Employee", new { style = "display:none" })
             <div class="">
                 <div class="input-group">
                     <div class="input-group-btn search-panel">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span id="search_concept">Filter by</span> <span class="caret"></span>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;">
+                            @{
+                                if (searchby == null)
+                                {
+                                    <span id="search_concept">Filter By</span> <span class="caret"></span>
+                                }
+                                else
+                                {
+                                    <span id="search_concept">@searchby</span> <span class="caret"></span>
+                                }
+                            }
+                            
                         </button>
                         <ul class="dropdown-menu" role="menu">
                            
@@ -29,11 +41,10 @@
                             <li id="searchByE" name="searchBy" type="radio" value="Employee"><a href="#Employee">Employee</a></li>
                         </ul>
                     </div>
-                        <input type="text" class="form-control special" name="search" placeholder="Search term...">
-                    
+                        <input id="search" type="text" class="form-control special" name="search" placeholder="Search term..." value=@Search>
                         <span class="input-group-btn">
                         <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                        <button class="btn btn-default" type="submit" id="button1"><span class="glyphicon glyphicon-remove-circle"></span></button>
+                        <button class="btn btn-default" type="submit" id="button1" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;"><span class="glyphicon glyphicon-remove-circle"></span></button>
                     </span>
                 </div>
             </div>
@@ -75,7 +86,8 @@
         <tr @{if (item.Approved == true) {<text> style="background-color: #43ac6a; color:navajowhite" </text> }
               else if (item.Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
               else if (item.Approved == null) {<text> style="background-color: #fafafa;"</text> }
-             }>
+             }
+            onclick="location.href = '@(Url.Action("Details", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
             <td>
                 @item.Client.CompanyName
             </td>
@@ -99,7 +111,6 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
                 @Html.ActionLink("Manage", "Manage", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
             </td>
         </tr>

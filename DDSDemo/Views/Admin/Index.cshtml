@@ -29,7 +29,9 @@
 @foreach (var item in Model) {
     
        
-            <tr>
+            <tr
+               onclick="location.href = '@(Url.Action("Details", "Admin", new { id = item.Id }))'">
+
                 <td>
                     @Html.DisplayFor(modelItem => item.FirstName)
                 </td>
@@ -44,7 +46,6 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", new { email = item.Email}, null) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>

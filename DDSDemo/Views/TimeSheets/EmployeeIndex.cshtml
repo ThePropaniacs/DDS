@@ -39,7 +39,9 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    <tr
+       onclick="location.href = '@(Url.Action("EmployeeDetails", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
+
         <td>
             @Html.DisplayFor(modelItem => item.Employee.FullName)
         </td>
@@ -61,8 +63,7 @@
             @Html.DisplayFor(modelItem => item.Note)
         </td>
         <td>
-            @Html.ActionLink("Manage", "EmployeeManage", new { id = item.ID, page = Model.PageNumber, sortBy = Request.QueryString["sortBy"] }) |
-            @Html.ActionLink("Details", "EmployeeDetails", new { id = item.ID, page = Model.PageNumber, sortBy = Request.QueryString["sortBy"] }) 
+            @Html.ActionLink("Manage", "EmployeeManage", new { id = item.ID, page = Model.PageNumber, sortBy = Request.QueryString["sortBy"] })
         </td>
     </tr>
 }
