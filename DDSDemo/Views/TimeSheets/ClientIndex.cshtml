@@ -13,6 +13,10 @@
 
 
 <h2>Timesheets</h2>
+<h4>
+    Client:
+    @Html.DisplayFor(model => model[1].Client.CompanyName)
+</h4>
 
 
 @using (Html.BeginForm())
@@ -21,9 +25,6 @@
   @Html.AntiForgeryToken()  
 <table class="table">
     <tr>
-        <th>
-            Client
-        </th>
         <th>
             Employee
         </th>
@@ -59,12 +60,8 @@
                         else if (Model[i].Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
                         else if (Model[i].Approved == null) {<text> style="background-color: #fafafa;"</text> }
                        }
-                       onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
->
-                    
-                        <td>
-                            @Html.DisplayFor(modelItem => Model[i].Client.CompanyName)
-                        </td>
+                       onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
+
                         <td>
                             @Html.DisplayFor(modelItem => Model[i].Employee.FullName)
                         </td>
