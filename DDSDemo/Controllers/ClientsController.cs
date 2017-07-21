@@ -150,7 +150,7 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client)
+        public ActionResult Edit([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client)
         {
             if (ModelState.IsValid)
             {
