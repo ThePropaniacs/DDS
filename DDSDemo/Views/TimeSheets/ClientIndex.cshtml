@@ -44,10 +44,12 @@
         <th></th>
 
         <th style="text-align:center">
-            <button class="btn btn-success btn-sm" type="submit" id="true" name="Approve" value="true">Approve</button>
-            <button class="btn btn-danger btn-sm" type="submit" id="false" name="Deny" value="true" >Deny</button>
-            <button class="btn btn-warning btn-sm" type="button" id="checkAll" name="checkAll" value="true">Select All</button>
-        </th>
+            <div class="btn-group">
+                <button class="btn btn-success btn-sm" type="submit" id="true" name="Approve" value="true" style="border-top-left-radius:5px; border-bottom-left-radius:5px">Approve</button>
+                <button class="btn btn-danger btn-sm" type="submit" id="false" name="Deny" value="true">Deny</button>
+                <button class="btn btn-warning btn-sm" type="button" id="checkAll" name="checkAll" value="true">Select All</button>
+            </div>
+                </th>
     </tr>
 
         @for (var i = 0; i < Model.Count; i++)
