@@ -12,51 +12,42 @@
 <table class="table">
     <tr>
         <th>
-            @*Html.DisplayNameFor(model => model.CompanyName)*@
-            Company Name
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.EmpID)
-        </th>*@
-        <th>
-            @*Html.DisplayNameFor(model => model.FirstName)*@
-            First Name
+            @Html.DisplayName("Company Name")
         </th>
         <th>
-            @*Html.DisplayNameFor(model => model.LastName)*@
-            Last Name
+            @Html.DisplayName("First Name")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Sun)
+            @Html.DisplayName("Last Name")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Mon)
+            Sun.
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Tue)
+            Mon.
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Wed)
+            Tue.
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Thu)
+            Wed.
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fri)
+            Thu.
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Sat)
+            Fri.
         </th>
         <th>
-            @*Html.DisplayNameFor(model => model.AvailNotes)*@
+            Sat.
+        </th>
+        <th>
             Avail. Notes
         </th>
         <th>
-            @*Html.DisplayNameFor(model => model.AvailStart)*@
             Avail. Start
         </th>
         <th>
-            @*Html.DisplayNameFor(model => model.AvailExpires)*@
             Avail. Expires
         </th>
         <th></th>
@@ -65,13 +56,10 @@
     @foreach (var item in Model)
     {
         <tr
-            onclick="location.href = '@(Url.Action("Details", "Employees", new { id = item.ID }))'">
+            onclick="location.href = '@(Url.Action("Edit", "Employees", new { id = item.ID }))'">
             <td>
                 @Html.DisplayFor(modelItem => item.CompanyName)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.EmpID)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -89,8 +77,6 @@
                         <p>False</p>
                     }
                 }
-               
-                @*@Html.DisplayFor(modelItem => item.Sun)*@
             </td>
             <td>
 
@@ -104,7 +90,6 @@
                         <p>False</p>
                     }
                 }
-                @*@Html.DisplayFor(modelItem => item.Mon)*@
             </td>
             <td>
 
@@ -118,7 +103,6 @@
                         <p>False</p>
                     }
                 }
-                @*@Html.DisplayFor(modelItem => item.Tue)*@
             </td>
             <td>
 
@@ -132,7 +116,6 @@
                         <p>False</p>
                     }
                 }
-                @*@Html.DisplayFor(modelItem => item.Wed)*@
             </td>
             <td>
 
@@ -146,7 +129,6 @@
                         <p>False</p>
                     }
                 }
-                @*@Html.DisplayFor(modelItem => item.Thu)*@
             </td>
             <td>
 
@@ -160,7 +142,6 @@
                         <p>False</p>
                     }
                 }
-                @*@Html.DisplayFor(modelItem => item.Fri)*@
             </td>
             <td>
 
@@ -174,18 +155,15 @@
                         <p>False</p>
                     }
                 }
-                @*@Html.DisplayFor(modelItem => item.Sat)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AvailNotes)
             </td>
             <td>
                 @(item.AvailStart.HasValue ? item.AvailStart.Value.ToShortTimeString() : "--")
-                @*@Html.DisplayFor(modelItem => item.AvailStart.Value.ToShortTimeString())*@
             </td>
             <td>
                 @(item.AvailExpires.HasValue ? item.AvailExpires.Value.ToShortTimeString() : "--")
-                @*@Html.DisplayFor(modelItem => item.AvailExpires.Value.ToShortTimeString())*@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |

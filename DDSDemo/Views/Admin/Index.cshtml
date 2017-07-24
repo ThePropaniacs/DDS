@@ -30,7 +30,7 @@
     
        
             <tr
-               onclick="location.href = '@(Url.Action("Details", "Admin", new { id = item.Id }))'">
+               onclick="location.href = '@(Url.Action("Edit", "Admin", new { id = item.Id }))'">
 
                 <td>
                     @Html.DisplayFor(modelItem => item.FirstName)

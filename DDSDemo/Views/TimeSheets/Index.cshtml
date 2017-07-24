@@ -87,7 +87,7 @@
               else if (item.Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
               else if (item.Approved == null) {<text> style="background-color: #fafafa;"</text> }
              }
-            onclick="location.href = '@(Url.Action("Details", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
+            onclick="location.href = '@(Url.Action("Edit", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
             <td>
                 @item.Client.CompanyName
             </td>

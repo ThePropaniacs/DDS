@@ -233,21 +233,21 @@ namespace DDSDemo.Controllers
         }
         
 
-        [Authorize(Roles = "Admin, Employee")]
-        public ActionResult EmployeeDetails(decimal id, int? page, string sortBy)
-        {
-            ViewBag.CurrentPage = page;
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TimeSheet timeSheet = db.TimeSheets.Find(id);
-            if (timeSheet == null)
-            {
-                return HttpNotFound();
-            }
-            return View(timeSheet);
-        }
+        //[Authorize(Roles = "Admin, Employee")]
+        //public ActionResult EmployeeDetails(decimal id, int? page, string sortBy)
+        //{
+        //    ViewBag.CurrentPage = page;
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TimeSheet timeSheet = db.TimeSheets.Find(id);
+        //    if (timeSheet == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(timeSheet);
+        //}
         // GET: TimeSheets/EmployeeCreate
         [Authorize(Roles = "Admin, Employee")]
         public ActionResult EmployeeCreate()
@@ -338,25 +338,25 @@ namespace DDSDemo.Controllers
             return View(timeSheet);
         }
 
-        // GET: TimeSheets/Details/5
-        [Authorize(Roles = "Admin")]
-        public ActionResult Details(decimal id,string searchBy, string search, int? page, string sortBy)
-        {
-            ViewBag.CurrentPage = page;
-            ViewBag.searchBy = searchBy;
-            ViewBag.search = search;
-            ViewBag.sortBy = sortBy;
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TimeSheet timeSheet = db.TimeSheets.Find(id);
-            if (timeSheet == null)
-            {
-                return HttpNotFound();
-            }
-            return View(timeSheet);
-        }
+        //// GET: TimeSheets/Details/5
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult Details(decimal id,string searchBy, string search, int? page, string sortBy)
+        //{
+        //    ViewBag.CurrentPage = page;
+        //    ViewBag.searchBy = searchBy;
+        //    ViewBag.search = search;
+        //    ViewBag.sortBy = sortBy;
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TimeSheet timeSheet = db.TimeSheets.Find(id);
+        //    if (timeSheet == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(timeSheet);
+        //}
         
 
         // GET: TimeSheets/Create
@@ -512,7 +512,7 @@ namespace DDSDemo.Controllers
                 old.Note = timeSheet.Note;
                 old.Approved = timeSheet.Approved;
                 
-                old.Processed = timeSheet.Processed;
+                //old.Processed = timeSheet.Processed;
 
                 
                 db.SaveChanges();

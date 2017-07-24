@@ -9,15 +9,16 @@
 }
 
 <h2>TimeSheets</h2>
+<h4>
+    Employee:
+    @Html.DisplayFor(model => model[1].Employee.FullName)
+</h4>
 
 <p>
     @Html.ActionLink("Create New", "EmployeeCreate")
 </p>
 <table class="table">
     <tr>
-        <th>
-            Employee
-        </th>
         <th>
             Client
         </th>
@@ -40,11 +41,8 @@
 
 @foreach (var item in Model) {
     <tr
-       onclick="location.href = '@(Url.Action("EmployeeDetails", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
+       onclick="location.href = '@(Url.Action("EmployeeManage", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Employee.FullName)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Client.CompanyName)
         </td>
