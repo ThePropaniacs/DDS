@@ -34,9 +34,9 @@ namespace DDSDemo.Controllers
                 var tblTimeSheetMasters = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).AsQueryable();
                 var data = tblTimeSheetMasters;
 
-                ViewBag.SortClientParameter = string.IsNullOrEmpty(sortBy) ? "Client Desc" : "";
+                ViewBag.SortClientParameter = sortBy == "Client" ? "Client Desc" : "Client";
                 ViewBag.SortEmployeeParameter = sortBy == "Employee" ? "Employee Desc" : "Employee";
-                ViewBag.SortStartTimeParameter = sortBy == "Start Time" ? "Start Time Desc" : "Start Time";
+                ViewBag.SortStartTimeParameter = string.IsNullOrEmpty(sortBy) ? "Start Time Desc" : "";
                 ViewBag.SortStopTimeParameter = sortBy == "Stop Time" ? "Stop Time Desc" : "Stop Time";
                 ViewBag.SortElapsedTimeParameter = sortBy == "Elapsed Time" ? "Elapsed Time Desc" : "Elapsed Time";
 
@@ -61,10 +61,10 @@ namespace DDSDemo.Controllers
                         data = data.OrderBy(x => x.Employee.FirstName);
                         break;
                     case "Start Time Desc":
-                        data = data.OrderByDescending(x => x.StartTime);
-                        break;
-                    case "Start Time":
                         data = data.OrderBy(x => x.StartTime);
+                        break;
+                    case "Client":
+                        data = data.OrderBy(x => x.Client.CompanyName);
                         break;
                     case "Stop Time Desc":
                         data = data.OrderByDescending(x => x.StopTime);
@@ -73,7 +73,7 @@ namespace DDSDemo.Controllers
                         data = data.OrderBy(x => x.StopTime);
                         break;
                     default:
-                        data = data.OrderBy(x => x.Client.CompanyName);
+                        data = data.OrderByDescending(x => x.StartTime);
                         break;
                 }
 
@@ -106,7 +106,7 @@ namespace DDSDemo.Controllers
             switch (sortBy)
             {
                 case "Start Time Desc":
-                    data = data.OrderByDescending(x => x.StartTime);
+                    data = data.OrderBy(x => x.StartTime);
                     break;
                 case "Stop Time Desc":
                     data = data.OrderByDescending(x => x.StopTime);
@@ -115,7 +115,7 @@ namespace DDSDemo.Controllers
                     data = data.OrderBy(x => x.StopTime);
                     break;
                 default:
-                    data = data.OrderBy(x => x.StartTime);
+                    data = data.OrderByDescending(x => x.StartTime);
                     break;
             }
             return View(data.ToPagedList(page ?? 1, 10));
@@ -145,7 +145,7 @@ namespace DDSDemo.Controllers
             switch (sortBy)
             {
                 case "Start Time Desc":
-                    data = data.OrderByDescending(x => x.StartTime);
+                    data = data.OrderBy(x => x.StartTime);
                     break;
                 case "Stop Time Desc":
                     data = data.OrderByDescending(x => x.StopTime);
@@ -154,7 +154,7 @@ namespace DDSDemo.Controllers
                     data = data.OrderBy(x => x.StopTime);
                     break;
                 default:
-                    data = data.OrderBy(x => x.StartTime);
+                    data = data.OrderByDescending(x => x.StartTime);
                     break;
             }
             return View(data.ToPagedList(page ?? 1, 10));
