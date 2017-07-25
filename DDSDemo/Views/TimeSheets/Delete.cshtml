@@ -55,7 +55,18 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Approved)
+            @if (Model.Approved == true)
+            {
+                <text>True</text>
+            }
+            @if (Model.Approved == false)
+            {
+                <text>False</text>
+            }
+            @if (Model.Approved == null)
+            {
+                <text>Not Selected</text>
+            }
         </dd>
 
         <dt>
@@ -71,8 +82,21 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Processed)
+            @if (Model.Processed == true)
+            {
+                <p>True</p>
+            }
+            @if (Model.Processed == false)
+            {
+                <p>False</p>
+            }
+            @if (Model.Processed == null)
+            {
+                <p>Not Selected</p>
+            }
         </dd>
+
+
 
     </dl>
 
