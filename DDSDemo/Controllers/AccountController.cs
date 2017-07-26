@@ -226,8 +226,9 @@ namespace DDSDemo.Controllers
         //
         // GET: /Account/ForgotPassword
         [Authorize(Roles = "Admin")]
-        public ActionResult ForgotPassword(string email)
+        public ActionResult ForgotPassword(string email, string returnURL)
         {
+            ViewBag.ReturnURL = returnURL;
             return View();
         }
 
@@ -247,11 +248,12 @@ namespace DDSDemo.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
+                ViewBag.ReturnURL = model.ReturnURL;
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 string _code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                return RedirectToAction("ResetPassword", new { code = _code, email = model.Email });
+                return RedirectToAction("ResetPassword", new { code = _code, email = model.Email, returnURL = model.ReturnURL });
                 //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 //return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -271,8 +273,9 @@ namespace DDSDemo.Controllers
         //
         // GET: /Account/ResetPassword
         [Authorize(Roles = "Admin")]
-        public ActionResult ResetPassword(string code, string email)
+        public ActionResult ResetPassword(string code, string email, string returnURL)
         {
+            ViewBag.ReturnURL = returnURL;
             return code == null ? View("Error") : View();
         }
 
@@ -296,7 +299,7 @@ namespace DDSDemo.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation");
+                return RedirectToLocal(model.ReturnURL);
             }
             AddErrors(result);
             return View();
