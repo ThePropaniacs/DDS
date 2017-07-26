@@ -4,7 +4,7 @@
     ViewBag.Title = "Employee Manage";
 }
 
-<h2>TimeSheet #@Model.ID.ToString() </h2>
+<h2>Timesheet #@Model.ID.ToString() </h2>
 
 @using (Html.BeginForm())
 {
@@ -74,7 +74,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to TimeSheets", "EmployeeIndex" , new { page = ViewBag.CurrentPage, sortBy = Request.QueryString["sortBy"] })
+    @Html.ActionLink("Back to Timesheets", "EmployeeIndex" , new { page = ViewBag.CurrentPage, sortBy = Request.QueryString["sortBy"] })
 </div>
 
 @{

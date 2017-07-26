@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>TimeSheet</h4>
+        <h4>Timesheet</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
@@ -95,7 +95,7 @@
 
 <div>
 
-    @Html.ActionLink("Back to TimeSheets", "Index", new { page = ViewBag.CurrentPage, searchBy = ViewBag.searchBy, search = ViewBag.search, sortBy = ViewBag.sortBy })
+    @Html.ActionLink("Back to Timesheets", "Index", new { page = ViewBag.CurrentPage, searchBy = ViewBag.searchBy, search = ViewBag.search, sortBy = ViewBag.sortBy })
 </div>
 
 @section Scripts {
