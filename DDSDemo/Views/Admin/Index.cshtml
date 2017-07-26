@@ -55,10 +55,14 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayName("First Name")
+            @*@Html.DisplayName("First Name")*@
+            @Html.ActionLink("First Name", "Index", new { sortBy = ViewBag.SortFirstNameParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+            <span class="caret"></span>
         </th>
         <th>
-            @Html.DisplayName("Last Name")
+            @*@Html.DisplayName("Last Name")*@
+            @Html.ActionLink("Last Name", "Index", new { sortBy = ViewBag.SortLastNameParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+            <span class="caret"></span>
         </th>
         <th>
             @Html.DisplayName("Email")
