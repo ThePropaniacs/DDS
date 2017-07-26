@@ -100,6 +100,9 @@ namespace DDSDemo.Models
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
+
+        [Display(Name = "ReturnURL")]
+        public string ReturnURL { get; set; }
     }
 
     public class ForgotPasswordViewModel
@@ -108,5 +111,8 @@ namespace DDSDemo.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Display(Name = "ReturnURL")]
+        public string ReturnURL { get; set; }
     }
 }

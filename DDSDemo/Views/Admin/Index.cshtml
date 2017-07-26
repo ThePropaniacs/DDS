@@ -46,7 +46,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", new { email = item.Email}, null) |
+                    @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", new { email = item.Email, returnURL = Request.RawUrl.ToString() }, null) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
