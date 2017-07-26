@@ -48,6 +48,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id, page = ViewBag.CurrentPage }) |
-    @Html.ActionLink("Back to Administrators", "Index", new { page = ViewBag.CurrentPage})
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id, page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+    @Html.ActionLink("Back to Administrators", "Index", new { page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
 </p>

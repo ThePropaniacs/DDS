@@ -59,7 +59,7 @@
         <p> </p>
 
         <div>
-            @Html.ActionLink("Back to Administrators", "Index", new { page = ViewBag.CurrentPage})
+            @Html.ActionLink("Back to Administrators", "Index", new { page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
         </div>
     }
 </div>
