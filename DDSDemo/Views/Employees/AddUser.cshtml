@@ -40,7 +40,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Users", "Users/" + Model.ID)
+    @Html.ActionLink("Back to Users", "Users/" + Model.ID, new { page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
 </div>
 
 @section Scripts {

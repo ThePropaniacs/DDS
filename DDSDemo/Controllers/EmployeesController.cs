@@ -13,6 +13,8 @@ using DDSDemo.Services;
 using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
 using DDSDemo.Infrastructure;
+using PagedList;
+using PagedList.Mvc;
 
 namespace DDSDemo.Controllers
 {
@@ -23,9 +25,41 @@ namespace DDSDemo.Controllers
         private DDSContext db = new DDSContext();
 
         // GET: Employees
-        public ActionResult Index()
+        public ActionResult Index(string searchBy, string search, int? page, string sortBy)
         {
-            return View(db.Employees.ToList());
+            ViewBag.CurrentPage = page;
+            var data = db.Employees.AsQueryable();
+
+            ViewBag.SortFirstNameParameter = string.IsNullOrEmpty(sortBy) ? "FirstName Desc" : "";
+            ViewBag.SortLastNameParameter = sortBy == "LastName" ? "LastName Desc" : "LastName";
+
+            if(searchBy == "FirstName")
+            {
+                data = data.Where(x => x.FirstName.StartsWith(search) || search == null);
+            }
+            else
+            {
+                data = data.Where(x => x.LastName.StartsWith(search) || search == null);
+            }
+
+            switch(sortBy)
+            {
+                case "FirstName Desc":
+                    data = data.OrderByDescending(x => x.FirstName);
+                    break;
+                case "LastName":
+                    data = data.OrderBy(x => x.LastName);
+                    break;
+                case "LastName Desc":
+                    data = data.OrderByDescending(x => x.LastName);
+                    break;
+                default:
+                    data = data.OrderBy(x => x.FirstName);
+                    break;
+            }
+
+            
+            return View(data.ToPagedList(page ?? 1, 10));
         }
 
         //// GET: Employees/Details/5
@@ -44,8 +78,9 @@ namespace DDSDemo.Controllers
         //}
 
         // GET: Employee/Users
-        public ActionResult Users(decimal id)
+        public ActionResult Users(decimal id, string searchBy, string search, int? page, string sortBy)
         {
+            ViewBag.CurrentPage = page;
             var users = dbb.Users.ToList().Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString()));
 
             var currentEmployee = db.Employees.SingleOrDefault(e => e.ID == id);
@@ -66,8 +101,9 @@ namespace DDSDemo.Controllers
         }
 
         // GET: Employees/Create
-        public ActionResult Create()
+        public ActionResult Create(string searchBy, string search, int? page, string sortBy)
         {
+            ViewBag.CurrentPage = page;
             return View();
         }
 
@@ -76,7 +112,7 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration, Email")] EmployeeAccountViewModel employeeVm)
+        public async Task<ActionResult> Create(string searchBy, string search, int? page, string sortBy, [Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration, Email")] EmployeeAccountViewModel employeeVm)
         {
             if (ModelState.IsValid)
             {
@@ -113,8 +149,9 @@ namespace DDSDemo.Controllers
         }
 
         // GET: Employee/AddUser/5
-        public ActionResult AddUser(decimal id)
+        public ActionResult AddUser(decimal id, string searchBy, string search, int? page, string sortBy)
         {
+            ViewBag.CurrentPage = page;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -142,8 +179,9 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddUser([Bind(Include = "ID, Email")]NewEmployeeUserInputModel user)
+        public async Task<ActionResult> AddUser(string searchBy, string search, int? page, string sortBy, [Bind(Include = "ID, Email")]NewEmployeeUserInputModel user)
         {
+            ViewBag.CurrentPage = page;
             Employee employee = db.Employees.Find(user.ID);
             EmployeeAccountViewModel employeeVm = new EmployeeAccountViewModel();
             employeeVm.ID = employee.ID;
@@ -162,7 +200,7 @@ namespace DDSDemo.Controllers
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Users/" + user.ID);
+                        return RedirectToAction("Users/" + user.ID, new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
                     }
                 }
                 else
@@ -175,8 +213,9 @@ namespace DDSDemo.Controllers
         }
 
         // GET: Employees/Edit/5
-        public ActionResult Edit(decimal id)
+        public ActionResult Edit(decimal id, string searchBy, string search, int? page, string sortBy)
         {
+            ViewBag.CurrentPage = page;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -194,20 +233,21 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration")] Employee employee)
+        public ActionResult Edit(string searchBy, string search, int? page, string sortBy, [Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration")] Employee employee)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(employee).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
             }
             return View(employee);
         }
 
         // GET: Employees/Delete/5
-        public ActionResult Delete(decimal id)
+        public ActionResult Delete(decimal id, string searchBy, string search, int? page, string sortBy)
         {
+            ViewBag.CurrentPage = page;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -223,8 +263,9 @@ namespace DDSDemo.Controllers
         // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id)
+        public ActionResult DeleteConfirmed(decimal id, string searchBy, string search, int? page, string sortBy)
         {
+            ViewBag.CurrentPage = page;
             //Employee employee = db.Employees.Find(id);
             ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             ApplicationUser empuser = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString())).FirstOrDefault();
@@ -237,12 +278,13 @@ namespace DDSDemo.Controllers
             }
             //db.Employees.Remove(employee);
             //db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
         }
 
         // GET: Employees/DeleteUser/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
-        public ActionResult DeleteUser(string id)
+        public ActionResult DeleteUser(string id, string searchBy, string search, int? page, string sortBy)
         {
+            ViewBag.CurrentPage = page;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -265,7 +307,7 @@ namespace DDSDemo.Controllers
         // POST: Employees/DeleteUser/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         [HttpPost, ActionName("DeleteUser")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteUserConfirmed(string id)
+        public ActionResult DeleteUserConfirmed(string id, string searchBy, string search, int? page, string sortBy)
         {
             ApplicationUser user = dbb.Users.Find(id);
             var empID = Convert.ToInt32(user.Claims.Where(u => u.ClaimType == "EmployeeID").Select(c => c.ClaimValue).SingleOrDefault());
@@ -276,7 +318,7 @@ namespace DDSDemo.Controllers
             }
             //db.Employees.Remove(employee);
             //db.SaveChanges();
-            return RedirectToAction("Users/" + empID);
+            return RedirectToAction("Users/" + empID, new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
         }
 
         protected override void Dispose(bool disposing)

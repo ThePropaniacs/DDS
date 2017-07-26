@@ -1,13 +1,16 @@
-﻿@model IEnumerable<DDSDemo.Models.ApplicationUser>
+﻿@model IPagedList<DDSDemo.Models.ApplicationUser>
 
 @{
     ViewBag.Title = "Index";
 }
 
+@using PagedList;
+@using PagedList.Mvc;
+
 <h2>Administrators</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { page = Model.PageNumber })
 </p>
 <table class="table">
     <tr>
@@ -30,7 +33,7 @@
     
        
             <tr
-               onclick="location.href = '@(Url.Action("Edit", "Admin", new { id = item.Id }))'">
+               onclick="location.href = '@(Url.Action("Edit", "Admin", new { id = item.Id, page = Model.PageNumber }))'">
 
                 <td>
                     @Html.DisplayFor(modelItem => item.FirstName)
@@ -45,11 +48,12 @@
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id, page = Model.PageNumber }) |
                     @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", new { email = item.Email}, null) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id, page = Model.PageNumber })
                 </td>
             </tr>
 }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

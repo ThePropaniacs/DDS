@@ -1,11 +1,53 @@
-﻿@model IEnumerable<DDSDemoDAL.Client>
+﻿@model IPagedList<DDSDemoDAL.Client>
 
 @{
     ViewBag.Title = "Index";
 }
 
+@using PagedList;
+@using PagedList.Mvc;
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
+
 <h2>Clients</h2>
 
+@using (@Html.BeginForm("Index", "Clients", FormMethod.Get))
+{
+    var searchby = Request.QueryString["searchBy"];
+    var Search = Request.QueryString["search"];
+    @Html.RadioButton("searchBy", "CompanyName", true, new { style = "display:none" })
+    <div class="">
+        <div class="input-group">
+            <div class="input-group-btn search-panel">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;">
+                    @{
+                        if (searchby == null)
+                        {
+                            <span id="search_concept">Filter By</span> <span class="caret"></span>
+                        }
+                        else
+                        {
+                            <span id="search_concept">@searchby</span> <span class="caret"></span>
+                        }
+                    }
+
+                </button>
+                <ul class="dropdown-menu" role="menu">
+
+                    <li id="searchByC" name="searchBy" type="radio" value="CompanyName"><a href="#CompanyName">Company Name</a></li>
+                </ul>
+            </div>
+            <input id="search" type="text" class="form-control special" name="search" placeholder="Search term..." value="@Search">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                <button class="btn btn-default" type="submit" id="button1" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;"><span class="glyphicon glyphicon-remove-circle"></span></button>
+            </span>
+        </div>
+    </div>
+                        }
+<br/>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -17,33 +59,35 @@
         </th>*@
         <th>
             @*Html.DisplayNameFor(model => model.CompanyName)*@
-            Company Name
+
+            @Html.ActionLink("Company Name", "Index", new { sortBy = ViewBag.SortCompanyNameParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+            <span class="caret"></span>
         </th>
         <th>
             @*Html.DisplayNameFor(model => model.Address1)*@
             Address 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.City)
+            City
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.State)
+            State
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Zip)
+            Zip
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            Email
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Phone)
+            Phone
         </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr
-        onclick="location.href = '@(Url.Action("Edit", "Clients", new { id = item.ID }))'">
+        onclick="location.href = '@(Url.Action("Edit", "Clients", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
         @*<td>
             @Html.DisplayFor(modelItem => item.EmployerName)
         </td>*@
@@ -69,10 +113,33 @@
             @Html.DisplayFor(modelItem => item.Phone)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Users", "Users", new { id = item.ID }) 
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+            @Html.ActionLink("Users", "Users", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) 
         </td>
     </tr>
 }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+<script>
+    $(document).ready(function () {
+        $('a[href="#CompanyName"]').click(function () {
+            $("input[value='CompanyName']").prop("checked", true);
+            $("#search_concept").html("Company Name");
+        });
+        $("form").submit(function () {
+
+        });
+        $("#button1").click(function () {
+            $("#search").val("");
+            $("#ser").click();
+
+
+        });
+    });
+</script>
+
+
+
+

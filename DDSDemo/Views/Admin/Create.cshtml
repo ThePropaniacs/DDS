@@ -60,7 +60,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Administrators", "Index")
+    @Html.ActionLink("Back to Administrators", "Index", new { page = ViewBag.CurrentPage})
 </div>
 
 @section Scripts {

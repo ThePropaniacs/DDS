@@ -207,6 +207,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to Employees", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID, page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+    @Html.ActionLink("Back to Employees", "Index", new { page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
 </p>

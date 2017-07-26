@@ -33,7 +33,7 @@
         <p> </p>
 
         <div>
-            @Html.ActionLink("Back to Users", "Users/" + Model.Client.ID)
+            @Html.ActionLink("Back to Users", "Users/" + Model.Client.ID, new { page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
         </div>
     }
 </div>

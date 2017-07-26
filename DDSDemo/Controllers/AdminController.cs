@@ -15,6 +15,8 @@ using Microsoft.AspNet.Identity.Owin;
 using DDSDemo.Services;
 using System.Threading.Tasks;
 using static DDSDemo.Controllers.ManageController;
+using PagedList;
+using PagedList.Mvc;
 
 namespace DDSDemo.Controllers
 {
@@ -62,11 +64,11 @@ namespace DDSDemo.Controllers
         private DDSContext dbb = new DDSContext();
 
         // GET: Admin
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var users = UserManager.Users.ToList().Where(u => u.Claims.Any(t => t.ClaimType == "Admin"));
+            var users = UserManager.Users.ToList().AsQueryable().Where(u => u.Claims.Any(t => t.ClaimType == "Admin"));
 
-            return View(users);
+            return View(users.ToPagedList(page ?? 1, 10));
         }
         //// GET: Admin/Details/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         //public ActionResult Details(string id)
@@ -84,8 +86,9 @@ namespace DDSDemo.Controllers
         //}
 
         // GET: Admin/Create
-        public ActionResult Create()
+        public ActionResult Create(int? page)
         {
+            ViewBag.CurrentPage = page;
             ViewBag.EmailTaken = "";
             return View();
         }
@@ -95,8 +98,9 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "FirstName,LastName,Email,PhoneNumber")] NewAdminUserInputModel admin)
+        public async Task<ActionResult> Create(int? page,[Bind(Include = "FirstName,LastName,Email,PhoneNumber")] NewAdminUserInputModel admin)
         {
+            ViewBag.CurrentPage = page;
             if (ModelState.IsValid)
             {
                 ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -128,8 +132,9 @@ namespace DDSDemo.Controllers
 
 
         // GET: Admin/Edit/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, int? page)
         {
+            ViewBag.CurrentPage = page;
             ViewBag.EmailTaken = "";
 
             if (id == null)
@@ -149,8 +154,9 @@ namespace DDSDemo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser user)
+        public ActionResult Edit(int? page,[Bind(Include = "Id,FirstName,LastName,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser user)
         {
+            ViewBag.CurrentPage = page;
             if (ModelState.IsValid)
             {
                 if (user.Email != null)
@@ -182,7 +188,7 @@ namespace DDSDemo.Controllers
 
                         if (result.Succeeded)
                         {
-                            return RedirectToAction("Index");
+                            return RedirectToAction("Index", new { page = page});
                         }
                     }
                     else
@@ -203,8 +209,9 @@ namespace DDSDemo.Controllers
         }
 
         // GET: Admin/Delete/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
-        public ActionResult Delete(String id)
+        public ActionResult Delete(String id, int? page)
         {
+            ViewBag.CurrentPage = page;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -220,12 +227,13 @@ namespace DDSDemo.Controllers
         // POST: Admin/Delete/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(string id, int? page)
         {
+            ViewBag.CurrentPage = page;
             ApplicationUser user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { page = page });
         }
 
         protected override void Dispose(bool disposing)

@@ -1,13 +1,57 @@
-﻿@model IEnumerable<DDSDemoDAL.Employee>
+﻿@model IPagedList<DDSDemoDAL.Employee>
 
 @{
     ViewBag.Title = "Index";
 }
 
+@using PagedList;
+@using PagedList.Mvc;
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
 <h2>Employees</h2>
 
+@using (@Html.BeginForm("Index", "Employees", FormMethod.Get))
+{
+    var searchby = Request.QueryString["searchBy"];
+    var Search = Request.QueryString["search"];
+    @Html.RadioButton("searchBy", "FirstName", true, new { style = "display:none" })
+    @Html.RadioButton("searchBy", "LastName", new { style = "display:none" })
+    <div class="">
+        <div class="input-group">
+            <div class="input-group-btn search-panel">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;">
+                    @{
+                        if (searchby == null)
+                        {
+                            <span id="search_concept">Filter By</span> <span class="caret"></span>
+                        }
+                        else
+                        {
+                            <span id="search_concept">@searchby</span> <span class="caret"></span>
+                        }
+                    }
+
+                </button>
+                <ul class="dropdown-menu" role="menu">
+
+                    <li id="searchByC" name="searchBy" type="radio" value="FirstName"><a href="#FirstName">First Name</a></li>
+                    <li id="searchByE" name="searchBy" type="radio" value="LastName"><a href="#LastName">Last Name</a></li>
+                </ul>
+            </div>
+            <input id="search" type="text" class="form-control special" name="search" placeholder="Search term..." value="@Search">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                <button class="btn btn-default" type="submit" id="button1" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;"><span class="glyphicon glyphicon-remove-circle"></span></button>
+            </span>
+        </div>
+    </div>
+   }
+<br/>
+
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
 </p>
 <table class="table">
     <tr>
@@ -15,10 +59,14 @@
             @Html.DisplayName("Company Name")
         </th>
         <th>
-            @Html.DisplayName("First Name")
+            @*@Html.DisplayName("First Name")*@
+            @Html.ActionLink("First Name", "Index", new { sortBy = ViewBag.SortFirstNameParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+            <span class="caret"></span>
         </th>
         <th>
-            @Html.DisplayName("Last Name")
+            @*@Html.DisplayName("Last Name")*@
+            @Html.ActionLink("Last Name", "Index", new { sortBy = ViewBag.SortLastNameParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+            <span class="caret"></span>
         </th>
         <th>
             Sun.
@@ -56,7 +104,7 @@
     @foreach (var item in Model)
     {
         <tr
-            onclick="location.href = '@(Url.Action("Edit", "Employees", new { id = item.ID }))'">
+            onclick="location.href = '@(Url.Action("Edit", "Employees", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
             <td>
                 @Html.DisplayFor(modelItem => item.CompanyName)
             </td>
@@ -166,10 +214,33 @@
                 @(item.AvailExpires.HasValue ? item.AvailExpires.Value.ToShortTimeString() : "--")
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Users", "Users", new { id = item.ID}) 
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+                @Html.ActionLink("Users", "Users", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) 
             </td>
         </tr>
     }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))
+
+<script>
+    $(document).ready(function () {
+        $('a[href="#FirstName"]').click(function () {
+            $("input[value='FirstName']").prop("checked", true);
+            $("#search_concept").html("First Name");
+        });
+        $('a[href="#LastName"]').click(function () {
+            $("input[value='LastName']").prop("checked", true);
+            $("#search_concept").html("Last Name");
+        });
+        $("form").submit(function () {
+
+        });
+        $("#button1").click(function () {
+            $("#search").val("");
+            $("#ser").click();
+
+
+        });
+    });
+</script>

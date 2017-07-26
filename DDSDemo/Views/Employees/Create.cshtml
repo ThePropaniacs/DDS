@@ -161,7 +161,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Employees", "Index")
+    @Html.ActionLink("Back to Employees", "Index", new { page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
 </div>
 
 @section Scripts {

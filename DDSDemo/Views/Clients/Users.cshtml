@@ -11,8 +11,8 @@
 </h4>
 
 <p>
-    @Html.ActionLink("Add User", "AddUser", new { id = Model.Client.ID }) |
-    @Html.ActionLink("Delete All Users", "Delete", new { id = Model.Client.ID })
+    @Html.ActionLink("Add User", "AddUser", new { id = Model.Client.ID, page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+    @Html.ActionLink("Delete All Users", "Delete", new { id = Model.Client.ID, page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
 </p>
 <table class="table">
     <tr>
@@ -50,7 +50,7 @@
             </td>
             <td>
                 @Html.ActionLink("Forgot Password", "ForgotPassword", "Account", new { email = item.Email }, null) |
-                @Html.ActionLink("Delete", "DeleteUser", new { id = item.Id })
+                @Html.ActionLink("Delete", "DeleteUser", new { id = item.Id, page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
             </td>
         </tr>
     }
@@ -58,5 +58,5 @@
 </table>
 
 <div>
-    @Html.ActionLink("Back to Clients", "Index")
+    @Html.ActionLink("Back to Clients", "Index", new { page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
 </div>
