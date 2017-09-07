@@ -78,6 +78,9 @@
         <th>
             Note
         </th>
+        <th>
+            Processed
+        </th>
         <th></th>
     </tr>
 
@@ -86,8 +89,7 @@
         <tr @{if (item.Approved == true) {<text> style="background-color: #43ac6a; color:navajowhite" </text> }
               else if (item.Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
               else if (item.Approved == null) {<text> style="background-color: #fafafa;"</text> }
-             }
-            onclick="location.href = '@(Url.Action("Edit", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
+             }>
             <td>
                 @item.Client.CompanyName
             </td>
@@ -107,6 +109,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @(item.Processed  == true ? "Yes" : "No")
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |

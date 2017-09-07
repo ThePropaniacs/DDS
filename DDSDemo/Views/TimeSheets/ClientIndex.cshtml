@@ -1,4 +1,5 @@
 ﻿@model IPagedList<DDSDemo.Models.TimeSheetForList>
+@using DDSDemoDAL
 
 @using PagedList;
 @using PagedList.Mvc;
@@ -14,8 +15,7 @@
 
 <h2>Timesheets</h2>
 <h4>
-    Client:
-    @Html.DisplayFor(model => model[1].Client.CompanyName)
+    @ViewBag.UserGreeting
 </h4>
 
 

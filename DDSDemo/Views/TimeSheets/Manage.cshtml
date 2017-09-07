@@ -6,7 +6,7 @@
 
 <h2>Timesheet #@Model.ID.ToString() </h2>
 <div class="row">
-    <div class="col-md-offset-2 col-md-8 text-center">
+    <div class="col-xs-12 text-center">
         @{
             if (Model.Approved == true)
             {
@@ -73,6 +73,9 @@
                     
                 @Html.LabelFor(model => model.Note, "Note", htmlAttributes: new { @class = "control-label" })
                 @Html.TextAreaFor(model => Model.Note, htmlAttributes: new { @class="form-control", @style="width:100%; max-width: 100%; height:10rem;"})
+
+                @Html.LabelFor(model => model.ClientFeedback, "Feedback", htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => Model.ClientFeedback, htmlAttributes: new { @class = "form-control", @style = "width:100%; max-width: 100%; height:10rem;" })
             </div>
             <div class="col-sm-3"></div>
         </div>

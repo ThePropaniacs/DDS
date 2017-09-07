@@ -13,6 +13,9 @@ using DDSDemo.Infrastructure.Authorization;
 using System.Security.Claims;
 using DDSDemo.Models;
 using DDSDemo.Infrastructure;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
+using System.Text;
 
 namespace DDSDemo.Controllers
 {
@@ -21,8 +24,34 @@ namespace DDSDemo.Controllers
     {
         private DDSContext db = new DDSContext();
 
-        //http://localhost:8888/Timesheets/EmployeeIndex
+        private ApplicationUserManager _userManager = null;
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        private string GetUserGreeting()
+        {
+            var greetingBuilder = new StringBuilder();
+            greetingBuilder.Append("Hello");
+            var userInfo = UserManager.FindById(User.Identity.GetUserId());
+            if(userInfo != null)
+            {
+                greetingBuilder.Append($"{(!String.IsNullOrEmpty(userInfo.FirstName) ? $" {userInfo.FirstName}" : String.Empty)} {(!String.IsNullOrEmpty(userInfo.LastName) ? $" {userInfo.LastName}" : String.Empty)}"); 
+            }
+            greetingBuilder.Append("!");
+            return greetingBuilder.ToString();
+        }
+
+        //http://localhost:8888/Timesheets/EmployeeIndex
         // GET: TimeSheets
         //Admin index
         [Authorize]
@@ -30,7 +59,6 @@ namespace DDSDemo.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-
                 var tblTimeSheetMasters = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).AsQueryable();
                 var data = tblTimeSheetMasters;
 
@@ -39,6 +67,7 @@ namespace DDSDemo.Controllers
                 ViewBag.SortStartTimeParameter = string.IsNullOrEmpty(sortBy) ? "Start Time Desc" : "";
                 ViewBag.SortStopTimeParameter = sortBy == "Stop Time" ? "Stop Time Desc" : "Stop Time";
                 ViewBag.SortElapsedTimeParameter = sortBy == "Elapsed Time" ? "Elapsed Time Desc" : "Elapsed Time";
+                ViewBag.UserGreeting = GetUserGreeting();
 
 
                 if (searchBy == "Client")
@@ -98,6 +127,8 @@ namespace DDSDemo.Controllers
         {
             ViewBag.SortStartTimeParameter = string.IsNullOrEmpty(sortBy) ? "Start Time Desc" : "";
             ViewBag.SortStopTimeParameter = sortBy == "Stop Time" ? "Stop Time Desc" : "Stop Time";
+            ViewBag.UserGreeting = GetUserGreeting();
+
             var employeeID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "EmployeeID").Value);
             var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(t => t.Employee.ID == employeeID);
 
@@ -126,6 +157,7 @@ namespace DDSDemo.Controllers
         {
             ViewBag.SortStartTimeParameter = string.IsNullOrEmpty(sortBy) ? "Start Time Desc" : "";
             ViewBag.SortStopTimeParameter = sortBy == "Stop Time" ? "Stop Time Desc" : "Stop Time";
+            ViewBag.UserGreeting = GetUserGreeting();
 
             var clientID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "ClientID").Value);
             var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(c => c.Client.ID == clientID);
@@ -212,7 +244,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ClientEdit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, int? page, string sortBy)
+        public ActionResult ClientEdit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed,ClientFeedback")] TimeSheet timeSheet, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
@@ -226,6 +258,7 @@ namespace DDSDemo.Controllers
                 _timeSheet.Note = timeSheet.Note;
                 _timeSheet.ApprovedDate = DateTime.Now;
                 _timeSheet.ApprovedBy = User.Identity.Name;
+                _timeSheet.ClientFeedback = timeSheet.ClientFeedback;
                 db.SaveChanges();
                 return RedirectToAction("ClientIndex", new { page = page, sortBy = sortBy });
             }
@@ -438,7 +471,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, string searchBy, string search, int? page, string sortBy)
+        public ActionResult Manage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed,ClientFeedback")] TimeSheet timeSheet, string searchBy, string search, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
@@ -448,7 +481,8 @@ namespace DDSDemo.Controllers
                 {
                     _timeSheet.StopTime = DateTime.Now;
                 }
-                
+
+                _timeSheet.ClientFeedback = timeSheet.ClientFeedback;
                 _timeSheet.Note = timeSheet.Note;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { page = page, search = search, searchBy = searchBy, sortBy = sortBy });
@@ -511,8 +545,7 @@ namespace DDSDemo.Controllers
                 old.StopTime = timeSheet.StopTime;
                 old.Note = timeSheet.Note;
                 old.Approved = timeSheet.Approved;
-                
-                //old.Processed = timeSheet.Processed;
+                old.Processed = timeSheet.Processed;
 
                 
                 db.SaveChanges();

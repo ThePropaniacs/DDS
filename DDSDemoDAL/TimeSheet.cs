@@ -26,8 +26,9 @@ namespace DDSDemoDAL
         
         public DateTime? StopTime { get; set; }
 
-        [StringLength(150)]
         public string Note { get; set; }
+
+        public string ClientFeedback { get; set; }
 
         public bool? Approved { get; set; }
 
@@ -36,7 +37,7 @@ namespace DDSDemoDAL
         
         public DateTime? ApprovedDate { get; set; }
 
-        public bool? Processed { get; set; }
+        public bool Processed { get; set; }
 
         public virtual Client Client { get; set; }
 
