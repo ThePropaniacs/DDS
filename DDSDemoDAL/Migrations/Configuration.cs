@@ -10,7 +10,6 @@ namespace DDSDemoDAL.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "DDSDemoDAL.DDSContext";
         }
 
         protected override void Seed(DDSDemoDAL.DDSContext context)

@@ -11,43 +11,124 @@
 <script src="~/Scripts/jquery-ui.js"></script>
 
 
-<h2>All Timesheets</h2>
-
-@using (@Html.BeginForm("Index", "TimeSheets", FormMethod.Get))
+<h2 style="margin-bottom: 2rem;">All Timesheets</h2>
+@using (@Html.BeginForm("Index", "TimeSheets", FormMethod.Get, new { id = "filterForm"}))
 {
-    var searchby = Request.QueryString["searchBy"];
-    var Search = Request.QueryString["search"];
-    @Html.RadioButton("searchBy", "Client", true, new { style = "display:none" })
-    @Html.RadioButton("searchBy", "Employee", new { style = "display:none" })
-            <div class="">
-                <div class="input-group">
-                    <div class="input-group-btn search-panel">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;">
-                            @{
-                                if (searchby == null)
-                                {
-                                    <span id="search_concept">Filter By</span> <span class="caret"></span>
-                                }
-                                else
-                                {
-                                    <span id="search_concept">@searchby</span> <span class="caret"></span>
-                                }
-                            }
-                            
-                        </button>
-                        <ul class="dropdown-menu" role="menu" style="border-bottom-left-radius:5px; border-bottom-right-radius:5px; border-top-left-radius:5px">
-                           
-                            <li id="searchByC" name="searchBy" type="radio" value="Client"><a href="#Client">Client</a></li>
-                            <li id="searchByE" name="searchBy" type="radio" value="Employee"><a href="#Employee">Employee</a></li>
-                        </ul>
+    var employeeFilter = Request.QueryString["employeeFilter"];
+    var clientFilter = Request.QueryString["clientFilter"];
+    var optionsStatus = Request.QueryString["optionsStatus"] ?? "";
+    var optionsProcessed = Request.QueryString["optionsProcessed"] ?? "";
+    var fromDateFilter = Request.QueryString["fromDateFilter"] ?? "";
+    var toDateFilter = Request.QueryString["toDateFilter"] ?? "";
+
+    var initialCollapsed = (employeeFilter == "" && clientFilter == "" && optionsStatus == "" && optionsProcessed == "" && fromDateFilter == "" && toDateFilter == "") == true ? "collapsed" : "";
+
+    <div class="panel panel-info" >
+        <div class="panel-heading" @*data-toggle="collapse" data-target="#collapseMe"*@>
+            <h3 class="panel-title">Filter</h3>
+        </div>
+        <div class="panel-body" id="collapseMe">
+            <div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group-sm">
+                            <label for="employeeFilter" style="padding-top: 8px" class="col-lg-2 control-label">Employee</label>
+                            <div class="col-lg-10">
+                                <input id="employeeFilter" type="text" class="form-control" name="employeeFilter" placeholder="Search employee..." value="@employeeFilter">
+                            </div>
+                        </div>
                     </div>
-                        <input id="search" type="text" class="form-control special" name="search" placeholder="Search term..." value="@Search">
-                        <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-                        <button class="btn btn-default" type="submit" id="button1" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;"><span class="glyphicon glyphicon-remove-circle"></span></button>
-                    </span>
+                    <div class="col-sm-6">
+                        <div class="form-group-sm">
+                            <label for="clientFilter" style="padding-top: 8px" class="col-lg-2 control-label">Client</label>
+                            <div class="col-lg-10">
+                                <input id="clientFilter" type="text" class="form-control" name="clientFilter" placeholder="Search client..." value="@clientFilter">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 1rem">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" style="padding-top: 8px">Status: </label>
+                            <div class="col-lg-10">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsStatus" id="statusAll" value="" @(optionsStatus == "" ? "checked" : "")>
+                                        All
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsStatus" id="statusPending" value="pending" @(optionsStatus == "pending" ? "checked" : "")>
+                                        Only Pending Timesheets
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsStatus" id="statusApproved" value="approved" @(optionsStatus == "approved" ? "checked" : "")>
+                                        Only Approved Timesheets
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsStatus" id="statusDenied" value="denied" @(optionsStatus == "denied" ? "checked" : "")>
+                                        Only Denied Timesheets
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" style="padding-top: 8px">Processed: </label>
+                            <div class="col-lg-10">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsProcessed" id="processedAll" value="" @(optionsProcessed == "" ? "checked" : "")>
+                                        All
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsProcessed" id="processedFalse" value="pending" @(optionsProcessed == "pending" ? "checked" : "")>
+                                        Only Pending Timesheets
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsProcessed" id="processedTrue" value="processed" @(optionsProcessed == "processed" ? "checked" : "")>
+                                        Only Processed Timesheets
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 1rem;">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="input-daterange input-group text-center" id="datepicker">
+                            <input id="fromDateFilter" type="text" value="@fromDateFilter" class="input-sm form-control" name="fromDateFilter" placeholder="From Date..." />
+                            <span class="input-group-addon">to</span>
+                            <input id="toDateFilter" type="text" value="@toDateFilter" class="input-sm form-control" name="toDateFilter" placeholder="To Date..." />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 2rem">
+                    <div class="col-xs-12">
+                        <div class="form-group-sm">
+                            <div class="text-center">
+                                <button id="clearFilter" type="reset" class="btn btn-default" style="margin-right: 1rem">Clear</button>
+                                <button id="submitFilter" type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
+        </div>
+    </div>
 }
 
 <p>
@@ -57,8 +138,8 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Client", "Index", new {sortBy = ViewBag.SortClientParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
-             <span class="caret"></span>
+            @Html.ActionLink("Client", "Index", new { sortBy = ViewBag.SortClientParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
+            <span class="caret"></span>
         </th>
         <th>
             @Html.ActionLink("Employee", "Index", new { sortBy = ViewBag.SortEmployeeParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
@@ -86,10 +167,7 @@
 
     @foreach (var item in Model)
     {
-        <tr @{if (item.Approved == true) {<text> style="background-color: #43ac6a; color:navajowhite" </text> }
-              else if (item.Approved == false) {<text> style="background-color: #f04124; color:navajowhite"</text> }
-              else if (item.Approved == null) {<text> style="background-color: #fafafa;"</text> }
-             }>
+        <tr @{if (item.Approved == true) { <text> style="background-color: #43ac6a; color:navajowhite" </text>  } else if (item.Approved == false) { <text> style="background-color: #f04124; color:navajowhite" </text>  } else if (item.Approved == null) { <text> style="background-color: #fafafa;" </text>  } }>
             <td>
                 @item.Client.CompanyName
             </td>
@@ -111,36 +189,39 @@
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
             <td>
-                @(item.Processed  == true ? "Yes" : "No")
+                @(item.Processed == true ? "Yes" : "No")
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
-                @Html.ActionLink("Manage", "Manage", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+                @Html.ActionLink("Manage", "Manage", new { id = item.Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
             </td>
         </tr>
     }
 </table>
-@Html.PagedListPager(Model, page => Url.Action("Index", new {page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))
 
 <script>
     $(document).ready(function () {
-        $('a[href="#Client"]').click(function () {
-            $("input[value='Client']").prop("checked", true);
-            $("#search_concept").html("Client");
-        });
-        $('a[href="#Employee"]').click(function () {
-            $("input[value='Employee']").prop("checked", true);
-            $("#search_concept").html("Employee");
-        });
-        $("form").submit(function () {
+        $('.input-daterange').datepicker({
 
         });
-        $("#button1").click(function () {
-            $("#search").val("");
-            $("#ser").click();
-            
-            
+        $("form").submit(function () {
+            var values = {};
+            $.each($('#filterForm').serializeArray(), function (i, field) {
+                values[field.name] = field.value;
+            });
+            console.log(values);
+            //debugger;
+        });
+        $("#clearFilter").click(function () {
+            $("#clientFilter").val("");
+            $("#employeeFilter").val("");
+            $("#fromDateFilter").val("");
+            $("#toDateFilter").val("");
+            $("input[name='optionsStatus']").filter("[value='']").prop("checked", true);
+            $("input[name='optionsProcessed']").filter("[value='']").prop("checked", true);
+            $("#submitFilter").click();
         });
     });
 </script>

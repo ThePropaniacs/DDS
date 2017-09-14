@@ -51,60 +51,46 @@ namespace DDSDemo.Controllers
             return View(data.ToPagedList(page ?? 1, 10));
         }
 
-        //// GET: Clients/Details/5
-        //public ActionResult Details(decimal id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Client client = db.Clients.Find(id);
-        //    if (client == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(client);
-        //}
-
+        
         // GET: Clients/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
         // POST: Clients/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client)
-        {
-            if (ModelState.IsValid)
-            {
-                ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                ApplicationUser exists = await UserManager.FindByEmailAsync(client.Email);
-                if (exists == null)
-                {
-                    var new_client = db.Clients.Add(client);
-                    db.SaveChanges();
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Create([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //        ApplicationUser exists = await UserManager.FindByEmailAsync(client.Email);
+        //        if (exists == null)
+        //        {
+        //            var new_client = db.Clients.Add(client);
+        //            db.SaveChanges();
 
-                    var clientRegisterService = new ClientRegisterService();
+        //            var clientRegisterService = new ClientRegisterService();
 
-                    var result = await clientRegisterService.RegisterClient(new_client, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+        //            var result = await clientRegisterService.RegisterClient(new_client, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
 
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                }
-                else
-                {
-                    ViewBag.EmailTaken = "Email already in use";
-                    return View(client);
-                }
-            }
-            return View(client);
-        }
+        //            if (result.Succeeded)
+        //            {
+        //                return RedirectToAction("Index");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            ViewBag.EmailTaken = "Email already in use";
+        //            return View(client);
+        //        }
+        //    }
+        //    return View(client);
+        //}
 
         // GET: Clients/AddUser/5
         public ActionResult AddUser(decimal id, string searchBy, string search, int? page, string sortBy)
@@ -156,72 +142,72 @@ namespace DDSDemo.Controllers
         }
 
         // GET: Clients/Edit/5
-        public ActionResult Edit(decimal id, string searchBy, string search, int? page, string sortBy)
-        {
-            ViewBag.CurrentPage = page;
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Client client = db.Clients.Find(id);
-            if (client == null)
-            {
-                return HttpNotFound();
-            }
-            return View(client);
-        }
+        //public ActionResult Edit(decimal id, string searchBy, string search, int? page, string sortBy)
+        //{
+        //    ViewBag.CurrentPage = page;
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Client client = db.Clients.Find(id);
+        //    if (client == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(client);
+        //}
 
         // POST: Clients/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client, string searchBy, string search, int? page, string sortBy)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(client).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] } );
-            }
-            return View(client);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "ID,CompanyName,EmployerID,EmployerName,Address1,Address2,City,State,Zip,Email,Phone")] Client client, string searchBy, string search, int? page, string sortBy)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(client).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] } );
+        //    }
+        //    return View(client);
+        //}
 
-        // GET: Clients/Delete/5
-        public ActionResult Delete(decimal id, string searchBy, string search, int? page, string sortBy)
-        {
-            ViewBag.CurrentPage = page;
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Client client = db.Clients.Find(id);
-            if (client == null)
-            {
-                return HttpNotFound();
-            }
-            return View(client);
-        }
+        //// GET: Clients/Delete/5
+        //public ActionResult Delete(decimal id, string searchBy, string search, int? page, string sortBy)
+        //{
+        //    ViewBag.CurrentPage = page;
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Client client = db.Clients.Find(id);
+        //    if (client == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(client);
+        //}
 
-        // POST: Clients/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id, string searchBy, string search, int? page, string sortBy)
-        {
-            //Client client = db.Clients.Find(id);
-            ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser cliusers = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "ClientID" && t.ClaimValue == id.ToString())).FirstOrDefault();
-            while (cliusers != null)
-            {
-                dbb.Users.Remove(cliusers);
-                dbb.SaveChanges();
-                cliusers = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "ClientID" && t.ClaimValue == id.ToString())).FirstOrDefault();
-            }
+        //// POST: Clients/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(decimal id, string searchBy, string search, int? page, string sortBy)
+        //{
+        //    //Client client = db.Clients.Find(id);
+        //    ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    ApplicationUser cliusers = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "ClientID" && t.ClaimValue == id.ToString())).FirstOrDefault();
+        //    while (cliusers != null)
+        //    {
+        //        dbb.Users.Remove(cliusers);
+        //        dbb.SaveChanges();
+        //        cliusers = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "ClientID" && t.ClaimValue == id.ToString())).FirstOrDefault();
+        //    }
             
-            //db.Clients.Remove(client);
-            //db.SaveChanges();
-            return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
-        }
+        //    //db.Clients.Remove(client);
+        //    //db.SaveChanges();
+        //    return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
+        //}
 
         // GET: CLient/Users
         public ActionResult Users(decimal id, string searchBy, string search, int? page, string sortBy)
@@ -229,7 +215,7 @@ namespace DDSDemo.Controllers
             ViewBag.CurrentPage = page;
             var users = dbb.Users.ToList().Where(u => u.Claims.Any(t => t.ClaimType == "ClientID" && t.ClaimValue == id.ToString()));
 
-            var currentClient = db.Clients.SingleOrDefault(e => e.ID == id);
+            var currentClient = db.Clients.SingleOrDefault(e => e.Id == id);
 
             if (currentClient == null)
             {

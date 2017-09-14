@@ -8,13 +8,13 @@ namespace DDSDemo.Models
 {
     public class TimeSheetForList
     {
-        public decimal ID { get; set; }
+        public decimal Id { get; set; }
 
         public string CompanyName { get; set; }
 
-        public decimal EmpID { get; set; }
+        public decimal EmployeeId { get; set; }
 
-        public decimal? AssocClientID { get; set; }
+        public decimal? ClientId { get; set; }
 
         public DateTime? StartTime { get; set; }
 

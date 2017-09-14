@@ -55,7 +55,7 @@ namespace DDSDemo.Controllers
         // GET: TimeSheets
         //Admin index
         [Authorize]
-        public ActionResult Index(string searchBy, string search, int? page, string sortBy)
+        public ActionResult Index(string sortBy, int? page, string clientFilter = "", string employeeFilter = "", string optionsStatus = "", string optionsProcessed = "", DateTime? fromDateFilter = null, DateTime? toDateFilter = null)
         {
             if (User.IsInRole("Admin"))
             {
@@ -70,15 +70,60 @@ namespace DDSDemo.Controllers
                 ViewBag.UserGreeting = GetUserGreeting();
 
 
-                if (searchBy == "Client")
+                if (!String.IsNullOrEmpty(clientFilter.Trim()))
                 {
-                    data = data.Where(x => x.Client.CompanyName.StartsWith(search) || search == null);
+                    data = data.Where(x => x.Client.CompanyName.StartsWith(clientFilter) || clientFilter == null);
                 }
-                else
+                if (!String.IsNullOrEmpty(employeeFilter.Trim()))
                 {
-                    data = data.Where(x => x.Employee.FirstName.Contains(search) || x.Employee.LastName.Contains(search) || search.Contains(x.Employee.FirstName) || search.Contains(x.Employee.LastName) || search == null);
+                    data = data.Where(x => x.Employee.FirstName.Contains(employeeFilter) || x.Employee.LastName.Contains(employeeFilter) || employeeFilter.Contains(x.Employee.FirstName) || employeeFilter.Contains(x.Employee.LastName) || employeeFilter == null);
                 }
-                switch(sortBy)
+                if (!String.IsNullOrEmpty(optionsStatus.Trim()))
+                {
+                    if(optionsStatus == "pending")
+                    {
+                        data = data.Where(x => x.Approved == null);
+                    }
+                    else if (optionsStatus == "approved")
+                    {
+                        data = data.Where(x => x.Approved == true);
+                    }
+                    else if (optionsStatus == "denied")
+                    {
+                        data = data.Where(x => x.Approved == false);
+                    }
+                    else
+                    {
+                        optionsStatus = String.Empty;
+                    }
+                }
+                if (!String.IsNullOrEmpty(optionsProcessed.Trim()))
+                {
+                    if (optionsProcessed == "pending")
+                    {
+                        data = data.Where(x => x.Processed == false);
+                    }
+                    else if (optionsProcessed == "processed")
+                    {
+                        data = data.Where(x => x.Processed == true);
+                    }
+                    else
+                    {
+                        optionsProcessed = String.Empty;
+                    }
+                }
+                if (fromDateFilter != null)
+                {
+                    var exactDate = fromDateFilter.Value.Date;
+                    data = data.Where(x => x.StartTime.Value >= exactDate);
+                }
+                if(toDateFilter != null)
+                {
+                    var exactDate = toDateFilter.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                    data = data.Where(x => x.StopTime.Value <= exactDate);
+                    
+                }
+                switch (sortBy)
                 {
                     case "Client Desc":
                         data = data.OrderByDescending(x => x.Client.CompanyName);
@@ -130,7 +175,7 @@ namespace DDSDemo.Controllers
             ViewBag.UserGreeting = GetUserGreeting();
 
             var employeeID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "EmployeeID").Value);
-            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(t => t.Employee.ID == employeeID);
+            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(t => t.Employee.Id == employeeID);
 
             var data = timesheets.AsQueryable();
 
@@ -160,7 +205,7 @@ namespace DDSDemo.Controllers
             ViewBag.UserGreeting = GetUserGreeting();
 
             var clientID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "ClientID").Value);
-            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(c => c.Client.ID == clientID);
+            var timesheets = db.TimeSheets.Include(t => t.Client).Include(t => t.Employee).Where(c => c.Client.Id == clientID);
 
             var timesheetsForList = new List<TimeSheetForList>();
             var data = timesheetsForList.AsQueryable();
@@ -196,7 +241,7 @@ namespace DDSDemo.Controllers
         [ClaimsAccess(ClaimType = "ClientID")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ClientIndex(int? page, string sortBy , List<TimeSheetForList> timesheetsFromList, String Approve, String Deny, [Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult ClientIndex(int? page, string sortBy , List<TimeSheetForList> timesheetsFromList, String Approve, String Deny, [Bind(Include = "Id,CompanyName,EmployeeId,ClientId,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             bool ActionToTake = true;
 
@@ -207,7 +252,7 @@ namespace DDSDemo.Controllers
 
             foreach (var timesheet in timesheetsFromList)
             {
-                var ts = db.TimeSheets.Find(timesheet.ID);
+                var ts = db.TimeSheets.Find(timesheet.Id);
 
                 if (timesheet.IsChecked)
                 {
@@ -244,11 +289,11 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ClientEdit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed,ClientFeedback")] TimeSheet timeSheet, int? page, string sortBy)
+        public ActionResult ClientEdit([Bind(Include = "Id,CompanyName,EmployeeId,ClientId,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed,ClientFeedback")] TimeSheet timeSheet, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
-                TimeSheet _timeSheet = db.TimeSheets.Find(timeSheet.ID);
+                TimeSheet _timeSheet = db.TimeSheets.Find(timeSheet.Id);
 
                 if (!_timeSheet.StopTime.HasValue)
                 {
@@ -292,8 +337,26 @@ namespace DDSDemo.Controllers
             else if (User.IsInRole("Employee"))
             {
                 var employeeID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "EmployeeID").Value);
-                ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName");
-                ViewBag.EmpID = new SelectList(db.Employees.Where(i => i.ID == employeeID), "ID", "FullName");
+
+                var today = DateTime.Now.Date;
+
+                var placements = db.Placements.ToList().Where(p => p.PlacementDate.Value.Date == DateTime.Now.Date && p.EmployeeId == employeeID);
+                var clients = new List<Client>();
+                if (placements.Count() != 0)
+                {
+                    foreach(var placement in placements)
+                    {
+                        clients.Add(db.Clients.FirstOrDefault(c => c.Id == placement.ClientId));
+                    }
+                    ViewBag.HasPlacements = true;
+                }
+                else
+                {
+                    ViewBag.HasPlacements = false;
+                }
+
+                ViewBag.ClientId = new SelectList(clients, "Id", "CompanyName");
+                ViewBag.EmployeeId = new SelectList(db.Employees.Where(i => i.Id == employeeID), "Id", "FullName");
                 return View();
             }
             else
@@ -308,7 +371,7 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeCreate([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult EmployeeCreate([Bind(Include = "Id,CompanyName,EmployeeId,ClientId,StartTime,StopTime,Note,Approved,ApprovedDate,Processed")] TimeSheet timeSheet)
         {
             if (ModelState.IsValid)
             {
@@ -317,16 +380,16 @@ namespace DDSDemo.Controllers
                 db.SaveChanges();
                 if (User.IsInRole("Employee"))
                 {
-                    return RedirectToAction("EmployeeManage", new { id = timeSheet.ID });
+                    return RedirectToAction("EmployeeManage", new { id = timeSheet.Id });
                 }
                 else
                 {
-                    return RedirectToAction("Manage", new { id = timeSheet.ID });
+                    return RedirectToAction("Manage", new { id = timeSheet.Id });
                 }
             }
 
-            ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
-            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmpID);
+            ViewBag.AssocClientID = new SelectList(db.Clients, "Id", "CompanyName", timeSheet.ClientId);
+            ViewBag.EmpID = new SelectList(db.Employees, "Id", "FullName", timeSheet.EmployeeId);
             return View(timeSheet);
         }
         // GET: TimeSheets/Manage/5
@@ -353,11 +416,11 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EmployeeManage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, int? page, string sortBy)
+        public ActionResult EmployeeManage([Bind(Include = "Id,CompanyName,EmployeeId,ClientId,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
-                TimeSheet _timeSheet = db.TimeSheets.Find(timeSheet.ID);
+                TimeSheet _timeSheet = db.TimeSheets.Find(timeSheet.Id);
 
                 if (!_timeSheet.StopTime.HasValue)
                 {
@@ -398,8 +461,8 @@ namespace DDSDemo.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-                ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName");
-                ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName");
+                ViewBag.ClientId = new SelectList(db.Clients, "Id", "CompanyName");
+                ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FullName");
                 return View();
             }
             else if (User.IsInRole("Employee"))
@@ -418,26 +481,29 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet)
+        public ActionResult Create([Bind(Include = "EmployeeId,ClientId")] TimeSheetForInsert timeSheetForInsert)
         {
             if (ModelState.IsValid)
             {
-                timeSheet.StartTime = DateTime.Now;
-                timeSheet = db.TimeSheets.Add(timeSheet);
+                var timeSheet = db.TimeSheets.Add(
+                    new TimeSheet
+                        { EmployeeId = timeSheetForInsert.EmployeeId, ClientId = timeSheetForInsert.ClientId, StartTime = DateTime.Now
+                    });
+
                 db.SaveChanges();
                 if (User.IsInRole("Employee"))
                 {
-                    return RedirectToAction("EmployeeManage", new { id = timeSheet.ID });
+                    return RedirectToAction("EmployeeManage", new { id = timeSheet.Id });
                 }
                 else
                 {
-                    return RedirectToAction("Manage", new { id = timeSheet.ID });
+                    return RedirectToAction("Manage", new { id = timeSheet.Id });
                 }
             }
 
-            ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
-            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmpID);
-            return View(timeSheet);
+            ViewBag.ClientId = new SelectList(db.Clients, "Id", "CompanyName", timeSheetForInsert.ClientId);
+            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FullName", timeSheetForInsert.EmployeeId);
+            return View(timeSheetForInsert);
         }
 
         
@@ -460,8 +526,8 @@ namespace DDSDemo.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
-            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmpID);
+            ViewBag.ClientId = new SelectList(db.Clients, "Id", "CompanyName", timeSheet.ClientId);
+            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FullName", timeSheet.EmployeeId);
             return View(timeSheet);
         }
 
@@ -471,11 +537,11 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed,ClientFeedback")] TimeSheet timeSheet, string searchBy, string search, int? page, string sortBy)
+        public ActionResult Manage([Bind(Include = "Id,CompanyName,EmployeeId,ClientId,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed,ClientFeedback")] TimeSheet timeSheet, string searchBy, string search, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
-                TimeSheet _timeSheet = db.TimeSheets.Find(timeSheet.ID);
+                TimeSheet _timeSheet = db.TimeSheets.Find(timeSheet.Id);
 
                 if (!_timeSheet.StopTime.HasValue)
                 {
@@ -508,8 +574,8 @@ namespace DDSDemo.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
-            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmpID);
+            ViewBag.ClientId = new SelectList(db.Clients, "Id", "CompanyName", timeSheet.ClientId);
+            ViewBag.EmployeeID = new SelectList(db.Employees, "Id", "FullName", timeSheet.EmployeeId);
             return View(timeSheet);
         }
 
@@ -519,12 +585,12 @@ namespace DDSDemo.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,CompanyName,EmpID,AssocClientID,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, string searchBy, string search, int? page, string sortBy)
+        public ActionResult Edit([Bind(Include = "Id,CompanyName,EmployeeId,ClientId,StartTime,StopTime,Note,Approved,ApprovedBy,ApprovedDate,Processed")] TimeSheet timeSheet, string searchBy, string search, int? page, string sortBy)
         {
             if (ModelState.IsValid)
             {
                 var _timeSheet = timeSheet;
-                var old = db.TimeSheets.Find(_timeSheet.ID);
+                var old = db.TimeSheets.Find(_timeSheet.Id);
 
                 if (old.Approved != timeSheet.Approved)
                 {
@@ -537,10 +603,10 @@ namespace DDSDemo.Controllers
                     old.ApprovedBy = timeSheet.ApprovedBy;
                 }
 
-                old.ID = timeSheet.ID;
+                old.Id = timeSheet.Id;
                 old.CompanyName = timeSheet.CompanyName;
-                old.EmpID = timeSheet.EmpID;
-                old.AssocClientID = timeSheet.AssocClientID;
+                old.EmployeeId = timeSheet.EmployeeId;
+                old.ClientId = timeSheet.ClientId;
                 old.StartTime = timeSheet.StartTime;
                 old.StopTime = timeSheet.StopTime;
                 old.Note = timeSheet.Note;
@@ -551,8 +617,8 @@ namespace DDSDemo.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", new {page = page, search = search, searchBy = searchBy, sortBy = sortBy });
             }
-            ViewBag.AssocClientID = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.AssocClientID);
-            ViewBag.EmpID = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmpID);
+            ViewBag.ClientId = new SelectList(db.Clients, "ID", "CompanyName", timeSheet.ClientId);
+            ViewBag.EmployeeId = new SelectList(db.Employees, "ID", "FullName", timeSheet.EmployeeId);
             return View(timeSheet);
         }
         // GET: TimeSheets/Manage/5

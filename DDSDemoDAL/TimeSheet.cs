@@ -6,21 +6,15 @@ namespace DDSDemoDAL
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tblTimeSheetMaster")]
     public partial class TimeSheet
     {
-        [Column(TypeName = "numeric")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public decimal ID { get; set; }
+        public int Id { get; set; }
 
-        [StringLength(50)]
         public string CompanyName { get; set; }
 
-        [Column(TypeName = "numeric")]
-        public decimal EmpID { get; set; }
+        public int EmployeeId { get; set; }
 
-        [Column(TypeName = "numeric")]
-        public decimal? AssocClientID { get; set; }
+        public int ClientId { get; set; }
         
         public DateTime? StartTime { get; set; }
         
@@ -34,7 +28,6 @@ namespace DDSDemoDAL
 
         public string ApprovedBy { get; set; }
 
-        
         public DateTime? ApprovedDate { get; set; }
 
         public bool Processed { get; set; }
@@ -42,6 +35,5 @@ namespace DDSDemoDAL
         public virtual Client Client { get; set; }
 
         public virtual Employee Employee { get; set; }
-        
     }
 }

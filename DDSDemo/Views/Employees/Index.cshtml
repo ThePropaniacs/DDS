@@ -50,21 +50,16 @@
    }
 <br/>
 
-<p>
+@*<p>
     @Html.ActionLink("Create New", "Create", new { page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
-</p>
+</p>*@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayName("Company Name")
-        </th>
-        <th>
-            @*@Html.DisplayName("First Name")*@
             @Html.ActionLink("First Name", "Index", new { sortBy = ViewBag.SortFirstNameParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
             <span class="caret"></span>
         </th>
         <th>
-            @*@Html.DisplayName("Last Name")*@
             @Html.ActionLink("Last Name", "Index", new { sortBy = ViewBag.SortLastNameParameter, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] })
             <span class="caret"></span>
         </th>
@@ -103,11 +98,7 @@
 
     @foreach (var item in Model)
     {
-        <tr
-            onclick="location.href = '@(Url.Action("Edit", "Employees", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
-            </td>
+        <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -214,8 +205,7 @@
                 @(item.AvailExpires.HasValue ? item.AvailExpires.Value.ToShortTimeString() : "--")
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
-                @Html.ActionLink("Users", "Users", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) 
+                @Html.ActionLink("Users", "Users", new { id = item.Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) 
             </td>
         </tr>
     }

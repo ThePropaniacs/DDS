@@ -48,9 +48,9 @@
     </div>
                         }
 <br/>
-<p>
+@*<p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p>*@
 <table class="table">
     <tr>
 
@@ -86,8 +86,7 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr
-        onclick="location.href = '@(Url.Action("Edit", "Clients", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
+    <tr>
         @*<td>
             @Html.DisplayFor(modelItem => item.EmployerName)
         </td>*@
@@ -113,8 +112,8 @@
             @Html.DisplayFor(modelItem => item.Phone)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
-            @Html.ActionLink("Users", "Users", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) 
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |*@
+            @Html.ActionLink("Users", "Users", new { id = item.Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) 
         </td>
     </tr>
 }

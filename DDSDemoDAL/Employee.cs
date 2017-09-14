@@ -6,29 +6,20 @@ namespace DDSDemoDAL
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("tblEmployeeMaster")]
     public partial class Employee
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employee()
         {
             TimeSheets = new HashSet<TimeSheet>();
         }
 
-        [Column(TypeName = "numeric")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public decimal ID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
 
+        //public int EmpID { get; set; }
 
-        [StringLength(50)]
-        public string CompanyName { get; set; }
-
-        public int EmpID { get; set; }
-
-        [StringLength(50)]
         public string FirstName { get; set; }
 
-        [StringLength(50)]
         public string LastName { get; set; }
 
         public bool? Sun { get; set; }
@@ -45,7 +36,6 @@ namespace DDSDemoDAL
 
         public bool? Sat { get; set; }
 
-        [StringLength(50)]
         public string AvailNotes { get; set; }
         
         public DateTime? AvailStart { get; set; }
@@ -54,9 +44,6 @@ namespace DDSDemoDAL
 
         public int? AvailDuration { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeSheet> TimeSheets { get; set; }
-
-        //public virtual List<>
     }
 }

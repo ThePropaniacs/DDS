@@ -59,21 +59,9 @@
   <ItemGroup>
     <Compile Include="DDSContext.cs" />
     <Compile Include="EmployeeExt.cs" />
-    <Compile Include="Migrations\201706191725534_InitialCreate.cs" />
-    <Compile Include="Migrations\201706191725534_InitialCreate.Designer.cs">
-      <DependentUpon>201706191725534_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707191605063_TestingUghhhhhhhh.cs" />
-    <Compile Include="Migrations\201707191605063_TestingUghhhhhhhh.Designer.cs">
-      <DependentUpon>201707191605063_TestingUghhhhhhhh.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709071449553_AddedClientFeedbackToTimeSheet.cs" />
-    <Compile Include="Migrations\201709071449553_AddedClientFeedbackToTimeSheet.Designer.cs">
-      <DependentUpon>201709071449553_AddedClientFeedbackToTimeSheet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709071503075_SetProcessedToNonNullable.cs" />
-    <Compile Include="Migrations\201709071503075_SetProcessedToNonNullable.Designer.cs">
-      <DependentUpon>201709071503075_SetProcessedToNonNullable.cs</DependentUpon>
+    <Compile Include="Migrations\201709122013443_StartingOverAgain.cs" />
+    <Compile Include="Migrations\201709122013443_StartingOverAgain.Designer.cs">
+      <DependentUpon>201709122013443_StartingOverAgain.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,17 +77,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706191725534_InitialCreate.resx">
-      <DependentUpon>201706191725534_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707191605063_TestingUghhhhhhhh.resx">
-      <DependentUpon>201707191605063_TestingUghhhhhhhh.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709071449553_AddedClientFeedbackToTimeSheet.resx">
-      <DependentUpon>201709071449553_AddedClientFeedbackToTimeSheet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709071503075_SetProcessedToNonNullable.resx">
-      <DependentUpon>201709071503075_SetProcessedToNonNullable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709122013443_StartingOverAgain.resx">
+      <DependentUpon>201709122013443_StartingOverAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

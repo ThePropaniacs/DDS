@@ -21,7 +21,7 @@ namespace DDSDemo.Services
             if (result.Succeeded)
             {
                 await UserManager.AddToRoleAsync(user.Id, "Client");
-                await UserManager.AddClaimAsync(user.Id, new Claim("ClientID", model.ID.ToString()));
+                await UserManager.AddClaimAsync(user.Id, new Claim("ClientId", model.Id.ToString()));
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link

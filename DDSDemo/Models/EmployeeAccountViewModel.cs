@@ -13,13 +13,9 @@ namespace DDSDemo.Models
         [Required]
         public string Email { get; set; }
 
-        public decimal ID { get; set; }
+        public int Id { get; set; }
 
-
-        [StringLength(50)]
-        public string CompanyName { get; set; }
-
-        public int EmpID { get; set; }
+        public int EmployeeId { get; set; }
 
         [StringLength(50)]
         public string FirstName { get; set; }

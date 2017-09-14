@@ -15,11 +15,10 @@ namespace DDSDemo.Infrastructure
             employee.AvailExpires = employeeVm.AvailExpires;
             employee.AvailNotes = employeeVm.AvailNotes;
             employee.AvailStart = employeeVm.AvailStart;
-            employee.CompanyName = employeeVm.CompanyName;
-            employee.EmpID = employeeVm.EmpID;
+            //employee.EmployeeID = employeeVm.EmployeeID;
             employee.FirstName = employeeVm.FirstName;
             employee.Fri = employeeVm.Fri;
-            employee.ID = employeeVm.ID;
+            employee.Id = employeeVm.Id;
             employee.LastName = employeeVm.LastName;
             employee.Mon = employeeVm.Mon;
             employee.Sat = employeeVm.Sat;
@@ -27,7 +26,6 @@ namespace DDSDemo.Infrastructure
             employee.Thu = employeeVm.Thu;
             employee.Tue = employeeVm.Tue;
             employee.Wed = employeeVm.Wed;
-            //TODO: KEEP ON MAPPIN
         }
     }
 }

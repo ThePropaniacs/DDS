@@ -4,7 +4,7 @@
     ViewBag.Title = "Employee Manage";
 }
 
-<h2>Timesheet #@Model.ID.ToString() </h2>
+<h2>Timesheet #@Model.Id.ToString() </h2>
 
 @using (Html.BeginForm())
 {
@@ -32,7 +32,7 @@
     <div class="row text-center">
         <div class="col-xs-12">
             <div class="form-group">
-                @Html.LabelFor(model => model.EmpID, "Employee", htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.EmployeeId, "Employee", htmlAttributes: new { @class = "control-label" })
                 <div>
                     <input type="text" class="form-control" style="display:inline;" disabled value="@Model.Employee.FullName" />
                 </div>
@@ -41,7 +41,7 @@
 
         <div class="col-xs-12">
             <div class="form-group">
-                @Html.LabelFor(model => model.AssocClientID, "Client", htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.ClientId, "Client", htmlAttributes: new { @class = "control-label" })
                 <div>
                     <input type="text" class="form-control" style="display:inline;" disabled value="@Model.Client.CompanyName" />
                 </div>

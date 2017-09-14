@@ -64,34 +64,34 @@
                        }
                         >
 
-                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
+                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
 >
                             @Html.DisplayFor(modelItem => Model[i].Employee.FullName)
                         </td>
-                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
+                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
 >
                             @(Model[i].StartTime.HasValue ? Model[i].StartTime.Value.ToShortTimeString() : "--") <br />
                             @(Model[i].StartTime.HasValue ? Model[i].StartTime.Value.ToShortDateString() : "--")
                         </td>
-                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
+                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
 >
                             @(Model[i].StopTime.HasValue ? Model[i].StopTime.Value.ToShortTimeString() : "--") <br />
                             @(Model[i].StopTime.HasValue ? Model[i].StopTime.Value.ToShortDateString() : "--")
                         </td>
-                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
+                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
 >
                             @Model[i].ElapsedTime.ToString(@"hh\:mm\:ss")
                         </td>
-                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
+                        <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
 >
                             @Html.DisplayFor(modelItem => Model[i].Note)
                         </td>
-                        <td style="color:black" onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
+                        <td style="color:black" onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
 >
-                            @Html.ActionLink("Review", "ClientEdit", new { id = Model[i].ID, page = Model.PageNumber, sortBy = Request.QueryString["sortBy"] })
+                            @Html.ActionLink("Review", "ClientEdit", new { id = Model[i].Id, page = Model.PageNumber, sortBy = Request.QueryString["sortBy"] })
                         </td>
                         <td style="text-align:center; width:20%">
-                            @Html.HiddenFor(modelItem => Model[i].ID)
+                            @Html.HiddenFor(modelItem => Model[i].Id)
                             @Html.HiddenFor(modelItem => Model[i].Approved)
                             @if (Model[i].StopTime.HasValue)
                             {

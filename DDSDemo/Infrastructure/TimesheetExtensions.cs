@@ -13,7 +13,7 @@ namespace DDSDemo.Infrastructure
         {
             tsForList.Approved = ts.Approved;
             tsForList.Client = ts.Client;
-            tsForList.ID = ts.ID;
+            tsForList.Id = ts.Id;
             tsForList.CompanyName = ts.CompanyName;
             tsForList.ElapsedTime = ts.ElapsedTime;
             tsForList.Employee = ts.Employee;

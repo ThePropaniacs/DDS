@@ -12,47 +12,60 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Timesheet</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="row text-center">
-        <div class="col-xs-12">
-            <div class="form-group">
-                @Html.LabelFor(model => model.EmpID, "Employee", htmlAttributes: new { @class = "control-label" })
-                <div>
-                    @Html.DropDownList("EmpID", null, htmlAttributes: new { @class = "form-control", @style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.EmpID, "", new { @class = "text-danger" })
+    @{
+        if (ViewBag.HasPlacements == true)
+        {
+            <div class="row text-center">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeId, "Employee", htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownList("EmployeeId", null, htmlAttributes: new { @class = "form-control", @style = "display:inline" })
+                            @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ClientId, "Client", htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownList("ClientId", null, htmlAttributes: new { @class = "form-control", @style = "display:inline" })
+                            @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-xs-12">
-            <div class="form-group">
-                @Html.LabelFor(model => model.AssocClientID, "Client", htmlAttributes: new { @class = "control-label" })
-                <div>
-                    @Html.DropDownList("AssocClientID", null, htmlAttributes: new { @class = "form-control", @style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.AssocClientID, "", new { @class = "text-danger" })
+            <div class="container">
+                <div class="row" style="padding: 2rem;">
+                    <div class="col-xs-3"></div>
+                    <div class="col-xs-6">
+                        <input type="submit" class="btn btn-block btn-info" style="padding: 2rem; font-size: 2rem; max-width: 100%;" value="Start" />
+                    </div>
+                    <div class="col-xs-3"></div>
                 </div>
             </div>
-        </div>
-    </div>
-
-
-    <div class="container">
-        <div class="row" style="padding: 2rem;">
-            <div class="col-xs-3"></div>
-            <div class="col-xs-6">
-                <input type="submit" class="btn btn-block btn-info" style="padding: 2rem; font-size: 2rem; max-width: 100%;" value="Start" />
+        }
+        else
+        {
+            <div class="container">
+                <div class="row" style="padding: 2rem;">
+                    <div class="col-xs-12 text-center" style="padding: 3rem"> 
+                        <h2> You do not currently have any placements for the day. </h2>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-3"></div>
-        </div>
-    </div>
+        }
+    }
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to Timesheets", "Index")
+<div class="text-center" style="padding-bottom: 2rem">
+    @Html.ActionLink("<< Back to Timesheets", "Index")
 </div>
 
 @section Scripts {

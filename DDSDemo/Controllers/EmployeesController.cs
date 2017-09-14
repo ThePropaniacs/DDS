@@ -83,7 +83,7 @@ namespace DDSDemo.Controllers
             ViewBag.CurrentPage = page;
             var users = dbb.Users.ToList().Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString()));
 
-            var currentEmployee = db.Employees.SingleOrDefault(e => e.ID == id);
+            var currentEmployee = db.Employees.SingleOrDefault(e => e.Id == id);
 
             if(currentEmployee == null)
             {
@@ -101,52 +101,52 @@ namespace DDSDemo.Controllers
         }
 
         // GET: Employees/Create
-        public ActionResult Create(string searchBy, string search, int? page, string sortBy)
-        {
-            ViewBag.CurrentPage = page;
-            return View();
-        }
+        //public ActionResult Create(string searchBy, string search, int? page, string sortBy)
+        //{
+        //    ViewBag.CurrentPage = page;
+        //    return View();
+        //}
 
-        // POST: Employees/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(string searchBy, string search, int? page, string sortBy, [Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration, Email")] EmployeeAccountViewModel employeeVm)
-        {
-            if (ModelState.IsValid)
-            {
-                var employee = new Employee();
+        //// POST: Employees/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Create(string searchBy, string search, int? page, string sortBy, [Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration, Email")] EmployeeAccountViewModel employeeVm)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var employee = new Employee();
 
-                employee.EmployeeAccountVmToEmployee(employeeVm);
+        //        employee.EmployeeAccountVmToEmployee(employeeVm);
 
-                ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                ApplicationUser exists = await UserManager.FindByEmailAsync(employeeVm.Email);
+        //        ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //        ApplicationUser exists = await UserManager.FindByEmailAsync(employeeVm.Email);
 
-                if (exists == null)
-                {
-                    var new_employee = db.Employees.Add(employee);
-                    db.SaveChanges();
+        //        if (exists == null)
+        //        {
+        //            var new_employee = db.Employees.Add(employee);
+        //            db.SaveChanges();
 
-                    employeeVm.ID = new_employee.ID;
+        //            employeeVm.Id = new_employee.Id;
 
-                    var employeeRegisterService = new EmployeeRegisterService();
+        //            var employeeRegisterService = new EmployeeRegisterService();
 
-                    var result = await employeeRegisterService.RegisterEmployee(employeeVm, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
+        //            var result = await employeeRegisterService.RegisterEmployee(employeeVm, HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>());
 
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                }
-                else
-                {
-                    ViewBag.EmailTaken = "Email already in use";
-                    return View(employeeVm);
-                }              
-            }
-            return View(employeeVm);
-        }
+        //            if (result.Succeeded)
+        //            {
+        //                return RedirectToAction("Index");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            ViewBag.EmailTaken = "Email already in use";
+        //            return View(employeeVm);
+        //        }              
+        //    }
+        //    return View(employeeVm);
+        //}
 
         // GET: Employee/AddUser/5
         public ActionResult AddUser(decimal id, string searchBy, string search, int? page, string sortBy)
@@ -165,7 +165,7 @@ namespace DDSDemo.Controllers
 
             EmployeeAccountViewModel employeeVm = new EmployeeAccountViewModel();
 
-            employeeVm.ID = employee.ID;
+            employeeVm.Id = employee.Id;
             employeeVm.FirstName = employee.FirstName;
             employeeVm.LastName = employee.LastName;
             
@@ -184,7 +184,7 @@ namespace DDSDemo.Controllers
             ViewBag.CurrentPage = page;
             Employee employee = db.Employees.Find(user.ID);
             EmployeeAccountViewModel employeeVm = new EmployeeAccountViewModel();
-            employeeVm.ID = employee.ID;
+            employeeVm.Id = employee.Id;
             employeeVm.FirstName = employee.FirstName;
             employeeVm.LastName = employee.LastName;
 
@@ -213,73 +213,73 @@ namespace DDSDemo.Controllers
         }
 
         // GET: Employees/Edit/5
-        public ActionResult Edit(decimal id, string searchBy, string search, int? page, string sortBy)
-        {
-            ViewBag.CurrentPage = page;
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Employee employee = db.Employees.Find(id);
-            if (employee == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employee);
-        }
+        //public ActionResult Edit(decimal id, string searchBy, string search, int? page, string sortBy)
+        //{
+        //    ViewBag.CurrentPage = page;
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Employee employee = db.Employees.Find(id);
+        //    if (employee == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(employee);
+        //}
 
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(string searchBy, string search, int? page, string sortBy, [Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration")] Employee employee)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(employee).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
-            }
-            return View(employee);
-        }
+        //// POST: Employees/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(string searchBy, string search, int? page, string sortBy, [Bind(Include = "ID,CompanyName,EmpID,FirstName,LastName,Sun,Mon,Tue,Wed,Thu,Fri,Sat,AvailNotes,AvailStart,AvailExpires,AvailDuration")] Employee employee)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(employee).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
+        //    }
+        //    return View(employee);
+        //}
 
-        // GET: Employees/Delete/5
-        public ActionResult Delete(decimal id, string searchBy, string search, int? page, string sortBy)
-        {
-            ViewBag.CurrentPage = page;
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Employee employee = db.Employees.Find(id);
-            if (employee == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employee);
-        }
+        //// GET: Employees/Delete/5
+        //public ActionResult Delete(decimal id, string searchBy, string search, int? page, string sortBy)
+        //{
+        //    ViewBag.CurrentPage = page;
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Employee employee = db.Employees.Find(id);
+        //    if (employee == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(employee);
+        //}
 
-        // POST: Employees/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(decimal id, string searchBy, string search, int? page, string sortBy)
-        {
-            ViewBag.CurrentPage = page;
-            //Employee employee = db.Employees.Find(id);
-            ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ApplicationUser empuser = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString())).FirstOrDefault();
-            while (empuser != null)
-            {
-                dbb.Users.Remove(empuser);
-                dbb.SaveChanges();
-                empuser = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString())).FirstOrDefault();
+        //// POST: Employees/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(decimal id, string searchBy, string search, int? page, string sortBy)
+        //{
+        //    ViewBag.CurrentPage = page;
+        //    //Employee employee = db.Employees.Find(id);
+        //    ApplicationUserManager UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    ApplicationUser empuser = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString())).FirstOrDefault();
+        //    while (empuser != null)
+        //    {
+        //        dbb.Users.Remove(empuser);
+        //        dbb.SaveChanges();
+        //        empuser = dbb.Users.Where(u => u.Claims.Any(t => t.ClaimType == "EmployeeID" && t.ClaimValue == id.ToString())).FirstOrDefault();
 
-            }
-            //db.Employees.Remove(employee);
-            //db.SaveChanges();
-            return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
-        }
+        //    }
+        //    //db.Employees.Remove(employee);
+        //    //db.SaveChanges();
+        //    return RedirectToAction("Index", new { page = page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] });
+        //}
 
         // GET: Employees/DeleteUser/0bb0b0bb-0b0b-00bb-bb0b-00b000bb0000
         public ActionResult DeleteUser(string id, string searchBy, string search, int? page, string sortBy)

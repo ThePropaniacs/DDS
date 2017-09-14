@@ -21,11 +21,20 @@ namespace DDSDemo
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/bootstrap-datepicker.min.js"));
+
+            
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/bootstrapDatepicker").Include(
+                      "~/Content/bootstrap-datepicker.css",
+                      "~/Content/bootstrap-datepicker.standalone.css",
+                      "~/Content/bootstrap-datepicker3.css",
+                      "~/Content/bootstrap-datepicker3.standalone.css"));
         }
     }
 }

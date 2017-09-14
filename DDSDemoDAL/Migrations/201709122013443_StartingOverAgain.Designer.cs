@@ -7,13 +7,13 @@ namespace DDSDemoDAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class SetProcessedToNonNullable : IMigrationMetadata
+    public sealed partial class StartingOverAgain : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SetProcessedToNonNullable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(StartingOverAgain));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709071503075_SetProcessedToNonNullable"; }
+            get { return "201709122013443_StartingOverAgain"; }
         }
         
         string IMigrationMetadata.Source

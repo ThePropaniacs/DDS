@@ -8,27 +8,25 @@ namespace DDSDemoDAL
 
     public partial class Placement
     {
-        [Column(TypeName = "numeric")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public decimal ID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
 
-        [StringLength(50)]
         public string CompanyName { get; set; }
 
-        public int? PlacementID { get; set; }
+        public int ClientId { get; set; }
 
-        public int? ClientID { get; set; }
+        public int EmployeeId { get; set; }
 
-        public int? EmployeeID { get; set; }
-
-        [Column(TypeName = "date")]
         public DateTime? PlacementDate { get; set; }
 
         public DateTime? StartTime { get; set; }
 
         public DateTime? EndTime { get; set; }
 
-        [StringLength(50)]
         public string Position { get; set; }
+
+        public virtual Client Client { get; set; }
+
+        public virtual Employee Employee { get; set; }
     }
 }

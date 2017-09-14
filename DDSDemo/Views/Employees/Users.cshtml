@@ -13,8 +13,8 @@
 </h4>
 
 <p>
-    @Html.ActionLink("Add User", "AddUser", new { id = Model.Employee.ID, page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
-    @Html.ActionLink("Delete All Users", "Delete", new { id = Model.Employee.ID, page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
+    @Html.ActionLink("Add User", "AddUser", new { id = Model.Employee.Id, page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) |
+    @Html.ActionLink("Delete All Users", "Delete", new { id = Model.Employee.Id, page = ViewBag.CurrentPage, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] })
 </p>
 <table class="table">
     <tr>

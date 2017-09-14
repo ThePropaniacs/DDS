@@ -5,7 +5,7 @@
 
 
 @{
-    ViewBag.Title = "EmployeeIndex";
+    ViewBag.Title = "Timesheets";
 }
 
 <h2>Timesheets</h2>
@@ -13,57 +13,64 @@
     @ViewBag.UserGreeting
 </h4>
 
-<p>
-    @Html.ActionLink("Create New", "EmployeeCreate")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Client
-        </th>
-        <th>
-           @Html.ActionLink("Start Time", "EmployeeIndex", new { sortBy = ViewBag.SortStartTimeParameter })
-        <span class="caret"></span>
-        </th>
-        <th>
-            @Html.ActionLink("Stop Time", "EmployeeIndex", new { sortBy = ViewBag.SortStopTimeParameter })
-            <span class="caret"></span>
-        </th>
-        <th>
-            Elapsed Time
-        </th>
-        <th>
-            Note
-        </th>
-        <th></th>
-    </tr>
+<div class="row" style="padding: 3rem">
+    <div class="col-sm-6 col-sm-offset-3">
+        @Html.ActionLink("Create New Timesheet", "EmployeeCreate", null, new { @class = "btn btn-block btn-primary" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Client
+                </th>
+                <th>
+                    @Html.ActionLink("Start Time", "EmployeeIndex", new { sortBy = ViewBag.SortStartTimeParameter })
+                    <span class="caret"></span>
+                </th>
+                <th>
+                    @Html.ActionLink("Stop Time", "EmployeeIndex", new { sortBy = ViewBag.SortStopTimeParameter })
+                    <span class="caret"></span>
+                </th>
+                <th>
+                    Elapsed Time
+                </th>
+                <th>
+                    Note
+                </th>
+                <th></th>
+            </tr>
 
-@foreach (var item in Model) {
-    <tr
-       onclick="location.href = '@(Url.Action("EmployeeManage", "TimeSheets", new { id = item.ID, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
+            @foreach (var item in Model)
+            {
+                <tr onclick="location.href = '@(Url.Action("EmployeeManage", "TimeSheets", new { id = item.Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'">
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Client.CompanyName)
-        </td>
-        <td>
-            @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br/>
-            @(item.StartTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--") 
-        </td>
-        <td>
-            @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br />
-            @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
-        </td>
-        <td>
-            @item.ElapsedTime.ToString(@"hh\:mm\:ss")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Note)
-        </td>
-        <td>
-            @Html.ActionLink("Manage", "EmployeeManage", new { id = item.ID, page = Model.PageNumber, sortBy = Request.QueryString["sortBy"] })
-        </td>
-    </tr>
-}
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client.CompanyName)
+                    </td>
+                    <td>
+                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br />
+                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--")
+                    </td>
+                    <td>
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br />
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
+                    </td>
+                    <td>
+                        @item.ElapsedTime.ToString(@"hh\:mm\:ss")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Manage", "EmployeeManage", new { id = item.Id, page = Model.PageNumber, sortBy = Request.QueryString["sortBy"] })
+                    </td>
+                </tr>
+            }
 
-</table>
+        </table>
+    </div>
+</div>
+
 @Html.PagedListPager(Model, page => Url.Action("EmployeeIndex", new { page, id = Request.QueryString["id"], sortBy = Request.QueryString["sortBy"] }))
