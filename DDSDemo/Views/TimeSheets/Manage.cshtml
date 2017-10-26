@@ -4,6 +4,10 @@
     ViewBag.Title = "Manage";
 }
 
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
 <h2>Timesheet #@Model.Id.ToString() </h2>
 <div class="row">
     <div class="col-xs-12 text-center">
@@ -38,7 +42,7 @@
         <div class="row text-center">
             <div class="col-xs-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.EmployeeId, "Employee", htmlAttributes: new { @class = "control-label" })
+                    <label class="control-label">Employee</label>
                     <div>
                         <input type="text" class="form-control" style="display:inline;" disabled value="@Model.Employee.FullName" />
                     </div>
@@ -47,7 +51,7 @@
 
             <div class="col-xs-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ClientId, "Client", htmlAttributes: new { @class = "control-label" })
+                    <label class="control-label">Client</label>
                     <div>
                         <input type="text" class="form-control" style="display:inline;" disabled value="@Model.Client.CompanyName" />
                     </div>
@@ -62,15 +66,14 @@
                 @{
                     if (!Model.StopTime.HasValue)
                     {
-                        <input type="submit" class="btn btn-block btn-warning" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Stop" />
+                        <input type="submit" class="btn btn-block btn-warning" id="stopSubmit" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Stop" />
                     }
-                    else
-                    {
 
-                        <input type="submit" class="btn btn-block btn-success" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Save" />
-                    }
+                    <input type="submit" class="btn btn-block btn-success" id="saveSubmit" style="padding: 2rem; font-size: 2rem; max-width: 100%; margin-bottom: 1rem;" value="Save" />
                 }
                     
+                @Html.TextBoxFor(model => model.StartTime, new { style = "display: none;" })
+                @Html.TextBoxFor(model => model.StopTime, new { id = "stopTime", style = "display: none;" })
                 @Html.LabelFor(model => model.Note, "Note", htmlAttributes: new { @class = "control-label" })
                 @Html.TextAreaFor(model => Model.Note, htmlAttributes: new { @class="form-control", @style="width:100%; max-width: 100%; height:10rem;"})
 
@@ -90,6 +93,7 @@
     if (!Model.StopTime.HasValue)
     {
         <script>
+
             var incrementTimer = function () {
                 var time = document.getElementById("elapsedTime").innerText;
                 var timeArray = time.split(":");
@@ -128,6 +132,15 @@
     }
 }
 
+<script>
+    $(document).ready(function () {
+        $("#stopSubmit").click(function () {
+            let today = moment().format();
+            console.log(today);
+            $('#stopTime').val(today);
+        });
+    });
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

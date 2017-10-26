@@ -23,6 +23,8 @@ namespace DDSDemoDAL
 
         public DateTime? EndTime { get; set; }
 
+        public bool Cancelled { get; set; }
+
         public string Position { get; set; }
 
         public virtual Client Client { get; set; }

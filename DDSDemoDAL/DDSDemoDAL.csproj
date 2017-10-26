@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201709122013443_StartingOverAgain.Designer.cs">
       <DependentUpon>201709122013443_StartingOverAgain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710261419173_AddedCancelledFlagToPlacement.cs" />
+    <Compile Include="Migrations\201710261419173_AddedCancelledFlagToPlacement.Designer.cs">
+      <DependentUpon>201710261419173_AddedCancelledFlagToPlacement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Client.cs" />
@@ -79,6 +83,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709122013443_StartingOverAgain.resx">
       <DependentUpon>201709122013443_StartingOverAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710261419173_AddedCancelledFlagToPlacement.resx">
+      <DependentUpon>201710261419173_AddedCancelledFlagToPlacement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -340,7 +340,9 @@ namespace DDSDemo.Controllers
 
                 var today = DateTime.Now.Date;
 
-                var placements = db.Placements.ToList().Where(p => p.PlacementDate.Value.Date == DateTime.Now.Date && p.EmployeeId == employeeID);
+                var placements = db.Placements.ToList().Where(p => p.PlacementDate.Value.Date == DateTime.Now.Date 
+                                        && p.EmployeeId == employeeID 
+                                        && p.Cancelled == false);
                 var clients = new List<Client>();
                 if (placements.Count() != 0)
                 {
@@ -422,10 +424,12 @@ namespace DDSDemo.Controllers
             {
                 TimeSheet _timeSheet = db.TimeSheets.Find(timeSheet.Id);
 
-                if (!_timeSheet.StopTime.HasValue)
-                {
-                    _timeSheet.StopTime = DateTime.Now;
-                }
+                //if (!_timeSheet.StopTime.HasValue)
+                //{
+                //    _timeSheet.StopTime = DateTime.Now;
+                //}
+
+                _timeSheet.StopTime = timeSheet.StopTime;
 
                 _timeSheet.Note = timeSheet.Note;
                 db.SaveChanges();
@@ -543,10 +547,12 @@ namespace DDSDemo.Controllers
             {
                 TimeSheet _timeSheet = db.TimeSheets.Find(timeSheet.Id);
 
-                if (!_timeSheet.StopTime.HasValue)
-                {
-                    _timeSheet.StopTime = DateTime.Now;
-                }
+                //if (!_timeSheet.StopTime.HasValue)
+                //{
+                //    _timeSheet.StopTime = DateTime.Now;
+                //}
+
+                _timeSheet.StopTime = timeSheet.StopTime;
 
                 _timeSheet.ClientFeedback = timeSheet.ClientFeedback;
                 _timeSheet.Note = timeSheet.Note;
