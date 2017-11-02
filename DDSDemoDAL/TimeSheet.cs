@@ -23,33 +23,18 @@ namespace DDSDemoDAL
         {
             get
             {
-                return startTime;
-                //if (this.startTime.HasValue)
-                //{
-                //    if (this.startTime.Value.Kind == DateTimeKind.Local)
-                //    {
-                //        return this.startTime;
-                //    }
-                //    var returnTime = DateTimeOperations.ConvertToLocalTime(this.startTime.Value);
-                //    return returnTime;
-                //}
-                //return null;
+                if (this.startTime.HasValue)
+                {
+                    var regionalStartTime = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(this.startTime.Value, "Eastern Standard Time");
+                    return regionalStartTime;
+                }
+
+                return (DateTimeOffset?)null;
             }
 
             set
             {
-                startTime = value;
-                //if (value.HasValue)
-                //{
-                //    if (value.Value.Kind == DateTimeKind.Local)
-                //    {
-                //        this.startTime = value.HasValue ? DateTimeOperations.ConvertToUTCTime(value.Value) : (DateTime?)null;
-                //    }
-                //    else
-                //    {
-                //        this.startTime = DateTime.SpecifyKind(value.Value, DateTimeKind.Utc);
-                //    }
-                //}
+                startTime = value?.ToUniversalTime();
             }
         }
 
@@ -58,33 +43,18 @@ namespace DDSDemoDAL
         {
             get
             {
-                return stopTime;
-                //if (this.stopTime.HasValue)
-                //{
-                //    if (this.stopTime.Value.Kind == DateTimeKind.Local)
-                //    {
-                //        return this.stopTime;
-                //    }
-                //    var returnTime = DateTimeOperations.ConvertToLocalTime(this.stopTime.Value);
-                //    return returnTime;
-                //}
-                //return null;
+                if (this.stopTime.HasValue)
+                {
+                    var regionalStopTime = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(this.stopTime.Value, "Eastern Standard Time");
+                    return regionalStopTime;
+                }
+
+                return (DateTimeOffset?)null;
             }
 
             set
             {
-                stopTime = value;
-                //if (value.HasValue)
-                //{
-                //    if (value.Value.Kind == DateTimeKind.Local)
-                //    {
-                //        this.stopTime = value.HasValue ? DateTimeOperations.ConvertToUTCTime(value.Value) : (DateTime?)null;
-                //    }
-                //    else
-                //    {
-                //        this.stopTime = DateTime.SpecifyKind(value.Value, DateTimeKind.Utc);
-                //    }
-                //}
+                stopTime = value?.ToUniversalTime();
             }
         }
 

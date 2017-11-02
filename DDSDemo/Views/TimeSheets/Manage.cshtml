@@ -135,7 +135,7 @@
 <script>
     $(document).ready(function () {
         $("#stopSubmit").click(function () {
-            let today = moment().format();
+            let today = moment().utc().format();
             console.log(today);
             $('#stopTime').val(today);
         });
