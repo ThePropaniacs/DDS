@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DDSContext.cs" />
     <Compile Include="EmployeeExt.cs" />
     <Compile Include="Migrations\201709122013443_StartingOverAgain.cs" />

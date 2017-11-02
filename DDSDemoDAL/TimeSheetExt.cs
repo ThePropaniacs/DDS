@@ -17,6 +17,5 @@ namespace DDSDemoDAL
                     : DateTime.Now.Subtract(this.StartTime.GetValueOrDefault());
             }
         }
-        
     }
 }
