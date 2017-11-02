@@ -7,13 +7,13 @@ namespace DDSDemoDAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class StartingOverAgain : IMigrationMetadata
+    public sealed partial class ChangedDateTimesToDateTimeOffsets : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(StartingOverAgain));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangedDateTimesToDateTimeOffsets));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709122013443_StartingOverAgain"; }
+            get { return "201711022005447_ChangedDateTimesToDateTimeOffsets"; }
         }
         
         string IMigrationMetadata.Source

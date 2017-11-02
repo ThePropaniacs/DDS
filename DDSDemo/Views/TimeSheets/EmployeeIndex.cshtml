@@ -50,12 +50,12 @@
                         @Html.DisplayFor(modelItem => item.Client.CompanyName)
                     </td>
                     <td>
-                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortTimeString() : "--") <br />
-                        @(item.StartTime.HasValue ? item.StartTime.Value.ToShortDateString() : "--")
+                        @(item.StartTime.HasValue ? item.StartTime.Value.ToString("t") : "--") <br />
+                        @(item.StartTime.HasValue ? item.StartTime.Value.ToString("d") : "--")
                     </td>
                     <td>
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortTimeString() : "--") <br />
-                        @(item.StopTime.HasValue ? item.StopTime.Value.ToShortDateString() : "--")
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToString("t") : "--") <br />
+                        @(item.StopTime.HasValue ? item.StopTime.Value.ToString("d") : "--")
                     </td>
                     <td>
                         @item.ElapsedTime.ToString(@"hh\:mm\:ss")

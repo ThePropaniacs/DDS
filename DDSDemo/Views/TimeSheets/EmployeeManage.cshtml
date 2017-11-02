@@ -18,13 +18,13 @@
     <div class="col-xs-12">
         <h4 class="pull-left">Start Time:</h4>
         <h4 class="pull-left" style="padding-left:10px">
-            @Model.StartTime.Value.ToShortTimeString() <br />
-            @Model.StartTime.Value.ToShortDateString()
+            @Model.StartTime.Value.ToString("t") <br />
+            @Model.StartTime.Value.ToString("d")
         </h4>
         
         <h4 class="pull-right" style="padding-left:10px">
-            @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortTimeString() : "--") <br />
-            @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortDateString() : "--")
+            @(Model.StopTime.HasValue ? Model.StopTime.Value.ToString("t") : "--") <br />
+            @(Model.StopTime.HasValue ? Model.StopTime.Value.ToString("d") : "--")
         </h4>
         <h4 class="pull-right">
             Stop Time:

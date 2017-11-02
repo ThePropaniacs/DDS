@@ -12,8 +12,8 @@
 
     <div class="form-horizontal">
         <div class="col-xs-12">
-            <h4 class="pull-left">Start Time: @Model.StartTime.Value.ToShortTimeString()</h4>
-            <h4 class="pull-right"> Stop Time: @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortTimeString() : "--")</h4>
+            <h4 class="pull-left">Start Time: @Model.StartTime.Value.ToString("t")</h4>
+            <h4 class="pull-right"> Stop Time: @(Model.StopTime.HasValue ? Model.StopTime.Value.ToString("t") : "--")</h4>
         </div>
 
         <hr />

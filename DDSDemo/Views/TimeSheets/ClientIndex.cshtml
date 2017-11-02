@@ -70,13 +70,13 @@
                         </td>
                         <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
 >
-                            @(Model[i].StartTime.HasValue ? Model[i].StartTime.Value.ToShortTimeString() : "--") <br />
-                            @(Model[i].StartTime.HasValue ? Model[i].StartTime.Value.ToShortDateString() : "--")
+                            @(Model[i].StartTime.HasValue ? Model[i].StartTime.Value.ToString("t") : "--") <br />
+                            @(Model[i].StartTime.HasValue ? Model[i].StartTime.Value.ToString("d") : "--")
                         </td>
                         <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
 >
-                            @(Model[i].StopTime.HasValue ? Model[i].StopTime.Value.ToShortTimeString() : "--") <br />
-                            @(Model[i].StopTime.HasValue ? Model[i].StopTime.Value.ToShortDateString() : "--")
+                            @(Model[i].StopTime.HasValue ? Model[i].StopTime.Value.ToString("t") : "--") <br />
+                            @(Model[i].StopTime.HasValue ? Model[i].StopTime.Value.ToString("d") : "--")
                         </td>
                         <td onclick="location.href = '@(Url.Action("ClientEdit", "TimeSheets", new { id = Model[i].Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }))'"
 >

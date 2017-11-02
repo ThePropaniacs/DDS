@@ -36,12 +36,12 @@
         <div class="col-xs-12">
             <h4 class="pull-left">Start Time:</h4>
             <h4 class="pull-left" style="padding-left:10px">
-                @Model.StartTime.Value.ToShortTimeString() <br />
-                @Model.StartTime.Value.ToShortDateString()
+                @Model.StartTime.Value.ToString("d") <br />
+                @Model.StartTime.Value.ToString("d")
             </h4>
             <h4 class="pull-right" style="padding-left:10px">
-                @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortTimeString() : "--") <br />
-                @(Model.StopTime.HasValue ? Model.StopTime.Value.ToShortDateString() : "--")
+                @(Model.StopTime.HasValue ? Model.StopTime.Value.ToString("d") : "--") <br />
+                @(Model.StopTime.HasValue ? Model.StopTime.Value.ToString("d") : "--")
             </h4>
             <h4 class="pull-right">
                 Stop Time:
@@ -138,23 +138,24 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
 <script> 
-            var now = new Date();
+    var now = moment().utc();
 
-            var day = ("0" + now.getDate()).slice(-2);
-            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
-            var today = (month) + "/" + (day) + "/" + now.getFullYear() + "12:00";
+    var today = (month) + "/" + (day) + "/" + now.getFullYear() + "12:00";
             
 
-            $(document).ready(function () {
-                $("#false").click(function () {
-                    $('#date').val(today);
-                    $('#stuff').val('false');
-                });
-                $("#true").click(function () {
-                    $('#date').val(today);
-                    $('#stuff').val('true');
-                });
-            });
+    $(document).ready(function () {
+        $("#false").click(function () {
+            $('#date').val(today);
+            $('#stuff').val('false');
+        });
+        $("#true").click(function () {
+            $('#date').val(today);
+            $('#stuff').val('true');
+        });
+    });
 </script>

@@ -21,6 +21,7 @@ namespace DDSDemo
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                       "~/Scripts/moment.min.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/bootstrap-datepicker.min.js"));
 

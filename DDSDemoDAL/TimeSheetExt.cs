@@ -12,9 +12,9 @@ namespace DDSDemoDAL
         {
             get
             {
-                return (this.StopTime.HasValue) 
-                    ? this.StopTime.GetValueOrDefault().Subtract(this.StartTime.GetValueOrDefault())
-                    : DateTime.Now.Subtract(this.StartTime.GetValueOrDefault());
+                return (this.stopTime.HasValue) 
+                    ? this.stopTime.GetValueOrDefault().Subtract(this.startTime.GetValueOrDefault())
+                    : DateTimeOffset.Now.Subtract(this.startTime.GetValueOrDefault());
             }
         }
     }

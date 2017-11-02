@@ -199,10 +199,10 @@
                 @Html.DisplayFor(modelItem => item.AvailNotes)
             </td>
             <td>
-                @(item.AvailStart.HasValue ? item.AvailStart.Value.ToShortTimeString() : "--")
+                @(item.AvailStart.HasValue ? item.AvailStart.Value.ToString("t") : "--")
             </td>
             <td>
-                @(item.AvailExpires.HasValue ? item.AvailExpires.Value.ToShortTimeString() : "--")
+                @(item.AvailExpires.HasValue ? item.AvailExpires.Value.ToString("t") : "--")
             </td>
             <td>
                 @Html.ActionLink("Users", "Users", new { id = item.Id, page = Model.PageNumber, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request.QueryString["sortBy"] }) 

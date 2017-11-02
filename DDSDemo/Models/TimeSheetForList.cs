@@ -16,9 +16,9 @@ namespace DDSDemo.Models
 
         public decimal? ClientId { get; set; }
 
-        public DateTime? StartTime { get; set; }
+        public DateTimeOffset? StartTime { get; set; }
 
-        public DateTime? StopTime { get; set; }
+        public DateTimeOffset? StopTime { get; set; }
 
         public string Note { get; set; }
 
@@ -26,7 +26,7 @@ namespace DDSDemo.Models
 
         public string ApprovedBy { get; set; }
 
-        public DateTime? ApprovedDate { get; set; }
+        public DateTimeOffset? ApprovedDate { get; set; }
 
         public bool? Processed { get; set; }
 

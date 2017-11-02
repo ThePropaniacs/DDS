@@ -257,7 +257,7 @@ namespace DDSDemo.Controllers
                 if (timesheet.IsChecked)
                 {
                     ts.Approved = ActionToTake;
-                    ts.ApprovedDate = DateTime.Now;
+                    ts.ApprovedDate = DateTime.UtcNow;
                     ts.ApprovedBy = User.Identity.Name;
                 }
 
@@ -297,11 +297,11 @@ namespace DDSDemo.Controllers
 
                 if (!_timeSheet.StopTime.HasValue)
                 {
-                    _timeSheet.StopTime = DateTime.Now;
+                    _timeSheet.StopTime = DateTime.UtcNow;
                 }
                 _timeSheet.Approved = timeSheet.Approved;
                 _timeSheet.Note = timeSheet.Note;
-                _timeSheet.ApprovedDate = DateTime.Now;
+                _timeSheet.ApprovedDate = DateTime.UtcNow;
                 _timeSheet.ApprovedBy = User.Identity.Name;
                 _timeSheet.ClientFeedback = timeSheet.ClientFeedback;
                 db.SaveChanges();
@@ -338,9 +338,9 @@ namespace DDSDemo.Controllers
             {
                 var employeeID = Int32.Parse((this.HttpContext.User.Identity as ClaimsIdentity).Claims.FirstOrDefault(c => c.Type == "EmployeeID").Value);
 
-                var today = DateTime.Now.Date;
+                var today = DateTime.UtcNow.Date;
 
-                var placements = db.Placements.ToList().Where(p => p.PlacementDate.Value.Date == DateTime.Now.Date 
+                var placements = db.Placements.ToList().Where(p => p.PlacementDate.Value.Date == DateTime.UtcNow.Date 
                                         && p.EmployeeId == employeeID 
                                         && p.Cancelled == false);
                 var clients = new List<Client>();
@@ -377,7 +377,7 @@ namespace DDSDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                timeSheet.StartTime = DateTime.Now;
+                timeSheet.StartTime = DateTime.UtcNow;
                 timeSheet = db.TimeSheets.Add(timeSheet);
                 db.SaveChanges();
                 if (User.IsInRole("Employee"))
@@ -426,7 +426,7 @@ namespace DDSDemo.Controllers
 
                 //if (!_timeSheet.StopTime.HasValue)
                 //{
-                //    _timeSheet.StopTime = DateTime.Now;
+                //    _timeSheet.StopTime = DateTime.UtcNow;
                 //}
 
                 _timeSheet.StopTime = timeSheet.StopTime;
@@ -489,9 +489,10 @@ namespace DDSDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentUniversalTime = DateTime.Now.ToUniversalTime();
-                currentUniversalTime = DateTime.SpecifyKind(currentUniversalTime, DateTimeKind.Local);
-                currentUniversalTime = currentUniversalTime.ToUniversalTime();
+                var currentUniversalTime = DateTime.UtcNow;
+                //var currentUniversalTime = DateTime.UtcNow.ToUniversalTime();
+                //currentUniversalTime = DateTime.SpecifyKind(currentUniversalTime, DateTimeKind.Local);
+                //currentUniversalTime = currentUniversalTime.ToUniversalTime();
                 var timeSheet = db.TimeSheets.Add(
                     new TimeSheet
                     {
@@ -553,15 +554,13 @@ namespace DDSDemo.Controllers
 
                 //if (!_timeSheet.StopTime.HasValue)
                 //{
-                //    _timeSheet.StopTime = DateTime.Now;
+                //    _timeSheet.StopTime = DateTime.UtcNow;
                 //}
 
                 if (timeSheet.StopTime.HasValue)
                 {
-                    var convertedStopTime = timeSheet.StopTime?.ToUniversalTime();
-                    convertedStopTime = DateTime.SpecifyKind(convertedStopTime.Value, DateTimeKind.Local);
-                    convertedStopTime = convertedStopTime?.ToUniversalTime();
-                    _timeSheet.StopTime = convertedStopTime;
+                    var convertedStopTime = timeSheet.StopTime;
+                    _timeSheet.StopTime = timeSheet.StopTime;
                 }
                 
                 _timeSheet.ClientFeedback = timeSheet.ClientFeedback;
@@ -610,7 +609,7 @@ namespace DDSDemo.Controllers
 
                 if (old.Approved != timeSheet.Approved)
                 {
-                    old.ApprovedDate = DateTime.Now;
+                    old.ApprovedDate = DateTime.UtcNow;
                     old.ApprovedBy = "Admin";
                 }
                 else
@@ -626,18 +625,18 @@ namespace DDSDemo.Controllers
 
                 if (timeSheet.StartTime.HasValue)
                 {
-                    var convertedStartTime = timeSheet.StartTime?.ToUniversalTime();
-                    convertedStartTime = DateTime.SpecifyKind(convertedStartTime.Value, DateTimeKind.Local);
-                    convertedStartTime = convertedStartTime?.ToUniversalTime();
-                    old.StartTime = convertedStartTime;
+                    //var convertedStartTime = timeSheet.StartTime?.ToUniversalTime();
+                    //convertedStartTime = DateTime.SpecifyKind(convertedStartTime.Value, DateTimeKind.Local);
+                    //convertedStartTime = convertedStartTime?.ToUniversalTime();
+                    old.StartTime = timeSheet.StartTime;
                 }
 
                 if (timeSheet.StopTime.HasValue)
                 {
-                    var convertedStopTime = timeSheet.StopTime?.ToUniversalTime();
-                    convertedStopTime = DateTime.SpecifyKind(convertedStopTime.Value, DateTimeKind.Local);
-                    convertedStopTime = convertedStopTime?.ToUniversalTime();
-                    old.StopTime = convertedStopTime;
+                    //var convertedStopTime = timeSheet.StopTime?.ToUniversalTime();
+                    //convertedStopTime = DateTime.SpecifyKind(convertedStopTime.Value, DateTimeKind.Local);
+                    //convertedStopTime = convertedStopTime?.ToUniversalTime();
+                    old.StopTime = timeSheet.StopTime;
                 }
                 
                 old.Note = timeSheet.Note;

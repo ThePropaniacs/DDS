@@ -8,8 +8,8 @@ namespace DDSDemoDAL
 
     public partial class TimeSheet
     {
-        private DateTime? startTime = new DateTime?();
-        private DateTime? stopTime = new DateTime?();
+        private DateTimeOffset? startTime = new DateTimeOffset?();
+        private DateTimeOffset? stopTime = new DateTimeOffset?();
 
         public int Id { get; set; }
 
@@ -19,68 +19,72 @@ namespace DDSDemoDAL
 
         public int ClientId { get; set; }
         
-        public DateTime? StartTime
+        public DateTimeOffset? StartTime
         {
             get
             {
-                if (this.startTime.HasValue)
-                {
-                    if (this.startTime.Value.Kind == DateTimeKind.Local)
-                    {
-                        return this.startTime;
-                    }
-                    var returnTime = DateTimeOperations.ConvertToLocalTime(this.startTime.Value);
-                    return returnTime;
-                }
-                return null;
+                return startTime;
+                //if (this.startTime.HasValue)
+                //{
+                //    if (this.startTime.Value.Kind == DateTimeKind.Local)
+                //    {
+                //        return this.startTime;
+                //    }
+                //    var returnTime = DateTimeOperations.ConvertToLocalTime(this.startTime.Value);
+                //    return returnTime;
+                //}
+                //return null;
             }
 
             set
             {
-                if (value.HasValue)
-                {
-                    if (value.Value.Kind == DateTimeKind.Local)
-                    {
-                        this.startTime = value.HasValue ? DateTimeOperations.ConvertToUTCTime(value.Value) : (DateTime?)null;
-                    }
-                    else
-                    {
-                        this.startTime = DateTime.SpecifyKind(value.Value, DateTimeKind.Utc);
-                    }
-                }
+                startTime = value;
+                //if (value.HasValue)
+                //{
+                //    if (value.Value.Kind == DateTimeKind.Local)
+                //    {
+                //        this.startTime = value.HasValue ? DateTimeOperations.ConvertToUTCTime(value.Value) : (DateTime?)null;
+                //    }
+                //    else
+                //    {
+                //        this.startTime = DateTime.SpecifyKind(value.Value, DateTimeKind.Utc);
+                //    }
+                //}
             }
         }
 
 
-        public DateTime? StopTime
+        public DateTimeOffset? StopTime
         {
             get
             {
-                if (this.stopTime.HasValue)
-                {
-                    if (this.stopTime.Value.Kind == DateTimeKind.Local)
-                    {
-                        return this.stopTime;
-                    }
-                    var returnTime = DateTimeOperations.ConvertToLocalTime(this.stopTime.Value);
-                    return returnTime;
-                }
-                return null;
+                return stopTime;
+                //if (this.stopTime.HasValue)
+                //{
+                //    if (this.stopTime.Value.Kind == DateTimeKind.Local)
+                //    {
+                //        return this.stopTime;
+                //    }
+                //    var returnTime = DateTimeOperations.ConvertToLocalTime(this.stopTime.Value);
+                //    return returnTime;
+                //}
+                //return null;
             }
 
             set
             {
-                if (value.HasValue)
-                {
-                    if (value.Value.Kind == DateTimeKind.Local)
-                    {
-                        this.stopTime = value.HasValue ? DateTimeOperations.ConvertToUTCTime(value.Value) : (DateTime?)null;
-                    }
-                    else
-                    {
-                        this.stopTime = DateTime.SpecifyKind(value.Value, DateTimeKind.Utc);
-                    }
-                }
+                stopTime = value;
+                //if (value.HasValue)
+                //{
+                //    if (value.Value.Kind == DateTimeKind.Local)
+                //    {
+                //        this.stopTime = value.HasValue ? DateTimeOperations.ConvertToUTCTime(value.Value) : (DateTime?)null;
+                //    }
+                //    else
+                //    {
+                //        this.stopTime = DateTime.SpecifyKind(value.Value, DateTimeKind.Utc);
+                //    }
+                //}
             }
         }
 
@@ -92,7 +96,7 @@ namespace DDSDemoDAL
 
         public string ApprovedBy { get; set; }
 
-        public DateTime? ApprovedDate { get; set; }
+        public DateTimeOffset? ApprovedDate { get; set; }
 
         public bool Processed { get; set; }
 

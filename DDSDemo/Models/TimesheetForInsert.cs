@@ -11,6 +11,6 @@ namespace DDSDemo.Models
 
         public int ClientId { get; set; }
 
-        public DateTime? StartTime { get; set; }
+        public DateTimeOffset? StartTime { get; set; }
     }
 }

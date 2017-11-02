@@ -60,13 +60,9 @@
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DDSContext.cs" />
     <Compile Include="EmployeeExt.cs" />
-    <Compile Include="Migrations\201709122013443_StartingOverAgain.cs" />
-    <Compile Include="Migrations\201709122013443_StartingOverAgain.Designer.cs">
-      <DependentUpon>201709122013443_StartingOverAgain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201710261419173_AddedCancelledFlagToPlacement.cs" />
-    <Compile Include="Migrations\201710261419173_AddedCancelledFlagToPlacement.Designer.cs">
-      <DependentUpon>201710261419173_AddedCancelledFlagToPlacement.cs</DependentUpon>
+    <Compile Include="Migrations\201711022005447_ChangedDateTimesToDateTimeOffsets.cs" />
+    <Compile Include="Migrations\201711022005447_ChangedDateTimesToDateTimeOffsets.Designer.cs">
+      <DependentUpon>201711022005447_ChangedDateTimesToDateTimeOffsets.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,11 +78,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709122013443_StartingOverAgain.resx">
-      <DependentUpon>201709122013443_StartingOverAgain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201710261419173_AddedCancelledFlagToPlacement.resx">
-      <DependentUpon>201710261419173_AddedCancelledFlagToPlacement.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711022005447_ChangedDateTimesToDateTimeOffsets.resx">
+      <DependentUpon>201711022005447_ChangedDateTimesToDateTimeOffsets.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
